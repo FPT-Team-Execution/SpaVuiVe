@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaVuiVe_Api", "SpaVuiVe_Api\SpaVuiVe_Api.csproj", "{B527ACE0-1DE3-409C-8165-BFFBB358AF3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaVuiVe_Api", "SpaVuiVe_Api\SpaVuiVe_Api.csproj", "{B527ACE0-1DE3-409C-8165-BFFBB358AF3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaVuiVe_FE", "SpaVuiVe_FE\SpaVuiVe_FE.csproj", "{D850B09F-BF29-4639-9A47-49470AE528FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaVuiVe_FE", "SpaVuiVe_FE\SpaVuiVe_FE.csproj", "{D850B09F-BF29-4639-9A47-49470AE528FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{CF355A4E-8000-46A6-A19D-F2E82A84D426}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{CF355A4E-8000-46A6-A19D-F2E82A84D426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{C4DAA2C2-CDB3-478D-A956-2CD1DD2B454B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{C4DAA2C2-CDB3-478D-A956-2CD1DD2B454B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
