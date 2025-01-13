@@ -1,0 +1,6 @@
+@SkincareProductSalesSystem.Api_HostAddress = http://localhost:5100
+
+GET {{SkincareProductSalesSystem.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
