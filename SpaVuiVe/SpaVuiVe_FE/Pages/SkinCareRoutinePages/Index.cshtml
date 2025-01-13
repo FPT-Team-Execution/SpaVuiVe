@@ -77,11 +77,41 @@
 </style>
 
 <div class="container py-4">
-    <!-- Routine Cards List -->
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Oily Skin Routine -->
-            <div class="card mb-4 routine-card" onclick="showRoutineDetails('oily', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+    <div class="container py-4">
+        <!-- Filter Section -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <label for="filterSkinType" class="form-label">Skin Type</label>
+                <select id="filterSkinType" class="form-select">
+                    <option value="">All</option>
+                    <option value="oily">Oily</option>
+                    <option value="dry">Dry</option>
+                    <option value="combination">Combination</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filterPrice" class="form-label">Price Range</label>
+                <select id="filterPrice" class="form-select">
+                    <option value="">All</option>
+                    <option value="low">Under $20</option>
+                    <option value="medium">$20 - $30</option>
+                    <option value="high">Above $30</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filterStepCount" class="form-label">Number of Steps</label>
+                <input id="filterStepCount" type="number" class="form-control" placeholder="e.g., 3">
+            </div>
+            <div class="col-md-3">
+                <label for="filterKeyword" class="form-label">Keyword</label>
+                <input id="filterKeyword" type="text" class="form-control" placeholder="Search by keyword">
+            </div>
+        </div>
+    <!-- Routine Cards Grid -->
+    <div class="row justify-content-center g-4">
+        <!-- Oily Skin Routine -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card routine-card h-100" onclick="showRoutineDetails('oily', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-shrink-0">
                         <div class="bg-primary text-white p-3 rounded-circle">
@@ -92,14 +122,13 @@
                         <h5 class="card-title mb-1">Oily Skin Routine</h5>
                         <p class="card-text text-muted mb-0">Perfect for controlling excess oil and preventing breakouts</p>
                     </div>
-                    <div class="ms-auto">
-                        <i class="bi bi-chevron-right"></i>
-                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Dry Skin Routine -->
-            <div class="card mb-4 routine-card" onclick="showRoutineDetails('dry', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+        <!-- Dry Skin Routine -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card routine-card h-100" onclick="showRoutineDetails('dry', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-shrink-0">
                         <div class="bg-primary text-white p-3 rounded-circle">
@@ -110,14 +139,13 @@
                         <h5 class="card-title mb-1">Dry Skin Routine</h5>
                         <p class="card-text text-muted mb-0">Focused on hydration and maintaining skin barrier</p>
                     </div>
-                    <div class="ms-auto">
-                        <i class="bi bi-chevron-right"></i>
-                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Combination Skin Routine -->
-            <div class="card mb-4 routine-card" onclick="showRoutineDetails('combination', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+        <!-- Combination Skin Routine -->
+        <div class="col-md-4 col-sm-6">
+            <div class="card routine-card h-100" onclick="showRoutineDetails('combination', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-shrink-0">
                         <div class="bg-primary text-white p-3 rounded-circle">
@@ -128,14 +156,12 @@
                         <h5 class="card-title mb-1">Combination Skin Routine</h5>
                         <p class="card-text text-muted mb-0">Balanced care for different facial zones</p>
                     </div>
-                    <div class="ms-auto">
-                        <i class="bi bi-chevron-right"></i>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Routine Details Modal -->
 <div class="modal fade" id="routineModal" tabindex="-1">
@@ -274,5 +300,73 @@
                 </div>
             `).join('');
         }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const filterSkinType = document.getElementById('filterSkinType');
+                const filterPrice = document.getElementById('filterPrice');
+                const filterStepCount = document.getElementById('filterStepCount');
+                const filterKeyword = document.getElementById('filterKeyword');
+                const routineCardsContainer = document.getElementById('routineCardsContainer');
+
+                // Apply filters
+                function applyFilters() {
+                    const skinType = filterSkinType.value.toLowerCase();
+                    const price = filterPrice.value.toLowerCase();
+                    const stepCount = filterStepCount.value;
+                    const keyword = filterKeyword.value.toLowerCase();
+
+                    routineCardsContainer.innerHTML = '';
+
+                    Object.keys(routineData).forEach(key => {
+                        const routine = routineData[key];
+
+                        // Filter by skin type
+                        if (skinType && key !== skinType) return;
+
+                        // Filter by price range
+                        if (price) {
+                            const priceValues = routine.products.map(p => parseFloat(p.price.replace('$', '')));
+                            const isPriceMatch =
+                                (price === 'low' && priceValues.every(p => p < 20)) ||
+                                (price === 'medium' && priceValues.some(p => p >= 20 && p <= 30)) ||
+                                (price === 'high' && priceValues.some(p => p > 30));
+                            if (!isPriceMatch) return;
+                        }
+
+                        // Filter by step count
+                        if (stepCount && routine.steps.length != stepCount) return;
+
+                        // Filter by keyword
+                        if (keyword && !routine.title.toLowerCase().includes(keyword)) return;
+
+                        // Add matching card to container
+                        const cardHtml = `
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="card routine-card h-100" onclick="showRoutineDetails('${key}', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+                                        <div class="card-body d-flex align-items-center">
+                                            <div class="flex-shrink-0">
+                                                <div class="bg-primary text-white p-3 rounded-circle">
+                                                    <i class="bi bi-droplet-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="ms-4">
+                                                <h5 class="card-title mb-1">${routine.title}</h5>
+                                                <p class="card-text text-muted mb-0">${routine.steps.length} steps included</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        routineCardsContainer.innerHTML += cardHtml;
+                    });
+                }
+
+                // Attach event listeners
+                [filterSkinType, filterPrice, filterStepCount, filterKeyword].forEach(filter =>
+                    filter.addEventListener('input', applyFilters)
+                );
+
+                // Initial render
+                applyFilters();
+            });
     </script>
 }
