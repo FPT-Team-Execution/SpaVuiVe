@@ -7,6 +7,23 @@
 		<form class="login-form">
 			<div class="header">Welcome back!</div>
 			<br />
+			<script src="https://accounts.google.com/gsi/client" async></script>
+				<div id="g_id_onload"
+					 data-client_id="YOUR_GOOGLE_CLIENT_ID"
+					 data-login_uri="https://your.domain/your_login_endpoint"
+					 data-auto_prompt="false">
+				</div>
+				<div class="g_id_signin"
+					 data-type="standard"
+					 data-size="large"
+					 data-theme="outline"
+					 data-text="sign_in_with"
+					 data-shape="rectangular"
+					 data-logo_alignment="left">
+				</div>
+			<br />
+			<div class="header">OR</div>
+			<br />
 			<p class="input_label">Email</p>
 			<input type="text" placeholder="" />
 			<p class="input_label">Password</p>
