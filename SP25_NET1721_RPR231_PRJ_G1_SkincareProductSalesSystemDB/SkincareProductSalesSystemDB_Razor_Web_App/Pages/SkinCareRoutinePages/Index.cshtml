@@ -107,87 +107,87 @@
                 <input id="filterKeyword" type="text" class="form-control" placeholder="Search by keyword">
             </div>
         </div>
-    <!-- Routine Cards Grid -->
-    <div class="row justify-content-center g-4">
-        <!-- Oily Skin Routine -->
-        <div class="col-md-4 col-sm-6">
-            <div class="card routine-card h-100" onclick="showRoutineDetails('oily', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="bg-primary text-white p-3 rounded-circle">
-                            <i class="bi bi-droplet-fill"></i>
+        <!-- Routine Cards Grid -->
+        <div class="row justify-content-center g-4">
+            <!-- Oily Skin Routine -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card routine-card h-100" onclick="showRoutineDetails('oily', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white p-3 rounded-circle">
+                                <i class="bi bi-droplet-fill"></i>
+                            </div>
+                        </div>
+                        <div class="ms-4">
+                            <h5 class="card-title mb-1">Oily Skin Routine</h5>
+                            <p class="card-text text-muted mb-0">Perfect for controlling excess oil and preventing breakouts</p>
                         </div>
                     </div>
-                    <div class="ms-4">
-                        <h5 class="card-title mb-1">Oily Skin Routine</h5>
-                        <p class="card-text text-muted mb-0">Perfect for controlling excess oil and preventing breakouts</p>
+                </div>
+            </div>
+
+            <!-- Dry Skin Routine -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card routine-card h-100" onclick="showRoutineDetails('dry', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white p-3 rounded-circle">
+                                <i class="bi bi-moisture"></i>
+                            </div>
+                        </div>
+                        <div class="ms-4">
+                            <h5 class="card-title mb-1">Dry Skin Routine</h5>
+                            <p class="card-text text-muted mb-0">Focused on hydration and maintaining skin barrier</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combination Skin Routine -->
+            <div class="col-md-4 col-sm-6">
+                <div class="card routine-card h-100" onclick="showRoutineDetails('combination', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary text-white p-3 rounded-circle">
+                                <i class="bi bi-circle-half"></i>
+                            </div>
+                        </div>
+                        <div class="ms-4">
+                            <h5 class="card-title mb-1">Combination Skin Routine</h5>
+                            <p class="card-text text-muted mb-0">Balanced care for different facial zones</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Dry Skin Routine -->
-        <div class="col-md-4 col-sm-6">
-            <div class="card routine-card h-100" onclick="showRoutineDetails('dry', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="bg-primary text-white p-3 rounded-circle">
-                            <i class="bi bi-moisture"></i>
-                        </div>
-                    </div>
-                    <div class="ms-4">
-                        <h5 class="card-title mb-1">Dry Skin Routine</h5>
-                        <p class="card-text text-muted mb-0">Focused on hydration and maintaining skin barrier</p>
-                    </div>
+
+    <!-- Routine Details Modal -->
+    <div class="modal fade" id="routineModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title" id="routineTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Combination Skin Routine -->
-        <div class="col-md-4 col-sm-6">
-            <div class="card routine-card h-100" onclick="showRoutineDetails('combination', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="bg-primary text-white p-3 rounded-circle">
-                            <i class="bi bi-circle-half"></i>
-                        </div>
+                <div class="modal-body">
+                    <!-- Steps Section -->
+                    <div class="mb-5">
+                        <h5 class="text-primary mb-4">Daily Steps</h5>
+                        <div id="routineSteps" class="steps-container"></div>
                     </div>
-                    <div class="ms-4">
-                        <h5 class="card-title mb-1">Combination Skin Routine</h5>
-                        <p class="card-text text-muted mb-0">Balanced care for different facial zones</p>
+
+                    <!-- Recommended Products -->
+                    <div class="recommended-products">
+                        <h5 class="text-primary mb-4">Recommended Products</h5>
+                        <div class="row row-cols-1 row-cols-md-2 g-4" id="recommendedProducts"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<!-- Routine Details Modal -->
-<div class="modal fade" id="routineModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title" id="routineTitle"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Steps Section -->
-                <div class="mb-5">
-                    <h5 class="text-primary mb-4">Daily Steps</h5>
-                    <div id="routineSteps" class="steps-container"></div>
-                </div>
-
-                <!-- Recommended Products -->
-                <div class="recommended-products">
-                    <h5 class="text-primary mb-4">Recommended Products</h5>
-                    <div class="row row-cols-1 row-cols-md-2 g-4" id="recommendedProducts"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <script>
         const routineData = {
