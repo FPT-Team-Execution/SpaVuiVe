@@ -10,6 +10,10 @@ namespace SkincareProductSalesSystem.Repositories.Database;
 
 public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext : DbContext
 {
+    public SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext()
+    {
+    }
+
     public SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext(DbContextOptions<SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext> options)
         : base(options)
     {
