@@ -14,7 +14,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/cart_page.css">
+    <link rel="stylesheet" type="text/css" href="~/css/cart_page.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/checkout_page.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/pop_up.css" />
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -681,7 +686,8 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/js/order.js" asp-append-version="true"></script>
+    
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
