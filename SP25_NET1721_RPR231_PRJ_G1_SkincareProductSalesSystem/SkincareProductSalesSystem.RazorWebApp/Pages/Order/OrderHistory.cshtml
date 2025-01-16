@@ -1,0 +1,258 @@
+﻿@page
+@model SkincareProductSalesSystem.RazorWebApp.Pages.Order.OrderHistoryModel
+@{
+    ViewData["Title"] = "Order History";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="order-history-container">
+    <div class="header-section">
+        <div class="title-section">
+            <h1>Order History</h1>
+@*             <p class="subtitle">manage all transactions with details on status, payment, and customer.</p> *@
+        </div>
+@*         <button class="date-time-button">
+            <i class="fas fa-calendar"></i>
+            Date & Time
+        </button> *@
+    </div>
+
+    <div class="table-container">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>DATE</th>
+                    <th>CUSTOMER</th>
+                    <th>SERVICE TYPE</th>
+                    <th>ITEM NAME</th>
+                    <th>QTY</th>
+                    <th>STATUS</th>
+                    <th>TOTAL</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>17</td>
+                    <td>NOV 26, 2023</td>
+                    <td>Maulana</td>
+                    <td>Delivery</td>
+                    <td>American Style Burger</td>
+                    <td>1</td>
+                    <td><span class="status-badge new">NEW</span></td>
+                    <td>$75.00</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-reorder">Reorder</button>
+                            <button class="btn-cancel">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>NOV 25, 2023</td>
+                    <td>Hanifa</td>
+                    <td>Take Away</td>
+                    <td>Sushi Platter</td>
+                    <td>2</td>
+                    <td><span class="status-badge new">NEW</span></td>
+                    <td>$175.00</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-reorder">Reorder</button>
+                            <button class="btn-cancel">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>NOV 24, 2023</td>
+                    <td>Annisa</td>
+                    <td>Delivery</td>
+                    <td>Chicken Curry Katsu</td>
+                    <td>4</td>
+                    <td><span class="status-badge on-process">ON PROCESS</span></td>
+                    <td>$375.00</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-reorder">Reorder</button>
+                            <button class="btn-cancel">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>NOV 23, 2023</td>
+                    <td>Iwan</td>
+                    <td>Take Away</td>
+                    <td>American Style Burger</td>
+                    <td>1</td>
+                    <td><span class="status-badge done">DONE</span></td>
+                    <td>$85.00</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-reorder">Reorder</button>
+                            <button class="btn-cancel">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>NOV 22, 2023</td>
+                    <td>Dwi</td>
+                    <td>Take Away</td>
+                    <td>Sushi Platter</td>
+                    <td>4</td>
+                    <td><span class="status-badge new">NEW</span></td>
+                    <td>$125.00</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-reorder">Reorder</button>
+                            <button class="btn-cancel">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .order-history-container {
+        padding: 24px;
+        background-color: #fff;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
+    }
+
+    .title-section h1 {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        color: #111827;
+    }
+
+    .subtitle {
+        color: #6B7280;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .date-time-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: #EEF2FF;
+        border: none;
+        border-radius: 6px;
+        color: #4F46E5;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .date-time-button:hover {
+        background-color: #E0E7FF;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .order-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .order-table th {
+        background-color: #F9FAFB;
+        padding: 12px 24px;
+        text-align: left;
+        font-size: 12px;
+        font-weight: 500;
+        color: #6B7280;
+        border-bottom: 1px solid #E5E7EB;
+    }
+
+    .order-table td {
+        padding: 16px 24px;
+        font-size: 14px;
+        color: #111827;
+        border-bottom: 1px solid #E5E7EB;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-reorder, .btn-cancel {
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+    }
+
+    .btn-reorder {
+        background-color: #EEF2FF;
+        color: #4F46E5;
+    }
+
+        .btn-reorder:hover {
+            background-color: #E0E7FF;
+        }
+
+    .btn-cancel {
+        background-color: #FEE2E2;
+        color: #DC2626;
+    }
+
+        .btn-cancel:hover {
+            background-color: #FEE2E2;
+            opacity: 0.9;
+        }
+    .status-badge.new {
+        background-color: #EEF2FF;
+        color: #4F46E5;
+    }
+
+    .status-badge.on-process {
+        background-color: #FEF3C7;
+        color: #D97706;
+    }
+
+    .status-badge.done {
+        background-color: #D1FAE5;
+        color: #059669;
+    }
+
+</style>
+
+@section Scripts {
+    <script>
+        // Add Font Awesome for icons
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        document.head.appendChild(link);
+    </script>
+}
