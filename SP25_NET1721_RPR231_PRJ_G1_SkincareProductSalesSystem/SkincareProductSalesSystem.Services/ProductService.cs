@@ -101,7 +101,7 @@ namespace SkincareProductSalesSystem.Services
             if (product == null) return new ServiceResult(404, "Không tìm thấy");
 
             await _unitOfWork.ProductRepository.RemoveAsync(product);
-            await _unitOfWork.ProductRepository.SaveAsync();
+
             return new ServiceResult
             {
                 Status = 200,
