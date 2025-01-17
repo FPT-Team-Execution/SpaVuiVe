@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Pos_System.Domain.Paginate;
 using SkincareProductSalesSystem.Repositories.Database;
 using SkincareProductSalesSystem.Repositories.Paginate;
 using System.Linq.Expressions;

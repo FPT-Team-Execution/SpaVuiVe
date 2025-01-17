@@ -1,4 +1,4 @@
-﻿namespace Pos_System.Domain.Paginate;
+﻿namespace SkincareProductSalesSystem.Repositories.Paginate;
 
 public class Paginate<TResult> : IPaginate<TResult>
 {

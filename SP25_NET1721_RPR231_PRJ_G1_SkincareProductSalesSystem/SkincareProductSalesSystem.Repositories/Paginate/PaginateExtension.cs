@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Pos_System.Domain.Paginate;
+namespace SkincareProductSalesSystem.Repositories.Paginate;
 
 public static class PaginateExtension
 {
