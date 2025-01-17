@@ -1,3 +1,8 @@
+using AutoMapper;
+using SkincareProductSalesSystem.Api.Configs;
+using SkincareProductSalesSystem.Services.Configs;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
+
+DependencyInjection.AddInfrastructure(builder.Services);	
 
 var app = builder.Build();
 

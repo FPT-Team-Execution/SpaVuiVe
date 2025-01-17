@@ -2,12 +2,14 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkincareProductSalesSystem.Repositories.Models;
 
 public partial class User
 {
-    public string UserId { get; set; }
+	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	public string UserId { get; set; }
 
     public string Username { get; set; }
 
