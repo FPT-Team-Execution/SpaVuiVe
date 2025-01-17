@@ -1,4 +1,4 @@
-﻿using KoiMuseum.Data.Base;
+﻿using SkincareProductSalesSystem.Repositories.Base;
 using SkincareProductSalesSystem.Repositories.Models;
 
 namespace SkincareProductSalesSystem.Repositories

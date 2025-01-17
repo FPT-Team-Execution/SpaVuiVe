@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkincareProductSalesSystem.Repositories.Database;
 
-namespace KoiMuseum.Data.Base
+namespace SkincareProductSalesSystem.Repositories.Base
 {
     public class GenericRepository<T> where T : class
     {
