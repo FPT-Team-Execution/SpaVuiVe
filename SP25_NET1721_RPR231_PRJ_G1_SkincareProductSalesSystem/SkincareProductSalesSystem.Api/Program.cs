@@ -13,7 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
 
-DependencyInjection.AddInfrastructure(builder.Services);	
+DependencyInjection.AddInfrastructure(builder.Services);
+JwtConfiguration.ConfigureJwt(builder);
 
 var app = builder.Build();
 
@@ -26,6 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

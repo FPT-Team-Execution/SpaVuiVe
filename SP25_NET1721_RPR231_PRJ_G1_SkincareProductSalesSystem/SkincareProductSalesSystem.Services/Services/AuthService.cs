@@ -20,14 +20,12 @@ namespace SkincareProductSalesSystem.Services.Services
 	public class AuthService : IAuthService
 	{
 		private UnitOfWork _uOW;
-		private readonly PasswordHelper _passwordHelper;
 		private readonly JwtHelper _jwtHelper;
 		private IMapper _mapper;
 
-		public AuthService(UnitOfWork uOW, PasswordHelper pwdHelper, IMapper mapper, JwtHelper jwtHelper)
+		public AuthService(UnitOfWork uOW, IMapper mapper, JwtHelper jwtHelper)
 		{
 			_uOW = uOW;
-			_passwordHelper = pwdHelper;
 			_mapper = mapper;
 			_jwtHelper = jwtHelper;
 		}
@@ -56,7 +54,7 @@ namespace SkincareProductSalesSystem.Services.Services
 					};
 
 				string passwordSalt = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8));
-				string hashedPassword = _passwordHelper.HashPassword(dto.Password, passwordSalt);
+				string hashedPassword = PasswordHelper.HashPassword(dto.Password, passwordSalt);
 
 				User user = _mapper.Map<User>(dto);
 				user.PasswordHash = hashedPassword;
@@ -89,7 +87,7 @@ namespace SkincareProductSalesSystem.Services.Services
 						IsSuccess = false,
 						Message = "Username not found"
 					};
-				if (!_passwordHelper.HashPassword(dto.Password, user.PasswordSalt).Equals(user.PasswordHash))
+				if (!PasswordHelper.HashPassword(dto.Password, user.PasswordSalt).Equals(user.PasswordHash))
 					return new LoginResponseModel()
 					{
 						IsSuccess = false,
@@ -130,12 +128,12 @@ namespace SkincareProductSalesSystem.Services.Services
 						Message = "Username not found"
 					};
 
-				var passwordResetKey = _passwordHelper.CreateResetPasswordKey(username);
+				var passwordResetKey = PasswordHelper.CreateResetPasswordKey(username);
 				if (string.IsNullOrEmpty(passwordResetKey))
 					return new ForgotPasswordResponseModel()
 					{
 						IsSuccess = false,
-						Message = "Cannot generate reset key."
+						Message = "Cannot generate security key."
 					};
 				return new ForgotPasswordResponseModel()
 				{
@@ -157,7 +155,7 @@ namespace SkincareProductSalesSystem.Services.Services
 		{
 				try
 				{
-					bool result = _passwordHelper.VerifyResetPasswordKey(dto.Username, dto.Key);
+					bool result = PasswordHelper.VerifyResetPasswordKey(dto.Username, dto.Key);
 					if (!result)
 					{
 						return new ResetPasswordResponseModel()
@@ -174,7 +172,7 @@ namespace SkincareProductSalesSystem.Services.Services
 							Message = "Username not found"
 						};
 					string passwordSalt = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8));
-					string hashedPassword = _passwordHelper.HashPassword(dto.NewPassword, passwordSalt);
+					string hashedPassword = PasswordHelper.HashPassword(dto.NewPassword, passwordSalt);
 
 					user.PasswordHash = hashedPassword;
 					user.PasswordSalt = passwordSalt;

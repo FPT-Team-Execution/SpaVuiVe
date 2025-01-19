@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using SkincareProductSalesSystem.Services.Models.AuthModels;
 using SkincareProductSalesSystem.Services.Services;
 using SkincareProductSalesSystem.Services.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.Api.Controllers
 {
@@ -10,11 +13,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
-		private IAuthService _userService;
+		private IAuthService _authService;
 
 		public AuthController(IAuthService userService)
 		{
-			_userService = userService;
+			_authService = userService;
 		}
 
 		[HttpPost("register")]
@@ -24,7 +27,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _userService.Register(model);
+				var result = await _authService.Register(model);
 				if (!result.IsSuccess)
 					return StatusCode(500, result.Message);
 				return StatusCode(200);
@@ -42,7 +45,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _userService.LoginByUsername(model);
+				var result = await _authService.LoginByUsername(model);
 				if (!result.IsSuccess)
 					return StatusCode(500, result.Message);
 				return StatusCode(200, result);
@@ -52,5 +55,43 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return StatusCode(500, ex.Message);
 			}
 		}
+
+		[HttpPost("forgot-password")]
+		public async Task<IActionResult> ForgotPassword([Required] string username)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+			try
+			{
+				var result = await _authService.ForgotPassword(username);
+				if (!result.IsSuccess)
+					return StatusCode(500, result.Message);
+				return StatusCode(200, result);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpPost("reset-password")]
+		public async Task<IActionResult> ResetPassword(ResetPasswordRequestModel model)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+			try
+			{
+				var result = await _authService.ResetPassword(model);
+				if (!result.IsSuccess)
+					return StatusCode(500, result.Message);
+				return StatusCode(200, result);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+
 	}
 }

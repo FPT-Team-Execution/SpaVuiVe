@@ -22,12 +22,12 @@ namespace SkincareProductSalesSystem.Api.Configs
 		public static void AddApiDependencyInjection(this IServiceCollection services)
 		{
 			services.AddScoped<IAuthService, AuthService>();
+			services.AddScoped<IPromotionService, PromotionService>();
 		}
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)
 		{
 			services.AddScoped<UnitOfWork>();
-			services.AddScoped<PasswordHelper>();
 			services.AddScoped<JwtHelper>();
 
 			var config = new ConfigurationBuilder()

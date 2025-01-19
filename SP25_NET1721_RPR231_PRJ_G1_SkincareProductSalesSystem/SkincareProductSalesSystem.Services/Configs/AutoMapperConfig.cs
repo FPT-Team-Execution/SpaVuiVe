@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Models.AuthModels;
+using SkincareProductSalesSystem.Services.Models.PromotionModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace SkincareProductSalesSystem.Services.Configs
 				.ForMember(b => b.Username, opt => opt.MapFrom(a => a.Username))
 				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))
 				.ForMember(b => b.FullName, opt => opt.MapFrom(a => a.FullName));
+
+			CreateMap<CreatePromotionRequestModel, Promotion>();
 		}
     }
 }

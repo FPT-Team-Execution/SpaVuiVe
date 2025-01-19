@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services.Helpers
 {
-	public class PasswordHelper
+	public static  class PasswordHelper
 	{
-		private Dictionary<string, PasswordResetStruct> _passwordResetKeyStorage;
+		private static Dictionary<string, PasswordResetStruct> _passwordResetKeyStorage = new();
 
-		public PasswordHelper()
-		{
-			if (_passwordResetKeyStorage == null) _passwordResetKeyStorage = new();
-		}
-
-		public string HashPassword(string password, string salt)
+		public static string HashPassword(string password, string salt)
 		{
 
 			var saltBytes = Encoding.UTF8.GetBytes(salt);
@@ -30,26 +25,28 @@ namespace SkincareProductSalesSystem.Services.Helpers
 			return Convert.ToHexString(hash);
 		}
 
-		public string? CreateResetPasswordKey(string userId)
+		public static string? CreateResetPasswordKey(string userId)
 		{
 			try
 			{
-				string generatedKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8)).Substring(0, 5);
+				string generatedKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8)).Substring(0, 5).ToUpper();
+				Console.WriteLine(generatedKey);
 				_passwordResetKeyStorage[userId] = new PasswordResetStruct()
 				{
 					Key = generatedKey,
 					Expiry = DateTime.UtcNow.AddDays(1)
-				}
+				};
+				
 				return generatedKey;
 			}
 			catch (Exception ex) { return null; }
 		}
 
-		public bool VerifyResetPasswordKey(string userId, string key)
+		public static bool VerifyResetPasswordKey(string userId, string key)
 		{
 			try
 			{
-				if (!(_passwordResetKeyStorage[userId].Key.Equals(key) && DateTime.UtcNow <= _passwordResetKeyStorage[userId].Expiry))
+				if (!(_passwordResetKeyStorage[userId].Key.Equals(key.Trim().ToUpper()) && DateTime.UtcNow <= _passwordResetKeyStorage[userId].Expiry))
 					return false; ;
 
 				_passwordResetKeyStorage.Remove(userId);
