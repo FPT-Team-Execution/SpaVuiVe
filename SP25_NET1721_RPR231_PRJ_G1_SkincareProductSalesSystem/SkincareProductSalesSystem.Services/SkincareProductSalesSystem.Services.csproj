@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
     <ProjectReference Include="..\SkincareProductSalesSystem.Repositories\SkincareProductSalesSystem.Repositories.csproj" />
   </ItemGroup>
 
