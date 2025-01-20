@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkincareProductSalesSystem.Services.Models.PromotionModels;
 using SkincareProductSalesSystem.Services.Services.Interfaces;
@@ -17,6 +18,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		}
 
 		[HttpPost("create")]
+		[Authorize]
 		public async Task<IActionResult> Create(CreatePromotionRequestModel model)
 		{
 			try
@@ -38,13 +40,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			{
 				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
-			}
-
-			
+			}		
 		}
 
-
 		[HttpGet("get")]
+		[Authorize]
 		public async Task<IActionResult> Get()
 		{
 			try
@@ -63,6 +63,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
+		[Authorize]
 		[HttpDelete("delete")]
 		public async Task<IActionResult> Delete(DeletePromotionRequestModel model)
 		{
