@@ -5,5 +5,6 @@ namespace SkincareProductSalesSystem.Repositories
 {
     public class PaymentRepository : GenericRepository<Payment>
     {
+        public PaymentRepository() { }
     }
 }
