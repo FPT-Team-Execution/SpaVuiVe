@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
 
 DependencyInjection.AddInfrastructure(builder.Services);
-JwtConfiguration.ConfigureJwt(builder);
+//JwtConfiguration.ConfigureJwt(builder);
 
 var app = builder.Build();
 
@@ -58,5 +58,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.Run();
