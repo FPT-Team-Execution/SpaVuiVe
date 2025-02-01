@@ -31,12 +31,17 @@ builder.Services.AddScoped<IOrderDetailServices, OrderDetailServices>();
 builder.Services.AddScoped<IBrandService, BrandServices>();
 builder.Services.AddScoped<IPaymentServices, PaymentServices>();
 builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
+builder.Services.AddScoped<ISkinTestService, SkinTestService>();
+builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
+builder.Services.AddScoped<IChatBotService, ChatBotService>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
 
 DependencyInjection.AddInfrastructure(builder.Services);
-JwtConfiguration.ConfigureJwt(builder);
+//JwtConfiguration.ConfigureJwt(builder);
 
 var app = builder.Build();
 
@@ -53,5 +58,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.Run();
