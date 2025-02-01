@@ -33,6 +33,7 @@ builder.Services.AddScoped<IPaymentServices, PaymentServices>();
 builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
 builder.Services.AddScoped<ISkinTestService, SkinTestService>();
 builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
+builder.Services.AddScoped<IChatBotService, ChatBotService>();
 
 
 builder.Services.AddEndpointsApiExplorer();

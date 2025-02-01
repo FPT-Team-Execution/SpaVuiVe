@@ -1,13 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Azure.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using SkincareProductSalesSystem.Common.Utils;
 using SkincareProductSalesSystem.Services.Base;
+using Solara.Main.Payload;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SkincareProductSalesSystem.Services
 {
-    interface IChatBotService
+    public interface IChatBotService
     {
         Task<IServiceResult> ChatWithBot(string message);
     }
@@ -18,27 +20,39 @@ namespace SkincareProductSalesSystem.Services
         {
             _configuration = configuration;
         }
-        public async Task<IServiceResult> ChatWithBot(string promtp)
+        public async Task<IServiceResult> ChatWithBot(string prompt)
         {
-            var url = $"{_configuration["AI:Url"]}?key={_configuration["AI:ApiKey"]}";
-            var body =
-              new GeminiPrompt(promtp);
-            var response = await WebUtil.PostAsync(
-                url: url, data: body
-            );
-            
-            if (!response.IsSuccessStatusCode)
-                return new ServiceResult(503, "Thực hiện yêu cầu thất bại");
-
-            var content = await response.Content.ReadAsStringAsync();
-            GeminiResponse geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(content)!;
-            var data = geminiResponse!.Candidates.First().Content.Parts.First().Text;
-            return new ServiceResult
+            try
             {
-                Status = 200,
-                Message = "Thành công",
-                Data = data
-            };
+                //promtp template
+                string finalPrompt = $"Bạn đóng vai trò là chuyên gia tư vấn về chăm sóc da với tên là SpaBot. Bạn chỉ trả lời các câu hỏi liên quan đến da, nếu không biết thì nói 'Xin lỗi, tôi không biết về vấn đề này.' Hãy giữ phong cách chuyên nghiệp, rõ ràng, có cơ sở khoa học và các câu trả lời dễ hiểu, tự nhiên, không mang thiên hướng kỹ thuật. Câu hỏi: '{prompt}'";
+
+                var url = $"{_configuration["AI:Url"]}?key={_configuration["AI:ApiKey"]}";
+                var body =
+                  new GeminiPrompt(finalPrompt);
+                var response = await WebUtil.PostAsync(
+                    url: url, data: body
+                );
+
+                if (!response.IsSuccessStatusCode)
+                    return new ServiceResult(503, "Thực hiện yêu cầu thất bại");
+
+                var content = await response.Content.ReadAsStringAsync();
+                GeminiResponse geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(content)!;
+                var data = geminiResponse!.Candidates.First().Content.Parts.First().Text;
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Thành công",
+                    Data = data
+                };
+
+            }
+            catch (Exception e)
+            {
+                return new ServiceResult(503, "Thực hiện yêu cầu thất bại");
+            }
+          
         }
     }
 }
