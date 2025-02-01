@@ -79,7 +79,14 @@
     <div class="chat-box-body">
         <!-- Nội dung chat sẽ xuất hiện ở đây -->
     </div>
-    <input type="text" class="chat-input" placeholder="Nhập tin nhắn">
+    <div class="chat-input-container d-flex" style="border-top: 1px solid rgba(0, 0, 0, 0.2); border-radius: 10px;">
+        <input type="text" class="chat-input form-control" placeholder="Nhập tin nhắn" style="border-radius: 5px; border: 1px solid rgba(0, 0, 0, 0.2);">
+        <button class="chat-send-btn ml-1" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 5px; background-color: white;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+            </svg>
+        </button>
+    </div>
 </div>
 
 <script>
@@ -142,51 +149,60 @@
     document.addEventListener('DOMContentLoaded', function() {
         const chatInput = document.querySelector('.chat-input');
         const chatBody = document.querySelector('.chat-box-body');
-
+        const sendButton = document.querySelector('.chat-send-btn');
         // Welcome message
         appendMessage('Xin chào! Tôi có thể giúp gì cho bạn?', true);
 
         // Handle input
-        chatInput.addEventListener('keypress', async function(e) {
-            if (e.key === 'Enter' && this.value.trim()) {
-                const message = this.value.trim();
+        async function handleSendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
 
-                // Clear input
-                this.value = '';
+            // Clear input
+            chatInput.value = '';
 
-                // Add user message to chat
-                appendMessage(message, false);
+            // Add user message to chat
+            appendMessage(message, false);
 
-                // Show loading indicator
-                const loadingDiv = document.createElement('div');
-                loadingDiv.textContent = 'Đang trả lời...';
-                loadingDiv.style.margin = '10px';
-                loadingDiv.style.color = '#666';
-                chatBody.appendChild(loadingDiv);
+            // Show loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.textContent = 'Đang trả lời...';
+            loadingDiv.style.margin = '10px';
+            loadingDiv.style.color = '#666';
+            chatBody.appendChild(loadingDiv);
 
-                try {
-                    // Get bot response
-                    const response = await sendMessage(message);
-                    // Remove loading indicator
-                    chatBody.removeChild(loadingDiv);
+            try {
+                // Get bot response
+                const response = await sendMessage(message);
+                // Remove loading indicator
+                chatBody.removeChild(loadingDiv);
 
-                    if (response.error) {
-                        appendMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', true);
-                    } else {
-                        appendMessage(response.data || response, true);
-                    }
-                } catch (error) {
-                    // Remove loading indicator
-                    chatBody.removeChild(loadingDiv);
+                if (response.error) {
                     appendMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', true);
+                } else {
+                    appendMessage(response.data || response, true);
                 }
+            } catch (error) {
+                // Remove loading indicator
+                chatBody.removeChild(loadingDiv);
+                appendMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', true);
+            }
+        }
+
+        // Handle Enter key
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSendMessage();
             }
         });
+
+        // Handle button click
+        sendButton.addEventListener('click', handleSendMessage);
 
         // Add clear chat button
         const header = document.querySelector('.chat-box-header');
         const clearButton = document.createElement('button');
-        clearButton.textContent = 'Xóa';
+        clearButton.textContent = '↻';
         clearButton.style.float = 'right';
         clearButton.style.background = 'none';
         clearButton.style.border = 'none';
