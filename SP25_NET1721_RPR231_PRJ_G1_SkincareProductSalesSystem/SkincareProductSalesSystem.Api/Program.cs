@@ -31,6 +31,10 @@ builder.Services.AddScoped<IOrderDetailServices, OrderDetailServices>();
 builder.Services.AddScoped<IBrandService, BrandServices>();
 builder.Services.AddScoped<IPaymentServices, PaymentServices>();
 builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
+builder.Services.AddScoped<ISkinTestService, SkinTestService>();
+builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
