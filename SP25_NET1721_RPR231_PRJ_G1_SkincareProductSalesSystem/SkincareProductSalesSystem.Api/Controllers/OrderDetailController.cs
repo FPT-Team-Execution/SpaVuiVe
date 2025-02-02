@@ -16,10 +16,21 @@ namespace SkincareProductSalesSystem.Api.Controllers
         }
 
         [HttpGet("/order-details/{orderId}")]
+<<<<<<< HEAD
         public async Task<IActionResult> GetOrderDetailsByOrderId([FromHeader]  string orderId)
         {
             var responses = await _orderDetailServices.GetOrderDetailsByOrderId(orderId);
             return (responses.Count > 0)? Ok(responses) : StatusCode(500);
+=======
+        public async Task<IActionResult> GetOrderDetailsByOrderId(string orderId, [FromQuery] int page, [FromQuery] int size)
+        {
+            var responses = await _orderDetailServices.GetOrderDetailsByOrderId(
+                    orderId: orderId,
+                    page: page,
+                    size: size
+                );
+            return (responses != null)? Ok(responses) : StatusCode(500);
+>>>>>>> develop
         }
 
         [HttpPost("/order-details")]

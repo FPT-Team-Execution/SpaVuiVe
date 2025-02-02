@@ -19,6 +19,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
         public async Task<IActionResult> GetAllPaginate([FromQuery] int page = 1, [FromQuery] int size = 10)
         {
             var responses = await _paymentService.GetAllPaginate(page, size);
+<<<<<<< HEAD
             return (responses != null && responses.Count > 0) ? Ok(responses) : StatusCode(500);
         }
 
@@ -31,6 +32,20 @@ namespace SkincareProductSalesSystem.Api.Controllers
 
         [HttpGet("/payments/{id}")]
         public async Task<IActionResult> GetPaymentById([FromHeader] string id)
+=======
+            return (responses != null) ? Ok(responses) : StatusCode(500);
+        }
+
+        [HttpGet("/payments/order/{orderId}")]
+        public async Task<IActionResult> GetPaymentsByOrderIdPaginate(string orderId, [FromQuery] int page = 1, [FromQuery] int size = 10)
+        {
+            var responses = await _paymentService.GetPaymentsByOrderIdPaginate(orderId,page, size);
+            return (responses != null) ? Ok(responses) : StatusCode(500);
+        }
+
+        [HttpGet("/payments/{id}")]
+        public async Task<IActionResult> GetPaymentById(string id)
+>>>>>>> develop
         {
             var response = await _paymentService.GetPaymentById(id);
             return (response != null) ? Ok(response) : NotFound();
