@@ -259,6 +259,7 @@
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\scss\bootstrap\scss\_type.scss" />
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\scss\bootstrap\scss\_utilities.scss" />
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\scss\bootstrap\scss\_variables.scss" />
+    <_ContentIncludedByDefault Remove="Areas\User\Pages\ProductPages\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -271,6 +272,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Pages\ProductPages\Index.cshtml" />
   </ItemGroup>
 
 </Project>
