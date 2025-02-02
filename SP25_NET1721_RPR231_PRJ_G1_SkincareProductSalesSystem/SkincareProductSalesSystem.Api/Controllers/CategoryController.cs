@@ -29,14 +29,14 @@ namespace SkincarecategoriesalesSystem.Api.Controllers
         }
 
         [HttpPost("/categories")]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest request)
+        public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequest request)
         {
             var response = await _categoryService.Create(request);
             return response != null ? Ok(response) : StatusCode(500);
         }
 
         [HttpPut("/categories/{id}")]
-        public async Task<IActionResult> UpdateCategory([FromRoute] string id, [FromBody] UpdateCategoryRequest request)
+        public async Task<IActionResult> UpdateCategory([FromRoute] string id, [FromForm] UpdateCategoryRequest request)
         {
             var response = await _categoryService.Update(id, request);
             return response != null ? Ok(response) : StatusCode(500);

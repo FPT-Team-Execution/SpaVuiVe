@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace SkincareProductSalesSystem.Services
 {
@@ -15,7 +16,7 @@ namespace SkincareProductSalesSystem.Services
 
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
+        public IFormFile ImageFile{ get; set; }
 
         public bool? IsActive { get; set; }
 
@@ -30,7 +31,7 @@ namespace SkincareProductSalesSystem.Services
 
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
+        public IFormFile ImageFile{ get; set; }
 
         public bool? IsActive { get; set; }
 
@@ -64,7 +65,7 @@ namespace SkincareProductSalesSystem.Services
                 CategoryId = Guid.NewGuid().ToString(),
                 Name = request.Name,
                 Description = request.Description,
-                ImageUrl = request.ImageUrl,
+                ImageUrl = "",
                 IsActive = request.IsActive,
                 ParentCategoryId = request.ParentCategoryId,
                 DisplayOrder = request.DisplayOrder,
@@ -126,7 +127,7 @@ namespace SkincareProductSalesSystem.Services
 
             category.Description = request.Description;
             category.Name = request.Name;
-            category.ImageUrl = request.ImageUrl;
+            category.ImageUrl = "";
             category.ParentCategoryId = request.ParentCategoryId;
             category.DisplayOrder = request.DisplayOrder;
 
