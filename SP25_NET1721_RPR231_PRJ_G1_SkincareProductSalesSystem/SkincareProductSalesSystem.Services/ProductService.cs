@@ -114,7 +114,7 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> GetAllAsync(int page, int size)
         {
-            var products = await _unitOfWork.SkinTestRepository.GetPagingListAsync(page: page, size: size);
+            var products = await _unitOfWork.ProductRepository.GetPagingListAsync(page: page, size: size);
             return new ServiceResult
             {
                 Status = 200,
