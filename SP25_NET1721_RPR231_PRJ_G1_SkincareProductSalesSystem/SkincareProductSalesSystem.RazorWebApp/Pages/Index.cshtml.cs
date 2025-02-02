@@ -4,6 +4,7 @@ using SkincareProductSalesSystem.RazorWebApp.Models;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using Newtonsoft.Json;
 using SkincareProductSalesSystem.Common.Utils;
+using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Repositories.Paginate;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages
@@ -12,7 +13,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
     {
         private readonly ApiClient _apiClient;
 
-        public List<Category> Categories { get; set; } = new List<Category>();
+        public CategoriesAndProducts CategoriesAndProducts { get; set; } = new();
 
         public IndexModel(ApiClient apiClient)
         {
@@ -26,12 +27,19 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
             if (result.Status == 200 && result.Data != null)
             {
                 var paginateCategories = JsonConvert.DeserializeObject<Paginate<Category>>(result.Data.ToString());
-                Categories = paginateCategories.Items;
+                CategoriesAndProducts.Categories = paginateCategories.Items;
             }
             else
             {
-                Categories = new List<Category>();
+                CategoriesAndProducts.Categories = new List<Category>();
+                CategoriesAndProducts.Products = new List<Product>();
             }
         }
+    }
+
+    public class CategoriesAndProducts
+    {
+        public List<Category> Categories { get; set; } = new List<Category>();
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }
