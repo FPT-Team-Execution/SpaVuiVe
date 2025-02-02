@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services
 {
-
     public class CreateCategoryRequest
     {
         public string Name { get; set; }
@@ -42,7 +41,7 @@ namespace SkincareProductSalesSystem.Services
 
     public interface ICategoryService
     {
-        Task<IServiceResult> GetAllAsync();
+        Task<IServiceResult> GetAllAsync(int page, int size);
         Task<IServiceResult> GetAsync(string id);
         Task<IServiceResult> Create(CreateCategoryRequest request);
         Task<IServiceResult> Update(string id, UpdateCategoryRequest request);
@@ -83,7 +82,6 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> Delete(string id)
         {
-
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category == null) return new ServiceResult(404, "Không tìm thấy");
 
@@ -97,9 +95,9 @@ namespace SkincareProductSalesSystem.Services
             };
         }
 
-        public async Task<IServiceResult> GetAllAsync()
+        public async Task<IServiceResult> GetAllAsync(int page, int size)
         {
-            var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
+            var categories = await _unitOfWork.CategoryRepository.GetPagingListAsync(page: page, size: size);
             return new ServiceResult
             {
                 Status = 200,
