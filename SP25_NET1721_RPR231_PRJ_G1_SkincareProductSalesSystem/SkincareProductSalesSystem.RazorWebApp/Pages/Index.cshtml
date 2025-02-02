@@ -144,9 +144,9 @@
 
                 <div class="category-carousel">
                     <div class="flex flex-wrap gap-4 align-items-center justify-content-center">
-                        @if (Model.Categories.Any())
+                        @if (Model.CategoriesAndProducts.Categories.Any())
                         {
-                            @foreach (var category in Model.Categories)
+                            @foreach (var category in Model.CategoriesAndProducts.Categories)
                             {
                                 <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
                                     <a href="/categories/@category.CategoryId" class="text-decoration-none text-dark">
