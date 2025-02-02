@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkincareProductSalesSystem.Repositories", "SkincareProductSalesSystem.Repositories\SkincareProductSalesSystem.Repositories.csproj", "{9FBCFFA3-CCA5-48D6-8D4B-215AEE72C9CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkincareProductSalesSystem.Repositories", "SkincareProductSalesSystem.Repositories\SkincareProductSalesSystem.Repositories.csproj", "{9FBCFFA3-CCA5-48D6-8D4B-215AEE72C9CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkincareProductSalesSystem.Services", "SkincareProductSalesSystem.Services\SkincareProductSalesSystem.Services.csproj", "{EE3F0B95-FE43-4FC3-A568-0D50C55E0FED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkincareProductSalesSystem.Services", "SkincareProductSalesSystem.Services\SkincareProductSalesSystem.Services.csproj", "{EE3F0B95-FE43-4FC3-A568-0D50C55E0FED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkincareProductSalesSystem.Api", "SkincareProductSalesSystem.Api\SkincareProductSalesSystem.Api.csproj", "{E3FEE781-276A-4EB0-8FB3-E6AA5D92C181}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkincareProductSalesSystem.Api", "SkincareProductSalesSystem.Api\SkincareProductSalesSystem.Api.csproj", "{E3FEE781-276A-4EB0-8FB3-E6AA5D92C181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkincareProductSalesSystem.RazorWebApp", "SkincareProductSalesSystem.RazorWebApp\SkincareProductSalesSystem.RazorWebApp.csproj", "{65C1B1B0-CB94-4AE2-A4D2-4FADA3359F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkincareProductSalesSystem.RazorWebApp", "SkincareProductSalesSystem.RazorWebApp\SkincareProductSalesSystem.RazorWebApp.csproj", "{65C1B1B0-CB94-4AE2-A4D2-4FADA3359F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkincareProductSalesSystem.Common", "SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj", "{896F97CC-AD16-4E05-B342-E17CE4202D04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkincareProductSalesSystem.Common", "SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj", "{896F97CC-AD16-4E05-B342-E17CE4202D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

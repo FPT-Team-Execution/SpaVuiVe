@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
     <ProjectReference Include="..\SkincareProductSalesSystem.Repositories\SkincareProductSalesSystem.Repositories.csproj" />
   </ItemGroup>

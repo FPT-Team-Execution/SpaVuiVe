@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace SkincareProductSalesSystem.Services
 {
@@ -22,13 +24,12 @@ namespace SkincareProductSalesSystem.Services
         public string BrandId { get; set; }
 
         public int? StockQuantity { get; set; }
-
-        public string ImageUrl { get; set; }
+        
+        public IFormFile ImageFile { get; set; }
 
         public string Ingredients { get; set; }
 
         public bool? IsActive { get; set; }
-
     }
 
     public class UpdateProductRequest
@@ -44,8 +45,8 @@ namespace SkincareProductSalesSystem.Services
         public string BrandId { get; set; }
 
         public int? StockQuantity { get; set; }
-
-        public string ImageUrl { get; set; }
+        
+        public IFormFile ImageFile { get; set; }
 
         public string Ingredients { get; set; }
 
@@ -54,12 +55,13 @@ namespace SkincareProductSalesSystem.Services
 
     public interface IProductService
     {
-        Task<IServiceResult> GetAllAsync();
+        Task<IServiceResult> GetAllAsync(int page, int size);
         Task<IServiceResult> GetAsync(string id);
         Task<IServiceResult> Create(CreateProductRequest request);
         Task<IServiceResult> Update(string id, UpdateProductRequest request);
         Task<IServiceResult> Delete(string id);
     }
+
     public class ProductService : IProductService
     {
         private readonly UnitOfWork _unitOfWork;
@@ -78,7 +80,7 @@ namespace SkincareProductSalesSystem.Services
                 BrandId = request.BrandId,
                 CategoryId = request.CategoryId,
                 Price = request.Price,
-                ImageUrl = request.ImageUrl,
+                ImageUrl = "",
                 Description = request.Description,
                 IsActive = request.IsActive,
                 StockQuantity = request.StockQuantity,
@@ -110,9 +112,9 @@ namespace SkincareProductSalesSystem.Services
             };
         }
 
-        public async Task<IServiceResult> GetAllAsync()
+        public async Task<IServiceResult> GetAllAsync(int page, int size)
         {
-            var products = await _unitOfWork.SkinTestRepository.GetAllAsync();
+            var products = await _unitOfWork.SkinTestRepository.GetPagingListAsync(page: page, size: size);
             return new ServiceResult
             {
                 Status = 200,
@@ -144,7 +146,7 @@ namespace SkincareProductSalesSystem.Services
             product.CategoryId = request.CategoryId;
             product.BrandId = request.BrandId;
             product.Price = request.Price;
-            product.ImageUrl = request.ImageUrl;
+            product.ImageUrl = "";
             product.Ingredients = request.Ingredients;
             product.StockQuantity = request.StockQuantity;
 
