@@ -1,7 +1,41 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using SkincareProductSalesSystem.Common;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<ApiClient>();
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+});
+
+// Add authentication with cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = Const.ACCESS_TOKEN_COOKIE;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
+        options.LoginPath = "/Account/Login"; 
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.SlidingExpiration = true;
+    });
+//* Add after login
+//Response.Cookies.Append("AccessToken", tokenValue, new CookieOptions
+//{
+//    HttpOnly = true,
+//    Secure = true,
+//    SameSite = SameSiteMode.Strict,
+//    // Set expiration as needed
+//    Expires = DateTime.UtcNow.AddHours(1)
+//});
 
 var app = builder.Build();
 
@@ -20,6 +54,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

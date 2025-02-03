@@ -1,4 +1,5 @@
-﻿using KoiMuseum.Data.Base;
+
+using SkincareProductSalesSystem.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using SkincareProductSalesSystem.Repositories.Models;
 using System.ComponentModel;
