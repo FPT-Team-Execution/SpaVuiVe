@@ -106,7 +106,26 @@ namespace SkincareProductSalesSystem.Services.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.ToString);
+				Console.WriteLine(ex.ToString());
+				return false;
+			}
+		}
+
+		public async Task<bool> Update(UpdatePromotionRequestModel dto)
+		{
+			try
+			{
+				var result = await _uOW.PromotionRepository.GetByIdAsync(dto.PromotionId);
+				if (result == null)
+					return false;
+
+				result = _mapper.Map(dto, result);
+				await _uOW.PromotionRepository.UpdateAsync(result);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
 				return false;
 			}
 		}

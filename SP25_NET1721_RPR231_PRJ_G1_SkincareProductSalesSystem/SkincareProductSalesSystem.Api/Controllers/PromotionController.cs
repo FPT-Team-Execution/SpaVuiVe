@@ -77,7 +77,30 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				var result = await _promotionService.Delete(model);
 				if (!result)
 					return StatusCode(500);
-				return Ok(result);
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpPut("update")]
+		public async Task<IActionResult> Update(UpdatePromotionRequestModel model)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				var result = await _promotionService.Update(model);
+				if (!result)
+				{
+					return StatusCode(500);	
+				};
+				return Ok();
 			}
 			catch (Exception ex)
 			{

@@ -261,4 +261,12 @@
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\scss\bootstrap\scss\_variables.scss" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

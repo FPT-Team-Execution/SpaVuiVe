@@ -5,9 +5,10 @@
 }
 <div class="login-page">
 	<div class="form">
-		<form class="login-form">
+		<form class="login-form" asp-page-handler="OnPostAsync">
 			<div class="header">Welcome back!</div>
 			<br />
+
 			<script src="https://accounts.google.com/gsi/client" async></script>
 				<div id="g_id_onload"
 					 data-client_id="YOUR_GOOGLE_CLIENT_ID"
@@ -22,14 +23,16 @@
 					 data-shape="rectangular"
 					 data-logo_alignment="left">
 				</div>
+
 			<br />
 			<div class="header">OR</div>
 			<br />
+
 			<p class="input_label">Email</p>
-			<input type="text" placeholder="" />
+			<input type="text" placeholder="" asp-for="LoginRequest.Username"/>
 			<p class="input_label">Password</p>
-			<input type="password" placeholder="" />
-			<button>login</button>
+			<input type="password" placeholder="" asp-for="LoginRequest.Password"/>
+			<button type="submit">login</button>
 			<p class="message">Not registered? <a href="#">Create an account</a></p>
 		</form>
 	</div>
