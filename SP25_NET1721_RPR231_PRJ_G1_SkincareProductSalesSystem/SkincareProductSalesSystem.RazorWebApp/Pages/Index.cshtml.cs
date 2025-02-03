@@ -22,18 +22,27 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
 
         public async Task OnGetAsync()
         {
-            var result = await _apiClient.GetAsync("/categories?page=1&size=5");
+            var categoryTask = _apiClient.GetAsync("/categories?page=1&size=5");
+            var productTask = _apiClient.GetAsync("/products?page=1&size=5");
 
-            if (result.Status == 200 && result.Data != null)
+            await Task.WhenAll(categoryTask, productTask);
+
+            var categoryResult = categoryTask.Result;
+            var productResult = productTask.Result;
+
+            CategoriesAndProducts.Categories = GetItemsFromResponse<Category>(categoryResult);
+            CategoriesAndProducts.Products = GetItemsFromResponse<Product>(productResult);
+        }
+
+        private List<T> GetItemsFromResponse<T>(ServiceResult response)
+        {
+            if (response.Status == 200 && response.Data != null)
             {
-                var paginateCategories = JsonConvert.DeserializeObject<Paginate<Category>>(result.Data.ToString());
-                CategoriesAndProducts.Categories = paginateCategories.Items;
+                var paginatedResult = JsonConvert.DeserializeObject<Paginate<T>>(response.Data.ToString());
+                return paginatedResult.Items;
             }
-            else
-            {
-                CategoriesAndProducts.Categories = new List<Category>();
-                CategoriesAndProducts.Products = new List<Product>();
-            }
+
+            return new List<T>();
         }
     }
 

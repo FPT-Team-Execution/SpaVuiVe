@@ -274,8 +274,4 @@
     <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="Pages\ProductPages\Index.cshtml" />
-  </ItemGroup>
-
 </Project>
