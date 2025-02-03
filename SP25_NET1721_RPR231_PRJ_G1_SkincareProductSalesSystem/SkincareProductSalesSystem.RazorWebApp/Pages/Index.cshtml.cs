@@ -23,11 +23,11 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
         public async Task OnGetAsync()
         {
             var categoryTask = _apiClient.GetAsync("/categories?page=1&size=5");
-            var productTask = _apiClient.GetAsync("/products?page=1&size=5");
+            var productTask = _apiClient.GetAsync("/products?page=1&size=12");
 
             await Task.WhenAll(categoryTask, productTask);
 
-            var categoryResult = categoryTask.Result;
+            var categoryResult = categoryTask.Result; 
             var productResult = productTask.Result;
 
             CategoriesAndProducts.Categories = GetItemsFromResponse<Category>(categoryResult);
