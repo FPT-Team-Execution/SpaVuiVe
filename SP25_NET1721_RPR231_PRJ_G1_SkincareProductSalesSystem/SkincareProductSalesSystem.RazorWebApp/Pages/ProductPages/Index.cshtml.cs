@@ -20,7 +20,7 @@ public class Index : PageModel
     public async Task OnGetAsync()
     {
         var categoryTask = _apiClient.GetAsync("/categories?page=1&size=100");
-        var productTask = _apiClient.GetAsync("/products?page=1&size=12");
+        var productTask = _apiClient.GetAsync("/products?page=1&size=9");
         var brandTask = _apiClient.GetAsync("/brands?page=1&size=100");
 
         await Task.WhenAll(categoryTask, productTask, brandTask);
