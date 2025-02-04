@@ -21,7 +21,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
         public async Task OnGetAsync()
         {
             var categoryTask = _apiClient.GetAsync("/categories?page=1&size=5");
-            var productTask = _apiClient.GetAsync("/products?page=1&size=12");
+            var productTask = _apiClient.GetAsync("/products?page=1&size=8");
             var brandTask = _apiClient.GetAsync("/brands?page=1&size=5");
 
             await Task.WhenAll(categoryTask, productTask, brandTask);
