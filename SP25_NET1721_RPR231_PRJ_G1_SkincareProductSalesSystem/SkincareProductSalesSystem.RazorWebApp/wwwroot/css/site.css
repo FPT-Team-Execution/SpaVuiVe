@@ -26,7 +26,7 @@ body {
 }
 
 .bg-pink {
-  background-color: rgb(255, 192, 203);
+  background-color: rgb(255, 192, 203) !important;
 }
 
 .flex {

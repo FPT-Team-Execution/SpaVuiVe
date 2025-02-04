@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using Newtonsoft.Json;
-using SkincareProductSalesSystem.Common.Utils;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Repositories.Paginate;
 
@@ -53,7 +51,6 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
     {
         public List<Category> Categories { get; set; } = new List<Category>();
         public List<Product> Products { get; set; } = new List<Product>();
-
         public List<Brand> Brands { get; set; } = new List<Brand>();
     }
 }
