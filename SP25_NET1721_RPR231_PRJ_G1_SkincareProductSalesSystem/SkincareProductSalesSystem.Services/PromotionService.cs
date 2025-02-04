@@ -17,10 +17,10 @@ namespace SkincareProductSalesSystem.Services
 {
 	public interface IPromotionService
 	{
-		Task<IServiceResult> Create(CreatePromotionRequestModel request);
-		Task<IServiceResult> Delete(DeletePromotionRequestModel request);
+		Task<IServiceResult> Create(CreatePromotionRequest request);
+		Task<IServiceResult> Delete(DeletePromotionRequest request);
 		Task<IServiceResult> GetCodes();
-		Task<IServiceResult> Update(UpdatePromotionRequestModel request);
+		Task<IServiceResult> Update(UpdatePromotionRequest request);
 	}
 
 	public class PromotionService : IPromotionService
@@ -35,9 +35,7 @@ namespace SkincareProductSalesSystem.Services
 		}
 
 
-		
-
-		public async Task<IServiceResult> Create(CreatePromotionRequestModel request)
+		public async Task<IServiceResult> Create(CreatePromotionRequest request)
 		{
 			try
 			{
@@ -66,6 +64,7 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = 201,
+					Message = "Thành công",
 				};
 			}
 			catch (Exception ex)
@@ -87,6 +86,7 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = (result.Count > 0) ? 200 : 404,
+					Message = (result.Count > 0) ? "Thành công" : "Không tìm thấy",
 					Data = result
 				};
 			}
@@ -101,7 +101,7 @@ namespace SkincareProductSalesSystem.Services
 		}
 
 
-		public async Task<IServiceResult> Delete(DeletePromotionRequestModel request)
+		public async Task<IServiceResult> Delete(DeletePromotionRequest request)
 		{
 			try
 			{
@@ -119,6 +119,7 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = 204,
+					Message = "Thành công",
 				};
 			}
 			catch (Exception ex)
@@ -132,7 +133,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-		public async Task<IServiceResult> Update(UpdatePromotionRequestModel request)
+		public async Task<IServiceResult> Update(UpdatePromotionRequest request)
 		{
 			try
 			{
@@ -141,6 +142,7 @@ namespace SkincareProductSalesSystem.Services
 					return new ServiceResult()
 					{
 						Status = 404,
+						Message = "Không tìm thấy"
 					};
 
 				result = _mapper.Map(request, result);
@@ -148,6 +150,7 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = 204,
+					Message = "Thành công",
 				};
 			}
 
@@ -162,7 +165,7 @@ namespace SkincareProductSalesSystem.Services
 		}
 	}
 
-	public class CreatePromotionRequestModel
+	public class CreatePromotionRequest
 	{
 		public string? Code { get; set; }
 		[Required]
@@ -178,13 +181,13 @@ namespace SkincareProductSalesSystem.Services
 		public int? UsageLimit { get; set; }
 	}
 
-	public class DeletePromotionRequestModel 
+	public class DeletePromotionRequest 
 	{
 		[Required]
 		public List<string> PromotionIds { get; set; }
 	}
 
-	public class UpdatePromotionRequestModel
+	public class UpdatePromotionRequest
 	{
 		[Required]
 		public string PromotionId { get; set; }

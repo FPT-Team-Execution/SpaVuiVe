@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Base;
@@ -16,6 +17,12 @@ namespace SkincareProductSalesSystem.Services
 	public interface IPromotionUsageService
 	{
 		Task<IServiceResult> Create(CreatePromotionUsageRequest request);
+		Task<IServiceResult> Update(UpdatePromotionUsageRequest request);
+		Task<IServiceResult> Delete(string promoUsageId);
+		Task<IServiceResult> Get();
+		Task<IServiceResult> GetById(string promoUsageId);
+
+
 	}
 
 
@@ -63,6 +70,29 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
+		public async Task<IServiceResult> Get()
+		{
+			var result = await _uOW.PromotionUsageRepository.GetAllAsync();
+			return new ServiceResult()
+			{
+				Status = result != null ? 200 : 404,
+				Message = result != null ? "Thành công" : "Không tìm thấy",
+				Data = result
+			};
+		}
+
+		public async Task<IServiceResult> GetById(string promoUsageId)
+		{
+			var result = await _uOW.PromotionUsageRepository.GetByIdAsync(promoUsageId);
+			return new ServiceResult()
+			{
+				Status = result != null ? 200 : 404,
+				Message = result != null ? "Thành công" : "Không tìm thấy",
+				Data = result
+			};
+		}
+
+
 		public async Task<IServiceResult> Update(UpdatePromotionUsageRequest request)
 		{
 			try
@@ -81,12 +111,37 @@ namespace SkincareProductSalesSystem.Services
 				promoUsage.UsedAt = DateTime.Now;
 				promoUsage.CreatedAt = DateTime.Now;
 				promoUsage.IsValid = true;
-				await _uOW.PromotionRepository.UpdateAsync(promo);
+				await _uOW.PromotionUsageRepository.UpdateAsync(promoUsage);
 
 				return new ServiceResult()
 				{
 					Status = 204,
+					Message = "Thành công",
 					Data = promoUsage
+				};
+			}
+			catch (Exception ex)
+			{
+				return new ServiceResult()
+				{
+					Status = 500,
+					Message = ex.Message
+				};
+			}
+		}
+
+		public async Task<IServiceResult> Delete(string promoUsageId)
+		{
+			try
+			{
+				var promoUsage = await _uOW.PromotionUsageRepository.GetByIdAsync(promoUsageId);
+				if (promoUsage == null) return new ServiceResult(404, "PromotionUsage not found");
+				await _uOW.PromotionUsageRepository.RemoveAsync(promoUsage);
+
+				return new ServiceResult()
+				{
+					Status = 204,
+					Message = "Thành công"
 				};
 			}
 			catch (Exception ex)

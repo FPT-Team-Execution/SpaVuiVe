@@ -22,6 +22,7 @@ namespace SkincareProductSalesSystem.Api.Configs
 		{
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<IPromotionService, PromotionService>();
+			services.AddScoped<IPromotionUsageService, PromotionUsageService>();
 		}
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)

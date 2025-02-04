@@ -27,9 +27,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.Register(model);
-				return result != null ?
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+				var response = await _authService.Register(model);
+				return response != null ?
+					StatusCode(response.Status, response)
 					:
 					StatusCode(500, "No Response");
 			}
@@ -47,9 +47,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.LoginByUsername(model);
-				return result != null ?
-					StatusCode(result.Status, result.Message.IsNullOrEmpty() ? result.Message : result.Data)
+				var response = await _authService.LoginByUsername(model);
+				return response != null ?
+					StatusCode(response.Status, response)
 					:
 					StatusCode(500, "No Response");
 			}
@@ -67,9 +67,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.ForgotPassword(username);
-				return result != null ?
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+				var response = await _authService.ForgotPassword(username);
+				return response != null ?
+					StatusCode(response.Status, response)
 					:
 					StatusCode(500, "No Response");
 			}
@@ -87,9 +87,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.ResetPassword(model);
-				return result != null ?
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+				var response = await _authService.ResetPassword(model);
+				return response != null ?
+					StatusCode(response.Status, response)
 					:
 					StatusCode(500, "No Response");
 			}

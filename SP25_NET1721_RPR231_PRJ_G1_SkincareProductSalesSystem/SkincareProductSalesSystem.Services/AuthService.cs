@@ -111,6 +111,7 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = 200,
+					Message = "Thành công",
 					Data = new LoginResponseModel
 					{
 						AccessToken = jwtToken,
@@ -150,6 +151,7 @@ namespace SkincareProductSalesSystem.Services
 				 return new ServiceResult()
 				 {
 					 Status = 204,
+					 Message = "Thành công",
 				 };
 			}
 			catch (Exception ex)
@@ -191,7 +193,8 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = 200
+					Status = 200,
+					Message = "Thành công",
 				};
 			}
 			catch (Exception ex)

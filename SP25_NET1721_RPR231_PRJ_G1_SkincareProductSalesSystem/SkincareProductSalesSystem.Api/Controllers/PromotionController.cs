@@ -18,9 +18,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			_promotionService = promotionService;
 		}
 
-		[HttpPost("create")]
+		[HttpPost]
 		[Authorize]
-		public async Task<IActionResult> Create(CreatePromotionRequestModel model)
+		public async Task<IActionResult> Create(CreatePromotionRequest model)
 		{
 			try
 			{
@@ -28,9 +28,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				{
 					return BadRequest(ModelState);
 				}
-				var result = await _promotionService.Create(model);
-				return result != null ? 
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message: result.Data)) 
+				var response = await _promotionService.Create(model);
+				return response != null ? 
+					StatusCode(response.Status, (response)) 
 					: 
 					StatusCode(500, "No Response");
 			}
@@ -41,16 +41,16 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}		
 		}
 
-		[HttpGet("get")]
+		[HttpGet]
 		[Authorize]
 		public async Task<IActionResult> Get()
 		{
 			try
 			{
-				var result = await _promotionService.GetCodes();
+				var response = await _promotionService.GetCodes();
 
-				return result != null ?
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+				return response != null ?
+					StatusCode(response.Status, (response))
 					:
 					StatusCode(500, "No Response");
 			}
@@ -62,8 +62,8 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		}
 
 		[Authorize]
-		[HttpDelete("delete")]
-		public async Task<IActionResult> Delete(DeletePromotionRequestModel model)
+		[HttpDelete]
+		public async Task<IActionResult> Delete(DeletePromotionRequest model)
 		{
 			try
 			{
@@ -72,9 +72,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 					return BadRequest(ModelState);
 				}
 
-				var result = await _promotionService.Delete(model);
-				return result != null ?
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+				var response = await _promotionService.Delete(model);
+				return response != null ?
+					StatusCode(response.Status, (response))
 					:
 					StatusCode(500, "No Response");
 			}
@@ -85,8 +85,8 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[HttpPut("update")]
-		public async Task<IActionResult> Update(UpdatePromotionRequestModel model)
+		[HttpPut]
+		public async Task<IActionResult> Update(UpdatePromotionRequest model)
 		{
 			try
 			{
@@ -94,9 +94,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				{
 					return BadRequest(ModelState);
 				}
-				var result = await _promotionService.Update(model);
-				return result != null ?
-					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+				var response = await _promotionService.Update(model);
+				return response != null ?
+					StatusCode(response.Status, (response))
 					:
 					StatusCode(500, "No Response");
 			}

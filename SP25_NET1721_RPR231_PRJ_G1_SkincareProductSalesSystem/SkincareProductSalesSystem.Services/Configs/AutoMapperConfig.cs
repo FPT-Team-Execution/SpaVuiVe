@@ -18,9 +18,9 @@ namespace SkincareProductSalesSystem.Services.Configs
 				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))
 				.ForMember(b => b.FullName, opt => opt.MapFrom(a => a.FullName));
 
-			CreateMap<CreatePromotionRequestModel, Promotion>();
+			CreateMap<CreatePromotionRequest, Promotion>();
 
-			CreateMap<UpdatePromotionRequestModel, Promotion>()
+			CreateMap<UpdatePromotionRequest, Promotion>()
 				.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
 			CreateMap<CreatePromotionUsageRequest, PromotionUsage>();
