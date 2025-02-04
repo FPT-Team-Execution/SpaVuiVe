@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using SkincareProductSalesSystem.Repositories.Models;
-using SkincareProductSalesSystem.Services.Models.AuthModels;
-using SkincareProductSalesSystem.Services.Models.PromotionModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +21,11 @@ namespace SkincareProductSalesSystem.Services.Configs
 			CreateMap<CreatePromotionRequestModel, Promotion>();
 
 			CreateMap<UpdatePromotionRequestModel, Promotion>()
+				.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+			CreateMap<CreatePromotionUsageRequest, PromotionUsage>();
+
+			CreateMap<UpdatePromotionUsageRequest, PromotionUsage>()
 				.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 		}
     }

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using SkincareProductSalesSystem.Services.Models.AuthModels;
-using SkincareProductSalesSystem.Services.Services;
-using SkincareProductSalesSystem.Services.Services.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using SkincareProductSalesSystem.Services;
+using SkincareProductSalesSystem.Services.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.Api.Controllers
@@ -28,12 +28,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			try
 			{
 				var result = await _authService.Register(model);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200);
+				return result != null ?
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
@@ -46,12 +48,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			try
 			{
 				var result = await _authService.LoginByUsername(model);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200, result);
+				return result != null ?
+					StatusCode(result.Status, result.Message.IsNullOrEmpty() ? result.Message : result.Data)
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
@@ -64,12 +68,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			try
 			{
 				var result = await _authService.ForgotPassword(username);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200, result);
+				return result != null ?
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
@@ -82,16 +88,16 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			try
 			{
 				var result = await _authService.ResetPassword(model);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200, result);
+				return result != null ?
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
-
-
 	}
 }

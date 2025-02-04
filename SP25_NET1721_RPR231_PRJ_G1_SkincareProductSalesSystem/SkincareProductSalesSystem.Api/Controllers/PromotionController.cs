@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SkincareProductSalesSystem.Services.Models.PromotionModels;
-using SkincareProductSalesSystem.Services.Services.Interfaces;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
+using SkincareProductSalesSystem.Services;
 
 namespace SkincareProductSalesSystem.Api.Controllers
 {
@@ -27,14 +28,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				{
 					return BadRequest(ModelState);
 				}
-
 				var result = await _promotionService.Create(model);
-				if (!result.IsSuccess)
-				{
-					return StatusCode(500, result.Message);
-				}
-
-				return Ok(result);
+				return result != null ? 
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message: result.Data)) 
+					: 
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
@@ -50,11 +48,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			try
 			{
 				var result = await _promotionService.GetCodes();
-				if (!result.IsSuccess)
-				{
-					return StatusCode(500, result.Message);
-				};
-				return Ok(result);
+
+				return result != null ?
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
@@ -75,9 +73,10 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				}
 
 				var result = await _promotionService.Delete(model);
-				if (!result)
-					return StatusCode(500);
-				return NoContent();
+				return result != null ?
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
@@ -96,11 +95,10 @@ namespace SkincareProductSalesSystem.Api.Controllers
 					return BadRequest(ModelState);
 				}
 				var result = await _promotionService.Update(model);
-				if (!result)
-				{
-					return StatusCode(500);	
-				};
-				return Ok();
+				return result != null ?
+					StatusCode(result.Status, (result.Message.IsNullOrEmpty() ? result.Message : result.Data))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{

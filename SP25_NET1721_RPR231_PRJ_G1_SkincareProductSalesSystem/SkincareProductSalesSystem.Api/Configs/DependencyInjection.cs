@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SkincareProductSalesSystem.Repositories;
+using SkincareProductSalesSystem.Services;
 using SkincareProductSalesSystem.Services.Helpers;
-using SkincareProductSalesSystem.Services.Services;
-using SkincareProductSalesSystem.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Api.Configs
 {
-    public static class DependencyInjection
+	public static class DependencyInjection
     {
 		public static void AddInfrastructure(this IServiceCollection services)
 		{
