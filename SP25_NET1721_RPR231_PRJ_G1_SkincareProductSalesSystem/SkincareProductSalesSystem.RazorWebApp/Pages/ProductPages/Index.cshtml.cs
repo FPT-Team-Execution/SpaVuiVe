@@ -11,7 +11,10 @@ public class Index : PageModel
 {
     private readonly ApiClient _apiClient;
     public ContentData contentData { get; set; } = new();
-
+    
+    public int Page { get; set; }
+    public int Size { get; set; }
+    
     public Index(ApiClient apiClient)
     {
         _apiClient = apiClient;
@@ -19,8 +22,15 @@ public class Index : PageModel
 
     public async Task OnGetAsync()
     {
+        
+         // Lấy giá trị page từ query string, nếu không có thì mặc định là 1
+        Page = int.TryParse(Request.Query["page"], out var page) ? page : 1;
+
+        // Lấy giá trị size từ query string, nếu không có thì mặc định là 10
+        Size = int.TryParse(Request.Query["size"], out var size) ? size : 10;
+        
         var categoryTask = _apiClient.GetAsync("/categories?page=1&size=100");
-        var productTask = _apiClient.GetAsync("/products?page=1&size=9");
+        var productTask = _apiClient.GetAsync($"/products?page={Page}&size={Size}");
         var brandTask = _apiClient.GetAsync("/brands?page=1&size=100");
 
         await Task.WhenAll(categoryTask, productTask, brandTask);
@@ -29,9 +39,9 @@ public class Index : PageModel
         var productResult = productTask.Result;
         var brandResult = brandTask.Result;
 
-        contentData.Categories = GetItemsFromResponse<Category>(categoryResult).Items ??= new List<Category>();
+        contentData.Categories = GetItemsFromResponse<Category>(categoryResult).Items ?? new List<Category>();
         contentData.Products = GetItemsFromResponse<Product>(productResult);
-        contentData.Brands = GetItemsFromResponse<Brand>(brandResult).Items ??= new List<Brand>();
+        contentData.Brands = GetItemsFromResponse<Brand>(brandResult).Items ?? new List<Brand>();
     }
 
     private Paginate<T> GetItemsFromResponse<T>(ServiceResult response)
