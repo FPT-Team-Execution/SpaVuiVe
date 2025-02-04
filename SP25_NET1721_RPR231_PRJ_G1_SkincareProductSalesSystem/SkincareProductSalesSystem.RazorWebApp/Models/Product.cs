@@ -33,5 +33,5 @@ public partial class Product
     public DateTime? UpdatedAt { get; set; }
 
     public virtual Brand Brand { get; set; }
-    
+    public virtual Category Category { get; set; }
 }

@@ -4,5 +4,273 @@
 @{
     Layout = "Shared/_Layout";
 }
-<div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Fruits Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-card {
+            border: 1px solid pink;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .badge-fruit {
+            background-color: pink;
+            color: white;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar {
+            border-right: 1px solid #ddd;
+            padding-right: 20px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: pink;
+            border-color: pink;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .slider-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: pink;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: pink;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid mt-4 p-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+            <h2 class="mb-4">Shop</h2>
+            <form class="mb-4" action="#" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" style="background-color: whitesmoke"
+                           placeholder="Search keywords">
+                    <button style="background-color: pink" class="btn" type="submit">Search</button>
+                </div>
+            </form>
+
+            <h4>Categories</h4>
+            <ul class="list-group list-group-flush mb-3">
+                @if (Model.contentData.Categories.Any())
+                {
+                    foreach (var category in Model.contentData.Categories)
+                    {
+                        <li class="list-group-item">
+                            <input type="checkbox"> @category.Name
+                        </li>
+                    }
+                }
+                else
+                {
+                    <p>No categories found.</p>
+                }
+            </ul>
+
+            <h4>Products</h4>
+            <ul class="list-group list-group-flush mb-3">
+                @if (Model.contentData.Brands.Any())
+                {
+                    foreach (var brand in Model.contentData.Brands)
+                    {
+                        <li class="list-group-item">
+                            <input type="checkbox"> @brand.Name
+                        </li>
+                    }
+                }
+                else
+                {
+                    <p>No brands found.</p>
+                }
+            </ul>
+
+            <h4>Price</h4>
+            <div class="slider-container mb-3">
+                <span class="slider-value" id="sliderValue">50</span>
+                <input type="range" class="form-range" min="0" max="500" value="50" id="priceRange">
+            </div>
+            <script>
+                const priceRange = document.getElementById('priceRange');
+                const sliderValue = document.getElementById('sliderValue');
+
+                priceRange.addEventListener('input', function () {
+                    sliderValue.textContent = priceRange.value;
+                    const percent = (priceRange.value - priceRange.min) / (priceRange.max - priceRange.min);
+                    sliderValue.style.left = `calc(${percent * 100}% - 20px)`;
+                });
+            </script>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <select class="form-select w-auto">
+                    <option selected>Default Sorting: Nothing</option>
+                    <option>Price Low to High</option>
+                    <option>Price High to Low</option>
+                </select>
+            </div>
+
+            <div class="row g-3">
+                <!-- Product Card -->
+                @if (Model.contentData.Products.Items.Any())
+                {
+                    @foreach (var product in Model.contentData.Products.Items)
+                    {
+                        <div class="col-4">
+                            <div class="product-item">
+                                <figure>
+                                    <a href="index.html" title="Product Title">
+                                        <img src="@product.ImageUrl" alt="Product Thumbnail" class="tab-image">
+                                    </a>
+                                </figure>
+                                <div class="d-flex flex-column text-center">
+                                    <h3 class="fs-6 fw-normal">@product.Name</h3>
+                                    <div>
+                                        <span class="rating">
+                                            <svg width="18" height="18" class="text-warning">
+                                                <use xlink:href="#star-full"></use>
+                                            </svg>
+                                            <svg width="18" height="18" class="text-warning">
+                                                <use xlink:href="#star-full"></use>
+                                            </svg>
+                                            <svg width="18" height="18" class="text-warning">
+                                                <use xlink:href="#star-full"></use>
+                                            </svg>
+                                            <svg width="18" height="18" class="text-warning">
+                                                <use xlink:href="#star-full"></use>
+                                            </svg>
+                                            <svg width="18" height="18" class="text-warning">
+                                                <use xlink:href="#star-half"></use>
+                                            </svg>
+                                        </span>
+                                        <span>(222)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        @* <del>$@product.Price</del> *@
+                                        <span class="text-dark fw-semibold">$@product.Price</span>
+                                        @* <span class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">10% OFF</span> *@
+                                    </div>
+                                    <div class="button-area p-3 pt-0">
+                                        <div class="row g-1 mt-2">
+                                            <div class="col-3">
+                                                <input type="number" name="quantity"
+                                                       class="form-control border-dark-subtle input-number quantity"
+                                                       value="1">
+                                            </div>
+                                            <div class="col-7">
+                                                <a href="#" class="btn btn-primary bg-pink rounded-1 p-2 fs-7 btn-cart">
+                                                    <svg width="18" height="18">
+                                                        <use xlink:href="#cart"></use>
+                                                    </svg>
+                                                    Add to Cart
+                                                </a>
+                                            </div>
+                                            <div class="col-2">
+                                                <a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6">
+                                                    <svg width="18" height="18">
+                                                        <use xlink:href="#heart"></use>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No products found.</p>
+                }
+
+                <!-- Repeat product cards as needed -->
+            </div>
+
+            <!-- Pagination -->
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

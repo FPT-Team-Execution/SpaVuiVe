@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace SkincareProductSalesSystem.Services
@@ -114,7 +115,7 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> GetAllAsync(int page, int size)
         {
-            var products = await _unitOfWork.ProductRepository.GetPagingListAsync(page: page, size: size);
+            var products = await _unitOfWork.ProductRepository.GetPagingListAsync(page: page, size: size, include:x=> x.Include(x=>x.Category).Include(x=>x.Brand));
             return new ServiceResult
             {
                 Status = 200,
