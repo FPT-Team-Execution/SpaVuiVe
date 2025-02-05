@@ -1,142 +1,561 @@
 ﻿@page
 @model             ResultModel
 @{
-}<div class="container-fluid testimonial py-5 text-black">
+}
+<div class="container-fluid testimonial py-5 text-black">
     <div class="container py-5">
-        <div class="text-center mx-auto mb-5" style="max-width: 800px;">
-            <p class="fs-4 text-uppercase text-primary">Hoàn thành bài trắc nghiệm</p>
-            <h1 class="display-4 mb-4">Kết quả loại da của bạn là .... !</h1>
+        <div class="row" style="display: flex; justify-content: center; text-align: center; padding-bottom: 3rem;">
+            <p class="fs-1 text-uppercase highlight-text">Hoàn thành bài trắc nghiệm</p>
         </div>
-        <div class="owl-carousel testimonial-carousel">
-            <div class="rounded p-4 my-2" style="background: #ffc0cb";>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="d-flex align-items-center flex-column mx-auto">
-                            <div class="rounded-circle mb-4" style="border: dashed; border-color: var(--bs-white); width: 200px; height: 200px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                                <img src="~/images/normal_skin.jpg" class="img-fluid rounded-circle" alt="" style="object-fit: cover; width: 100%; height: 100%;">
-                            </div>
-                            <div class="text-center" >
-                                <h4 class="mb-2" style="color: #ff4f9d;">Da bình thường</h4>
+        <div class="container-fluid about py-5"
+             style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(0, 0, 0, 0.1);">
+            <div class="container py-2">
+                <div class="row g-5" style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                    <div class="col-lg-7 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="h-100">
+                            <h4 style="color: #ff4f9d;">Kết quả loại da của bạn là</h4>
+                            <h1 class="display-4 mb-4" style="font-weight: 600;">Da bình thường</h1>
+                            <div class="text-dark mb-4">
+                                <p class="fs-5">
+                                    Chúc mừng bạn, bởi những cô nàng sở hữu da thường sẽ không gặp nhiều
+                                    rắc rối
+                                    như những loại da khác. Hơn thế nữa, việc chăm sóc da cũng đơn giản hơn nhiều.
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-9">
-                        <div class="position-absolute" style="top: 20px; right: 25px;">
-                            <i class="fa fa-quote-right fa-2x text-secondary"></i>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="d-flex mb-4">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="fs-5 mb-0">
-                                Chúc mừng bạn, bởi những cô nàng sở hữu da thường sẽ không gặp nhiều rắc rối như những loại da khác. Hơn thế nữa, việc chăm sóc da cũng đơn giản hơn nhiều.
-                            </p>
+                    <div class="col-lg-1 wow fadeInRight" data-wow-delay="0.2s"></div>
+                    <div class="col-lg-4 wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="square-container">
+                            <img src="~/images/normal_skin.jpg"
+                                 class="img-fluid" alt="">
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class=" rounded p-4 my-2" style="background: #ffc0cb" ;>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="d-flex flex-column align-items-center mx-auto">
-                            <div class="rounded-circle mb-4" style="border: dashed; border-color: var(--bs-white); width: 200px; height: 200px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                                <img src="~/images/oily_skin.jpg" class="img-fluid rounded-circle" alt="" style="object-fit: cover; width: 100%; height: 100%;">
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s" style="padding-top: 5rem;">
+                        <div class="h-100">
+                            <div class="text-dark mb-4">
+                                <h4 class="fs-5" style="color: #ff4f9d;">
+                                    Các sản phẩm có thể tham khảo
+                                </h4>
                             </div>
-                            <div class="text-center">
-                                <h4 class="mb-2" style="color: #ff4f9d;">Da dầu</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
 
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="position-absolute">
-                            <i class="fa fa-quote-right fa-2x text-secondary"></i>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="d-flex mb-4">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="fs-5 mb-0">
-                                Đối với những cô nàng sở hữu làn da nhờn, sẽ khó hơn trong cách chăm sóc da. Bởi da nhờn nếu không chăm sóc đúng cách sẽ khiến da dễ lên mụn. Cần phải sử dụng các sản phẩm chống tăng tiết bã nhờn và chăm đúng cách.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class=" rounded p-4 my-2" style="background: #ffc0cb" ;>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="d-flex align-items-center flex-column mx-auto">
-                            <div class="rounded-circle mb-4" style="border: dashed; border-color: var(--bs-white); width: 200px; height: 200px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                                <img src="~/images/dry_skin.jpg" class="img-fluid rounded-circle" alt="" style="object-fit: cover; width: 100%; height: 100%;">
-                            </div>
-                            <div class="text-center">
-                                <h4 class="mb-2" style="color: #ff4f9d;">Da khô</h4>
-                        
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="position-absolute" style="top: 20px; right: 25px;">
-                            <i class="fa fa-quote-right fa-2x text-secondary"></i>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="d-flex mb-4">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="fs-5 mb-0">
-                                Nếu bạn là cô nàng da khô, thì cẩn thận nhé. Vì da khô cũng thường rất nhạy cảm, đặc biệt cần tránh các thời tiết lạnh; độ ẩm thấp. Bởi những yếu tố đó sẽ khiến làn da bạn trở nên trầm trọng hơn. Vấn đề đáng để lưu ý nhất đối với cô nàng da khô, đó chính là các vấn đề lão hóa da. Bởi da khô là một trong những loại da nhanh lão hóa nhất. Vậy có cách nào để chống lão hóa? Các vấn đề về lão hóa da và kem dưỡng cho da lão hóa đều sẽ có tất tần tật trong bài viết
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="rounded p-4 my-2" style="background: #ffc0cb" ;>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="d-flex flex-column align-items-center mx-auto">
-                            <div class="rounded-circle mb-4" style="border: dashed; border-color: var(--bs-white); width: 200px; height: 200px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                                <img src="~/images/sensitice_skin.jpg" class="img-fluid rounded-circle" alt="" style="object-fit: cover; width: 100%; height: 100%;">
-                            </div>
-                            <div class="text-center">
-                                <h4 class="mb-2" style="color: #ff4f9d;">Da nhạy cảm</h4>
-                        
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="position-absolute" >
-                            <i class="fa fa-quote-right fa-2x text-secondary"></i>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="d-flex mb-4">
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="fs-5 mb-0">
-                                Tèn ten, xin chia buồn với những cô nàng sở hữu làn da nhạy cảm. Những cô nàng này hẳn sẽ rất khó khăn trong việc chăm sóc da. Bởi da nhạy cảm là một trong những loại da “khó chiều” nhất. Khả năng đề kháng của da nhạy cảm khá yếu, nên việc chọn lựa đúng phương pháp chăm sóc da là vô cùng quan trọng. Tuy nhiên, đừng nản nhé các cô gái,
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
 
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a class="btn btn-primary py-2 px-4" href="">Load More Products</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid testimonial py-5 text-black">
+    <div class="container py-5">
+        <div class="row" style="display: flex; justify-content: center; text-align: center; padding-bottom: 3rem;">
+            <p class="fs-1 text-uppercase highlight-text">Hoàn thành bài trắc nghiệm</p>
+        </div>
+        <div class="container-fluid about py-5"
+             style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(0, 0, 0, 0.1);">
+            <div class="container py-2">
+                <div class="row g-5" style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                    <div class="col-lg-7 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="h-100">
+                            <h4 style="color: #ff4f9d; font-weight: 600;">Kết quả loại da của bạn là</h4>
+                            <h1 class="display-4 mb-4" style="font-weight: 600;">Da dầu</h1>
+                            <div class="text-dark mb-4">
+                                <p class="fs-5">
+                                    Đối với những cô nàng sở hữu làn da nhờn, sẽ khó hơn trong cách chăm sóc da. Bởi da
+                                    nhờn nếu không chăm sóc đúng cách sẽ khiến da dễ lên mụn. Cần phải sử dụng các sản
+                                    phẩm chống tăng tiết bã nhờn và chăm đúng cách.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 wow fadeInRight" data-wow-delay="0.2s"></div>
+                    <div class="col-lg-4 wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="square-container">
+                            <img src="~/images/oily_skin.jpg"
+                                 class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s" style="padding-top: 5rem;">
+                        <div class="h-100">
+                            <div class="text-dark mb-4">
+                                <h4 class="fs-5" style="color: #ff4f9d;">
+                                    Các sản phẩm có thể tham khảo
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a class="btn btn-primary py-2 px-4" href="">Load More Products</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid testimonial py-5 text-black">
+    <div class="container py-5">
+        <div class="row" style="display: flex; justify-content: center; text-align: center; padding-bottom: 3rem;">
+            <p class="fs-1 text-uppercase highlight-text">Hoàn thành bài trắc nghiệm</p>
+        </div>
+        <div class="container-fluid about py-5"
+             style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(0, 0, 0, 0.1);">
+            <div class="container py-2">
+                <div class="row g-5" style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                    <div class="col-lg-7 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="h-100">
+                            <h4 style="color: #ff4f9d; font-weight: 600;">Kết quả loại da của bạn là</h4>
+                            <h1 class="display-4 mb-4" style="font-weight: 600;">Da khô</h1>
+                            <div class="text-dark mb-4">
+                                <p class="fs-5">
+                                    Nếu bạn là cô nàng da khô, thì cẩn thận nhé. Vì da khô cũng thường rất nhạy cảm, đặc
+                                    biệt cần tránh các thời tiết lạnh; độ ẩm thấp. Bởi những yếu tố đó sẽ khiến làn da
+                                    bạn trở nên trầm trọng hơn. Vấn đề đáng để lưu ý nhất đối với cô nàng da khô, đó
+                                    chính là các vấn đề lão hóa da. Bởi da khô là một trong những loại da nhanh lão hóa
+                                    nhất. Vậy có cách nào để chống lão hóa? Các vấn đề về lão hóa da và kem dưỡng cho da
+                                    lão hóa đều sẽ có tất tần tật trong bài viết
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 wow fadeInRight" data-wow-delay="0.2s"></div>
+                    <div class="col-lg-4 wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="square-container">
+                            <img src="~/images/dry_skin.jpg"
+                                 class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s" style="padding-top: 5rem;">
+                        <div class="h-100">
+                            <div class="text-dark mb-4">
+                                <h4 class="fs-5" style="color: #ff4f9d;">
+                                    Các sản phẩm có thể tham khảo
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a class="btn btn-primary py-2 px-4" href="">Load More Products</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid testimonial py-5 text-black">
+    <div class="container py-5">
+        <div class="row" style="display: flex; justify-content: center; text-align: center; padding-bottom: 3rem;">
+            <p class="fs-1 text-uppercase highlight-text">Hoàn thành bài trắc nghiệm</p>
+        </div>
+        <div class="container-fluid about py-5"
+             style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(0, 0, 0, 0.1);">
+            <div class="container py-2">
+                <div class="row g-5" style="margin-left: 0.5rem; margin-right: 0.5rem;">
+                    <div class="col-lg-7 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="h-100">
+                            <h4 style="color: #ff4f9d; font-weight: 600;">Kết quả loại da của bạn là</h4>
+                            <h1 class="display-4 mb-4" style="font-weight: 600;">Da nhạy cảm</h1>
+                            <div class="text-dark mb-4">
+                                <p class="fs-5">
+                                    Tèn ten, xin chia buồn với những cô nàng sở hữu làn da nhạy cảm. Những cô nàng này
+                                    hẳn sẽ rất khó khăn trong việc chăm sóc da. Bởi da nhạy cảm là một trong những loại
+                                    da “khó chiều” nhất. Khả năng đề kháng của da nhạy cảm khá yếu, nên việc chọn lựa
+                                    đúng phương pháp chăm sóc da là vô cùng quan trọng. Tuy nhiên, đừng nản nhé các cô
+                                    gái.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 wow fadeInRight" data-wow-delay="0.2s"></div>
+                    <div class="col-lg-4 wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="square-container">
+                            <img src="~/images/sensitice_skin.jpg"
+                                 class="img-fluid" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s" style="padding-top: 5rem;">
+                        <div class="h-100">
+                            <div class="text-dark mb-4">
+                                <h4 class="fs-5" style="color: #ff4f9d;">
+                                    Các sản phẩm có thể tham khảo
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBYjIqHSYgYvPGPG6am6YIUSivFpE7J-SrEg&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Shining Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvExKoF3eUL6oF1kYdlMZbIPPsKZHdQdR52A&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti-dandruff Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Anti Hair Fall Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                                <div class="product-item text-center border h-100 p-4">
+                                    <img class="img-fluid mb-4"
+                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx2jPyFejXUkQYjhVY8fFnDZMWdwiq_VCt-g&s"
+                                         alt="">
+
+                                    <a href="" class="product-name d-inline-block mb-2">Hair Growing Shampoo</a>
+                                    <h5 class="text-primary mb-3">$99.99</h5>
+                                    <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a class="btn btn-primary py-2 px-4" href="">Load More Products</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

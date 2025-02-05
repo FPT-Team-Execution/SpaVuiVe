@@ -273,4 +273,11 @@
     <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\css\skin-result.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
