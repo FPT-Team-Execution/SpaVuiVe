@@ -83,7 +83,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		{
 			try
 			{
-				var response = await promotionUsageService.Get();
+				var response = await promotionUsageService.GetAll();
 				return response != null ?
 					StatusCode(response.Status, response)
 					:

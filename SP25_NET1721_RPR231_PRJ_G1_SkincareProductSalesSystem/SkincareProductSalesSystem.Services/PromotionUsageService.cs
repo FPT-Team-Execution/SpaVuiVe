@@ -19,7 +19,7 @@ namespace SkincareProductSalesSystem.Services
 		Task<IServiceResult> Create(CreatePromotionUsageRequest request);
 		Task<IServiceResult> Update(UpdatePromotionUsageRequest request);
 		Task<IServiceResult> Delete(string promoUsageId);
-		Task<IServiceResult> Get();
+		Task<IServiceResult> GetAll();
 		Task<IServiceResult> GetById(string promoUsageId);
 
 
@@ -57,6 +57,7 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = 201,
+					Message = "Thành công",
 					Data = promoUsage
 				};
 			}
@@ -70,13 +71,13 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-		public async Task<IServiceResult> Get()
+		public async Task<IServiceResult> GetAll()
 		{
 			var result = await _uOW.PromotionUsageRepository.GetAllAsync();
 			return new ServiceResult()
 			{
-				Status = result != null ? 200 : 404,
-				Message = result != null ? "Thành công" : "Không tìm thấy",
+				Status = (result.Count > 0) ? 200 : 404,
+				Message = (result.Count > 0) ? "Thành công" : "Không tìm thấy",
 				Data = result
 			};
 		}
@@ -115,7 +116,7 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = 204,
+					Status = 200,
 					Message = "Thành công",
 					Data = promoUsage
 				};
@@ -140,7 +141,7 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = 204,
+					Status = 200,
 					Message = "Thành công"
 				};
 			}

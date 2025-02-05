@@ -19,7 +19,6 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		}
 
 		[HttpPost]
-		[Authorize]
 		public async Task<IActionResult> Create(CreatePromotionRequest model)
 		{
 			try
@@ -42,12 +41,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		}
 
 		[HttpGet]
-		[Authorize]
 		public async Task<IActionResult> Get()
 		{
 			try
 			{
-				var response = await _promotionService.GetCodes();
+				var response = await _promotionService.GetAll();
 
 				return response != null ?
 					StatusCode(response.Status, (response))
@@ -61,7 +59,26 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[Authorize]
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> Get(string id)
+		{
+			try
+			{
+				var response = await _promotionService.GetById(id);
+
+				return response != null ?
+					StatusCode(response.Status, (response))
+					:
+					StatusCode(500, "No Response");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
+
 		[HttpDelete]
 		public async Task<IActionResult> Delete(DeletePromotionRequest model)
 		{
