@@ -18,7 +18,7 @@ public class Index : PageModel
     public string? FilterBy { get; set; }
     public string? FilterQuery { get; set; }
     public string? SortBy { get; set; }
-    public string? SortType { get; set; }
+    public bool IsAsc { get; set; }
 
     public Index(ApiClient apiClient)
     {
@@ -31,11 +31,19 @@ public class Index : PageModel
 
         Size = int.TryParse(Request.Query["size"], out var size) ? size : 10;
 
+        FilterBy = "Name";
+
+        FilterQuery = Request.Query["filterQuery"];
+
         Category = Request.Query["category"];
+
+        SortBy = "Price";
+
+        IsAsc = bool.TryParse(Request.Query["isAsc"], out var isAsc) ? isAsc : true;
 
         var categoryTask = _apiClient.GetAsync("/categories?page=1&size=100");
         var productTask = _apiClient.GetAsync(
-            $"/products?FilterBy={FilterBy}&FilterQuery={FilterQuery}&Page={Page}&Size={Size}&Category={Category}&SortBy={SortBy}&SortType={SortType}"
+            $"/products?FilterBy={FilterBy}&FilterQuery={FilterQuery}&Page={Page}&Size={Size}&Category={Category}&SortBy={SortBy}&IsAsc={IsAsc}"
         );
         var brandTask = _apiClient.GetAsync("/brands?page=1&size=100");
 
