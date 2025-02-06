@@ -17,8 +17,11 @@ namespace SkincareProductSalesSystem.Services
         Task<IServiceResult> GetAllAsync();
         Task<IServiceResult> GetAsync(string id);
         Task<IServiceResult> Create(CreateSkinTestRequest request);
+        Task<IServiceResult> CreateOption(string questionId, CreateSkinTestOptionRequest request);
         Task<IServiceResult> Update(string id, UpdateSkinTestRequest skinType);
+        Task<IServiceResult> UpdateOption(string questionId, UpdateOptionRequest request);
         Task<IServiceResult> Delete(string id);
+        Task<IServiceResult> DeleteOption(string questionId, string optionId);
 
     }
     public class SkinTestService : ISkinTestService
@@ -103,6 +106,8 @@ namespace SkincareProductSalesSystem.Services
             {
                 await _unitOfWork.SkinTestOptionRepository.RemoveAsync(option);
             }
+            await _unitOfWork.SkinTestOptionRepository.SaveAsync();
+
 
             await _unitOfWork.SkinTestRepository.RemoveAsync(skinTest);
             await _unitOfWork.SkinTestRepository.SaveAsync();
@@ -111,6 +116,24 @@ namespace SkincareProductSalesSystem.Services
                 Status = 200,
                 Message = "Thành công",
                 Data = skinTest
+            };
+        }
+        public async Task<IServiceResult> DeleteOption(string questionId, string optionId)
+        {
+            var question = await _unitOfWork.SkinTestRepository.GetByIdAsync(questionId);
+            if (question == null) return new ServiceResult(404, "Không tìm thấy câu hỏi");
+
+            var option = await _unitOfWork.SkinTestOptionRepository.GetByIdAsync(questionId, optionId);
+            if (option == null) return new ServiceResult(404, "Không tìm thấy lựa chọn");
+         
+
+            await _unitOfWork.SkinTestOptionRepository.RemoveAsync(option);
+            await _unitOfWork.SkinTestOptionRepository.SaveAsync();
+            return new ServiceResult
+            {
+                Status = 200,
+                Message = "Thành công",
+                Data = option
             };
         }
 
