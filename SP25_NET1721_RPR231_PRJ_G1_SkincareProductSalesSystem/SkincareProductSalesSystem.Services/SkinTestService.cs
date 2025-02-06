@@ -39,6 +39,21 @@ namespace SkincareProductSalesSystem.Services
             };
 
             await _unitOfWork.SkinTestRepository.CreateAsync(newSkinTest);
+            //create options
+            if (request.Options != null && request.Options.Any())
+            {
+                foreach (var option in request.Options)
+                {
+                    var newOption = new SkinTestOption
+                    {
+                        OptionId = Guid.NewGuid().ToString(),
+                        OptionText = option.OptionText,
+                        QuestionId = newSkinTest.QuestionId,
+                        SkinTypeId = option.SkinTypeId
+                    };
+                    await _unitOfWork.SkinTestOptionRepository.CreateAsync(newOption);
+                }
+            }
             await _unitOfWork.SkinTestRepository.SaveAsync();
             return new ServiceResult
             {
@@ -126,5 +141,13 @@ public class CreateSkinTestRequest
     public string Question { get; set; } = string.Empty;
 
     public int? QuestionOrder { get; set; }
+
+    public List<CreateSkinTestOptionRequest> Options { get; set; }
+}
+public class CreateSkinTestOptionRequest
+{
+    public string OptionText { get; set; }
+
+    public string SkinTypeId { get; set; }
 }
 
