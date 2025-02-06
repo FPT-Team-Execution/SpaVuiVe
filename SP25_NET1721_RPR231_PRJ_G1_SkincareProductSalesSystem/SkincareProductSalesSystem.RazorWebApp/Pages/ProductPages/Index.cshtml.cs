@@ -11,10 +11,15 @@ public class Index : PageModel
 {
     private readonly ApiClient _apiClient;
     public ContentData contentData { get; set; } = new();
-    
+
     public int Page { get; set; }
     public int Size { get; set; }
-    
+    public string? Category { get; set; }
+    public string? FilterBy { get; set; }
+    public string? FilterQuery { get; set; }
+    public string? SortBy { get; set; }
+    public string? SortType { get; set; }
+
     public Index(ApiClient apiClient)
     {
         _apiClient = apiClient;
@@ -22,15 +27,16 @@ public class Index : PageModel
 
     public async Task OnGetAsync()
     {
-        
-         // Lấy giá trị page từ query string, nếu không có thì mặc định là 1
         Page = int.TryParse(Request.Query["page"], out var page) ? page : 1;
 
-        // Lấy giá trị size từ query string, nếu không có thì mặc định là 10
         Size = int.TryParse(Request.Query["size"], out var size) ? size : 10;
-        
+
+        Category = Request.Query["category"];
+
         var categoryTask = _apiClient.GetAsync("/categories?page=1&size=100");
-        var productTask = _apiClient.GetAsync($"/products?page={Page}&size={Size}");
+        var productTask = _apiClient.GetAsync(
+            $"/products?FilterBy={FilterBy}&FilterQuery={FilterQuery}&Page={Page}&Size={Size}&Category={Category}&SortBy={SortBy}&SortType={SortType}"
+        );
         var brandTask = _apiClient.GetAsync("/brands?page=1&size=100");
 
         await Task.WhenAll(categoryTask, productTask, brandTask);

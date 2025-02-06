@@ -34,8 +34,6 @@ builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
 builder.Services.AddScoped<ISkinTestService, SkinTestService>();
 builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
 builder.Services.AddScoped<IChatBotService, ChatBotService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -4,8 +4,10 @@ using SkincareProductSalesSystem.Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.Execution;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -25,7 +27,7 @@ namespace SkincareProductSalesSystem.Services
         public string BrandId { get; set; }
 
         public int? StockQuantity { get; set; }
-        
+
         public IFormFile ImageFile { get; set; }
 
         public string Ingredients { get; set; }
@@ -46,7 +48,7 @@ namespace SkincareProductSalesSystem.Services
         public string BrandId { get; set; }
 
         public int? StockQuantity { get; set; }
-        
+
         public IFormFile ImageFile { get; set; }
 
         public string Ingredients { get; set; }
@@ -54,9 +56,20 @@ namespace SkincareProductSalesSystem.Services
         public bool? IsActive { get; set; }
     }
 
+    public class GetAllProductQuery
+    {
+        public int Page { get; set; } = 1;
+        public int Size { get; set; } = 10;
+        public string? Category { get; set; }
+        public string? FilterBy { get; set; }
+        public string? FilterQuery { get; set; }
+        public string? SortBy { get; set; }
+        public string? SortType { get; set; }
+    }
+
     public interface IProductService
     {
-        Task<IServiceResult> GetAllAsync(int page, int size);
+        Task<IServiceResult> GetAllAsync(GetAllProductQuery query);
         Task<IServiceResult> GetAsync(string id);
         Task<IServiceResult> Create(CreateProductRequest request);
         Task<IServiceResult> Update(string id, UpdateProductRequest request);
@@ -113,9 +126,48 @@ namespace SkincareProductSalesSystem.Services
             };
         }
 
-        public async Task<IServiceResult> GetAllAsync(int page, int size)
+        public async Task<IServiceResult> GetAllAsync(GetAllProductQuery query)
         {
-            var products = await _unitOfWork.ProductRepository.GetPagingListAsync(page: page, size: size, include:x=> x.Include(x=>x.Category).Include(x=>x.Brand));
+            Expression<Func<Product, bool>> predicate = x => true;
+
+
+            if (query.Category is not null)
+            {
+                Expression<Func<Product, bool>> categoryFilter = x => x.Category.Name == query.Category;
+                predicate = CombineExpressions(predicate, categoryFilter);
+            }
+
+            if (!string.IsNullOrEmpty(query.FilterBy) && !string.IsNullOrEmpty(query.FilterQuery))
+            {
+                Expression<Func<Product, bool>>? filterExpression = query.FilterBy.ToLower() switch
+                {
+                    "name" => x => x.Name.Contains(query.FilterQuery),
+                    _ => null
+                };
+
+                if (filterExpression != null)
+                {
+                    predicate = CombineExpressions(predicate, filterExpression);
+                }
+            }
+
+            Func<IQueryable<Product>, IOrderedQueryable<Product>> orderBy = null;
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                orderBy = query.SortType?.ToLower() == "desc"
+                    ? q => q.OrderByDescending(x => EF.Property<Product>(x, query.SortBy))
+                    : q => q.OrderBy(x => EF.Property<Product>(x, query.SortBy));
+            }
+
+
+            var products = await _unitOfWork.ProductRepository.GetPagingListAsync(
+                predicate: predicate,
+                orderBy: orderBy,
+                page: query.Page,
+                size: query.Size,
+                include:
+                x => x.Include(x => x.Category).Include(x => x.Brand)
+            );
             return new ServiceResult
             {
                 Status = 200,
@@ -159,6 +211,23 @@ namespace SkincareProductSalesSystem.Services
                 Message = "Thành công",
                 Data = product
             };
+        }
+
+        private Expression<Func<T, bool>> CombineExpressions<T>(
+            Expression<Func<T, bool>> first,
+            Expression<Func<T, bool>> second)
+        {
+            if (first == null) return second;
+            if (second == null) return first;
+
+            var parameter = Expression.Parameter(typeof(T));
+
+            var combined = Expression.AndAlso(
+                Expression.Invoke(first, parameter),
+                Expression.Invoke(second, parameter)
+            );
+
+            return Expression.Lambda<Func<T, bool>>(combined, parameter);
         }
     }
 }

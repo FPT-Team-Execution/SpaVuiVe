@@ -16,9 +16,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
         }
 
         [HttpGet("/products")]
-        public async Task<IActionResult> GetAllProduct([FromQuery] int page = 1, [FromQuery] int size = 10)
+        public async Task<IActionResult> GetAllProduct([FromQuery] GetAllProductQuery query)
         {
-            var response = await _productService.GetAllAsync(page: page, size: size);
+            var response = await _productService.GetAllAsync(query);
             return response != null ? Ok(response) : StatusCode(500);
         }
 
