@@ -1,4 +1,5 @@
-﻿using SkincareProductSalesSystem.Repositories;
+﻿using AutoMapper;
+using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Base;
 using SkincareProductSalesSystem.Services.Models.SkinTestModels;
@@ -23,10 +24,12 @@ namespace SkincareProductSalesSystem.Services
     public class SkinTestService : ISkinTestService
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public SkinTestService()
+        public SkinTestService(IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
+            _mapper = mapper;
         }
         public async Task<IServiceResult> Create(CreateSkinTestRequest request)
         {
@@ -89,22 +92,24 @@ namespace SkincareProductSalesSystem.Services
         {
             var skinTest = await _unitOfWork.SkinTestRepository.GetByIdAsync(id);
             if (skinTest == null) return new ServiceResult(404, "Không tìm thấy");
+
+            SkinTestModel skinTestModel = _mapper.Map<SkinTestModel>(skinTest);
             return new ServiceResult
             {
                 Status = 200,
                 Message = "Thành công",
-                Data = skinTest
+                Data = skinTestModel
             };
         }
 
         public async Task<IServiceResult> GetAllAsync()
         {
-            var skinTypes = await _unitOfWork.SkinTestRepository.GetAllAsync();
+            var skinTests = await _unitOfWork.SkinTestRepository.GetAllAsync();
             return new ServiceResult
             {
                 Status = 200,
                 Message = "Thành công",
-                Data = skinTypes
+                Data = _mapper.Map<List<SkinTestModel>>(skinTests)
             };
         }
 
