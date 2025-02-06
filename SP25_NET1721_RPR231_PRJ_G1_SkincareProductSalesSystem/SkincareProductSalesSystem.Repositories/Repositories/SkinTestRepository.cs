@@ -8,8 +8,11 @@ namespace SkincareProductSalesSystem.Repositories
     {
         public new async Task<SkinTestQuestion?> GetByIdAsync(string id)
         {
-            return await _context.Set<SkinTestQuestion>().FindAsync(id);
+            return await _context.Set<SkinTestQuestion>().Include(q => q.SkinTestOptions).FirstOrDefaultAsync(x => x.QuestionId.Equals(id));
         }
-      
+        public new async Task<List<SkinTestQuestion>> GetAllAsync()
+        {
+            return await _context.Set<SkinTestQuestion>().Include(q => q.SkinTestOptions).ToListAsync();
+        }
     }
 }
