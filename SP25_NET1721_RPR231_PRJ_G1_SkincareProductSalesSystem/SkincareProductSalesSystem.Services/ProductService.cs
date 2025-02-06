@@ -64,7 +64,7 @@ namespace SkincareProductSalesSystem.Services
         public string? FilterBy { get; set; }
         public string? FilterQuery { get; set; }
         public string? SortBy { get; set; }
-        public string? SortType { get; set; }
+        public bool IsAsc { get; set; }
     }
 
     public interface IProductService
@@ -154,9 +154,9 @@ namespace SkincareProductSalesSystem.Services
             Func<IQueryable<Product>, IOrderedQueryable<Product>> orderBy = null;
             if (!string.IsNullOrEmpty(query.SortBy))
             {
-                orderBy = query.SortType?.ToLower() == "desc"
-                    ? q => q.OrderByDescending(x => EF.Property<Product>(x, query.SortBy))
-                    : q => q.OrderBy(x => EF.Property<Product>(x, query.SortBy));
+                orderBy = query.IsAsc
+                    ? q => q.OrderBy(x => EF.Property<Product>(x, query.SortBy))
+                    : q => q.OrderByDescending(x => EF.Property<Product>(x, query.SortBy));
             }
 
 

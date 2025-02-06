@@ -100,9 +100,9 @@
         <!-- Sidebar -->
         <div class="col-md-3 sidebar">
             <h2 class="mb-4">Shop</h2>
-            <form class="mb-4" action="#" method="GET">
+            <form id="searchForm" class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" style="background-color: whitesmoke"
+                    <input type="text" id="searchInput" class="form-control" style="background-color: whitesmoke"
                            placeholder="Search keywords">
                     <button style="background-color: pink" class="btn" type="submit">Search</button>
                 </div>
@@ -112,6 +112,9 @@
             <ul class="list-group list-group-flush mb-3">
                 @if (Model.contentData.Categories.Any())
                 {
+                    <li class="list-group-item">
+                        <button onclick="onChangeCategory('')" class="btn btn-light">All</button>
+                    </li>
                     foreach (var category in Model.contentData.Categories)
                     {
                         <li class="list-group-item">
@@ -141,31 +144,23 @@
                     <p>No brands found.</p>
                 }
             </ul>
-
-            <h4>Price</h4>
-            <div class="slider-container mb-3">
-                <span class="slider-value" id="sliderValue">50</span>
-                <input type="range" class="form-range" min="0" max="500" value="50" id="priceRange">
-            </div>
-            <script>
-                const priceRange = document.getElementById('priceRange');
-                const sliderValue = document.getElementById('sliderValue');
-
-                priceRange.addEventListener('input', function () {
-                    sliderValue.textContent = priceRange.value;
-                    const percent = (priceRange.value - priceRange.min) / (priceRange.max - priceRange.min);
-                    sliderValue.style.left = `calc(${percent * 100}% - 20px)`;
-                });
-            </script>
         </div>
 
         <!-- Main Content -->
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <select class="form-select w-auto">
-                    <option selected>Default Sorting: Nothing</option>
-                    <option>Price Low to High</option>
-                    <option>Price High to Low</option>
+                <select class="form-select w-auto" onchange="changeSortType(this)">
+
+                    @if (Request.Query["isAsc"] == "true")
+                    {
+                        <option selected value="true">Price Low to High</option>
+                        <option value="false">Price High to Low</option>
+                    }
+                    else
+                    {
+                        <option value="true">Price Low to High</option>
+                        <option selected value="false">Price High to Low</option>
+                    }
                 </select>
                 <select class="form-select w-auto" id="size" name="size" onchange="changeSize(this)">
                     <option value="@Model.Size">Choose Size: @Model.Size</option>
@@ -260,7 +255,7 @@
                         for (int i = 1; i <= Model.contentData.Products.TotalPages; i++)
                         {
                             var activeClass = i == Model.contentData.Products.Page ? "active" : "";
-                            <li style="cursor: pointer" class="page-item @activeClass" >
+                            <li style="cursor: pointer" class="page-item @activeClass">
                                 <a class="page-link" onclick="changePage(@i)">@i</a>
                             </li>
                         }
@@ -286,9 +281,41 @@
     }
     function onChangeCategory(categoryName) {
         var url = new URL(window.location);
-        url.searchParams.set('category', categoryName);
+        
+        if (categoryName !== '') {
+            url.searchParams.set('category', categoryName);
+        } else  {
+            url.searchParams.delete('category');
+        }
+        
         window.location.href = url.toString();
     }
+    function changeSortType(select) {
+        var sortType = select.value;
+        var url = new URL(window.location);
+        url.searchParams.set('isAsc', sortType);
+        window.location.href = url.toString();
+
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("searchForm");
+        const input = document.getElementById("searchInput");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn reload trang
+
+            const searchQuery = input.value.trim();
+            const url = new URL(window.location.href);
+
+            if (searchQuery) {
+                url.searchParams.set("filterQuery", searchQuery);
+            } else {
+                url.searchParams.delete("filterQuery");
+            }
+
+            window.location.href= url.toString();
+        });
+    });
     
 </script>
 
