@@ -2,14 +2,12 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkincareProductSalesSystem.Repositories.Models;
 
 public partial class Promotion
 {
-	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	public string PromotionId { get; set; }
+    public string PromotionId { get; set; }
 
     public string Code { get; set; }
 

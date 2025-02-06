@@ -29,16 +29,12 @@ namespace SkincareProductSalesSystem.Services
         }
         public async Task<IServiceResult> Create(CreateSkinTestRequest request)
         {
-            var newSkinTest = new SkinTest
+            var newSkinTest = new SkinTestQuestion
             {
-                TestId = Guid.NewGuid().ToString(),
-                OptionA = request.OptionA,
-                OptionB = request.OptionB,
-                OptionC = request.OptionC,
-                OptionD = request.OptionD,
+                QuestionId = Guid.NewGuid().ToString(),
                 Question = request.Question,
-                CorrectSkinTypeId = request.CorrectSkinTypeId,
                 QuestionOrder = request.QuestionOrder,
+                IsActive = true,
                 CreatedAt = DateTime.Now,
             };
 
@@ -95,13 +91,8 @@ namespace SkincareProductSalesSystem.Services
             var skinTest = await _unitOfWork.SkinTestRepository.GetByIdAsync(id);
             if (skinTest == null) return new ServiceResult(404, "Không tìm thấy");
 
-            //update skin type
-            skinTest.OptionA = skinTypeRequest.OptionA;
-            skinTest.OptionB = skinTypeRequest.OptionB;
-            skinTest.OptionC = skinTypeRequest.OptionC;
-            skinTest.OptionD = skinTypeRequest.OptionD;
+            //update skin test
             skinTest.Question = skinTypeRequest.Question;
-            skinTest.CorrectSkinTypeId = skinTypeRequest.CorrectSkinTypeId;
             skinTest.QuestionOrder = skinTypeRequest.QuestionOrder;
 
 
@@ -125,15 +116,7 @@ public class UpdateSkinTestRequest
 {
     public string Question { get; set; } = string.Empty;
 
-    public string OptionA { get; set; } = string.Empty;
-
-    public string OptionB { get; set; } = string.Empty;
-
-    public string OptionC { get; set; } = string.Empty;
-
-    public string OptionD { get; set; } = string.Empty;
-
-    public string CorrectSkinTypeId { get; set; } = string.Empty;
+    public bool IsActive { get; set; } = false;
 
     public int? QuestionOrder { get; set; }
 }
@@ -141,16 +124,6 @@ public class UpdateSkinTestRequest
 public class CreateSkinTestRequest
 {
     public string Question { get; set; } = string.Empty;
-
-    public string OptionA { get; set; } = string.Empty;
-
-    public string OptionB { get; set; } = string.Empty;
-
-    public string OptionC { get; set; } = string.Empty;
-
-    public string OptionD { get; set; } = string.Empty;
-
-    public string CorrectSkinTypeId { get; set; } = string.Empty;
 
     public int? QuestionOrder { get; set; }
 }
