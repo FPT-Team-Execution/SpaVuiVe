@@ -110,12 +110,12 @@
 
             <h4>Categories</h4>
             <ul class="list-group list-group-flush mb-3">
-                @if (Model.contentData.Categories.Any())
+                @if (Model.indexProductPageData.Categories.Any())
                 {
                     <li class="list-group-item">
                         <button onclick="onChangeCategory('')" class="btn btn-light">All</button>
                     </li>
-                    foreach (var category in Model.contentData.Categories)
+                    foreach (var category in Model.indexProductPageData.Categories)
                     {
                         <li class="list-group-item">
                             <button onclick="onChangeCategory('@category.Name')" class="btn bg-pink">@category.Name</button>
@@ -130,9 +130,9 @@
 
             <h4>Brands</h4>
             <ul class="list-group list-group-flush mb-3">
-                @if (Model.contentData.Brands.Any())
+                @if (Model.indexProductPageData.Brands.Any())
                 {
-                    foreach (var brand in Model.contentData.Brands)
+                    foreach (var brand in Model.indexProductPageData.Brands)
                     {
                         <li class="list-group-item">
                             <input type="checkbox"> @brand.Name
@@ -173,19 +173,19 @@
 
             <div class="row g-3">
                 <!-- Product Card -->
-                @if (Model.contentData.Products.Items.Any())
+                @if (Model.indexProductPageData.Products.Items.Any())
                 {
-                    @foreach (var product in Model.contentData.Products.Items)
+                    @foreach (var product in Model.indexProductPageData.Products.Items)
                     {
                         <div class="col-4">
                             <div class="product-item">
                                 <figure>
-                                    <a href="index.html" title="Product Title">
+                                    <a title="Product Title">
                                         <img src="@product.ImageUrl" alt="Product Thumbnail" class="tab-image">
                                     </a>
                                 </figure>
                                 <div class="d-flex flex-column text-center">
-                                    <h3 class="fs-6 fw-normal">@product.Name</h3>
+                                    <h3 class="fs-6 fw-normal"><a href="/ProductPages/Details?productId=@product.ProductId">@product.Name</a></h3>
                                     <div>
                                         <span class="rating">
                                             <svg width="18" height="18" class="text-warning">
@@ -252,9 +252,9 @@
             <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                     @{
-                        for (int i = 1; i <= Model.contentData.Products.TotalPages; i++)
+                        for (int i = 1; i <= Model.indexProductPageData.Products.TotalPages; i++)
                         {
-                            var activeClass = i == Model.contentData.Products.Page ? "active" : "";
+                            var activeClass = i == Model.indexProductPageData.Products.Page ? "active" : "";
                             <li style="cursor: pointer" class="page-item @activeClass">
                                 <a class="page-link" onclick="changePage(@i)">@i</a>
                             </li>
