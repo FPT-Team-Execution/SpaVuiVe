@@ -79,7 +79,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[SkinTest]",
+         "Name": "[dbo].[SkinTestOption]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SkinTestQuestion]",
          "ObjectType": 0
       },
       {
@@ -88,6 +92,10 @@
       },
       {
          "Name": "[dbo].[User]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserAccount]",
          "ObjectType": 0
       }
    ],
