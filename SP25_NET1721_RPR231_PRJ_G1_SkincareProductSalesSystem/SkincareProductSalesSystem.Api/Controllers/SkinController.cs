@@ -19,10 +19,10 @@ namespace SkincareProductSalesSystem.Api.Controllers
         }
 
         [HttpGet("/skin-tests")]
-        public IActionResult GetAllSkinTest()
+        public async Task<IActionResult> GetAllSkinTest()
         {
-            var responses =  _skinTestService.GetAllAsync();
-            return (responses != null) ? Ok(responses.Result) : StatusCode(500);
+            var responses =  await _skinTestService.GetAllAsync();
+            return (responses != null) ? Ok(responses) : StatusCode(500);
         }
 
         [HttpGet("/skin-tests/{id}")]
