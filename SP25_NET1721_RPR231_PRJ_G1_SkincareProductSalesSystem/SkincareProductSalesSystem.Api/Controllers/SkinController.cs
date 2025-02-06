@@ -31,6 +31,12 @@ namespace SkincareProductSalesSystem.Api.Controllers
             var response = _skinTestService.GetAsync(id);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
+        [HttpGet("/skin-tests/{questionId}/options/{optionId}")]
+        public IActionResult GetById(string questionId, string optionId)
+        {
+            var response = _skinTestService.GetOptionAsync(questionId, optionId);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
         [HttpPost("/skin-tests")]
         public IActionResult CreateSkinTestQuestion(CreateSkinTestRequest request)
         {

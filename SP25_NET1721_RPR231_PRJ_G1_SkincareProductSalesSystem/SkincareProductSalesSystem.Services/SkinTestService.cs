@@ -16,6 +16,7 @@ namespace SkincareProductSalesSystem.Services
     {
         Task<IServiceResult> GetAllAsync();
         Task<IServiceResult> GetAsync(string id);
+        Task<IServiceResult> GetOptionAsync(string questionId, string optionId);
         Task<IServiceResult> Create(CreateSkinTestRequest request);
         Task<IServiceResult> CreateOption(string questionId, CreateSkinTestOptionRequest request);
         Task<IServiceResult> Update(string id, UpdateSkinTestRequest skinType);
@@ -148,6 +149,17 @@ namespace SkincareProductSalesSystem.Services
                 Status = 200,
                 Message = "Thành công",
                 Data = skinTestModel
+            };
+        }
+        public async Task<IServiceResult> GetOptionAsync(string questionId, string optionId)
+        {
+            var option = await _unitOfWork.SkinTestOptionRepository.GetByIdAsync(questionId, optionId);
+            if (option == null) return new ServiceResult(404, "Không tìm thấy");
+            return new ServiceResult
+            {
+                Status = 200,
+                Message = "Thành công",
+                Data = option
             };
         }
 
