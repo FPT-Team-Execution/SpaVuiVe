@@ -15,10 +15,5 @@ namespace SkincareProductSalesSystem.Services.Models.SkinTestModels
 
         public List<CreateSkinTestOptionRequest> Options { get; set; }
     }
-    public class CreateSkinTestOptionRequest
-    {
-        public string OptionText { get; set; }
-
-        public string SkinTypeId { get; set; }
-    }
+  
 }
