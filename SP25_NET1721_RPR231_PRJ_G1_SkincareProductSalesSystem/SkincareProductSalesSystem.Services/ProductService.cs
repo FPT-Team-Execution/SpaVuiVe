@@ -178,7 +178,8 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> GetAsync(string id)
         {
-            var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(x => x.ProductId == id,
+                include: x => x.Include(x => x.Category).Include(x => x.Brand));
             if (product == null) return new ServiceResult(404, "Không tìm thấy");
             return new ServiceResult
             {

@@ -356,12 +356,14 @@
         <div class="col">
             <div class="product-item">
                 <figure>
-                    <a href="index.html" title="Product Title">
+                    <a title="Product Title">
                         <img src="@product.ImageUrl" alt="Product Thumbnail" class="tab-image">
                     </a>
                 </figure>
                 <div class="d-flex flex-column text-center">
-                    <h3 class="fs-6 fw-normal">@product.Name</h3>
+                    <h3 class="fs-6 fw-normal">
+                        <a href="/ProductPages/Details?productId=@product.ProductId">@product.Name</a>
+                    </h3>
                     <div>
                         <span class="rating">
                             <svg width="18" height="18" class="text-warning">

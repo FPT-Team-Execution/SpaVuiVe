@@ -10,7 +10,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.ProductPages;
 public class Index : PageModel
 {
     private readonly ApiClient _apiClient;
-    public ContentData contentData { get; set; } = new();
+    public IndexProductPageData indexProductPageData { get; set; } = new();
 
     public int Page { get; set; }
     public int Size { get; set; }
@@ -53,9 +53,9 @@ public class Index : PageModel
         var productResult = productTask.Result;
         var brandResult = brandTask.Result;
 
-        contentData.Categories = GetItemsFromResponse<Category>(categoryResult).Items ?? new List<Category>();
-        contentData.Products = GetItemsFromResponse<Product>(productResult);
-        contentData.Brands = GetItemsFromResponse<Brand>(brandResult).Items ?? new List<Brand>();
+        indexProductPageData.Categories = GetItemsFromResponse<Category>(categoryResult).Items ?? new List<Category>();
+        indexProductPageData.Products = GetItemsFromResponse<Product>(productResult);
+        indexProductPageData.Brands = GetItemsFromResponse<Brand>(brandResult).Items ?? new List<Brand>();
     }
 
     private Paginate<T> GetItemsFromResponse<T>(ServiceResult response)
@@ -70,7 +70,7 @@ public class Index : PageModel
     }
 }
 
-public class ContentData
+public class IndexProductPageData
 {
     public List<Category> Categories { get; set; } = new List<Category>();
     public Paginate<Product> Products { get; set; } = new Paginate<Product>();
