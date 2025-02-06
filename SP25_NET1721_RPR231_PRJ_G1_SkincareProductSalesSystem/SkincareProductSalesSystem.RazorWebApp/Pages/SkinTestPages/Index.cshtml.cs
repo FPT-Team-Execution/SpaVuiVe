@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using SkincareProductSalesSystem.Common.Utils;
 using SkincareProductSalesSystem.RazorWebApp.Models;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
@@ -19,8 +20,20 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.SkinTestPages
 
         public async Task OnGetAsync()
         {
-            var getSkinTestRes = await _apiClient.GetAsync("/skin-tests");
-            SkinTest = getSkinTestRes.Data as List<SkinTest> ?? [];
+            ServiceResult getSkinTestRes = await _apiClient.GetAsync("/skin-tests");
+            SkinTest = GetItemsFromResponse<List<SkinTest>>(getSkinTestRes);
         }
+        private T GetItemsFromResponse<T>(ServiceResult response) where T : new()
+        {
+            if (response.Status == 200 && response.Data != null)
+            {
+                var result = JsonConvert.DeserializeObject<T>(response.Data.ToString());
+                return result;
+            }
+
+            // If response is invalid, return a new instance of T
+            return new T();
+        }
+
     }
 }

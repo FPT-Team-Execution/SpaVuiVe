@@ -5,21 +5,11 @@ using System.Collections.Generic;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Models;
 
-public partial class SkinTest
+public class SkinTest
 {
-    public string TestId { get; set; }
+    public string QuestionId { get; set; }
 
     public string Question { get; set; }
-
-    public string OptionA { get; set; }
-
-    public string OptionB { get; set; }
-
-    public string OptionC { get; set; }
-
-    public string OptionD { get; set; }
-
-    public string CorrectSkinTypeId { get; set; }
 
     public int? QuestionOrder { get; set; }
 
@@ -27,5 +17,14 @@ public partial class SkinTest
 
     public DateTime? CreatedAt { get; set; }
 
-    public virtual SkinType CorrectSkinType { get; set; }
+    public virtual List<SkinTestOption> SkinTestOptions { get; set; } = new List<SkinTestOption>();
+}
+
+public class SkinTestOption
+{
+    public string OptionId { get; set; }
+
+    public string OptionText { get; set; }
+
+    public string SkinTypeId { get; set; }
 }

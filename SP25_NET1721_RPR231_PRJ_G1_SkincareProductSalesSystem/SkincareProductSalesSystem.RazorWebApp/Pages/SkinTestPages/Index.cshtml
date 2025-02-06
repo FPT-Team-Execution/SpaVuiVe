@@ -29,18 +29,15 @@
                             <div class="row align-items-center">
                                 <div class="col-8">
                                     <div class="services-content text-end">
-                                        <h3>Câu hỏi @i</h3>
-                                        <p>@Model.SkinTest[i]</p>
-                                        <div class="row mb-3">
-                                            <div class="col-6 d-flex flex-column justify-content-between">
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">A. @Model.SkinTest[i].OptionA</a>
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">B. @Model.SkinTest[i].OptionB</a>
-                                            </div>
-                                            <div class="col-6 d-flex flex-column justify-content-between">
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">C. @Model.SkinTest[i].OptionC</a>
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">D. @Model.SkinTest[i].OptionD</a>
-                                            </div>
-                                        </div>
+                                        <h3>Câu hỏi @(i + 1)</h3>
+                                        <p>@Model.SkinTest[i].Question</p>
+                                        @foreach (var option in Model.SkinTest[i].SkinTestOptions)
+                                        {
+                                            <a href="#" class="btn rounded-pill py-2 px-4 mx-2 my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">
+                                                @option.OptionText
+                                            </a>
+                                        }
+                                       
                                     </div>
                                 </div>
                                 <div class="col-4">
