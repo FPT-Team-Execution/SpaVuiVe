@@ -133,6 +133,32 @@ namespace SkincareProductSalesSystem.Services
             };
 
         }
+        public async Task<IServiceResult> UpdateOption(string questionId, UpdateOptionRequest request)
+        {
+            var question = await _unitOfWork.SkinTestRepository.GetByIdAsync(questionId);
+            if (question == null) return new ServiceResult(404, "Không tìm thấy câu hỏi");
+
+            var option = await _unitOfWork.SkinTestOptionRepository.GetByIdAsync(questionId, request.OptionId);
+            if (option == null) return new ServiceResult(404, "Không tìm thấy lựa chọn");
+
+            var skinType = await _unitOfWork.SkinTypeRepository.GetByIdAsync(request.SkinTypeId);
+            if (skinType == null) return new ServiceResult(404, "Không tìm thấy loại da");
+
+            //update skin test option
+            option.OptionText = request.OptionText;
+            option.SkinTypeId = skinType.SkinTypeId;
+
+
+            await _unitOfWork.SkinTestOptionRepository.UpdateAsync(option);
+            await _unitOfWork.SkinTestOptionRepository.SaveAsync();
+            return new ServiceResult
+            {
+                Status = 200,
+                Message = "Thành công",
+                Data = option
+            };
+
+        }
 
     }
 

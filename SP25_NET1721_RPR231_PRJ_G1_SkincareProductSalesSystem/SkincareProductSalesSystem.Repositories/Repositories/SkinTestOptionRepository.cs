@@ -15,6 +15,11 @@ namespace SkincareProductSalesSystem.Repositories.Repositories
         {
             return await _context.Set<SkinTestOption>().FindAsync(id);
         }
+        public async Task<SkinTestOption?> GetByIdAsync(string questionId, string optionId)
+        {
+            return await _context.Set<SkinTestOption>().FirstOrDefaultAsync(x => x.QuestionId.Equals(questionId) && x.OptionId.Equals(optionId));
+        }
+       
         public async Task<List<SkinTestOption>> GetByQuestionIdAsync(string questionId)
         {
             return await _context.Set<SkinTestOption>().Where(x => x.QuestionId.Equals(questionId)).ToListAsync();
