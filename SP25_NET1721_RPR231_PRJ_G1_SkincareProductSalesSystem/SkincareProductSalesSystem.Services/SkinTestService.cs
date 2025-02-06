@@ -56,14 +56,40 @@ namespace SkincareProductSalesSystem.Services
                         SkinTypeId = option.SkinTypeId
                     };
                     await _unitOfWork.SkinTestOptionRepository.CreateAsync(newOption);
+
                 }
             }
+            await _unitOfWork.SkinTestOptionRepository.SaveAsync();
+
             await _unitOfWork.SkinTestRepository.SaveAsync();
             return new ServiceResult
             {
                 Status = 200,
                 Message = "Thành công",
                 Data = newSkinTest
+            };
+        }
+        public async Task<IServiceResult> CreateOption(string questionId, CreateSkinTestOptionRequest request)
+        {
+            var question = await _unitOfWork.SkinTestRepository.GetByIdAsync(questionId);
+            if (question == null) return new ServiceResult(404, "Không tìm thấy câu hỏi");
+            var option = new SkinTestOption
+            {
+                OptionId = Guid.NewGuid().ToString(),
+                OptionText = request.OptionText,
+                QuestionId = question.QuestionId,
+                SkinTypeId = request.SkinTypeId
+            };
+
+
+            await _unitOfWork.SkinTestOptionRepository.CreateAsync(option);
+
+            await _unitOfWork.SkinTestOptionRepository.SaveAsync();
+            return new ServiceResult
+            {
+                Status = 200,
+                Message = "Thành công",
+                Data = option
             };
         }
 
