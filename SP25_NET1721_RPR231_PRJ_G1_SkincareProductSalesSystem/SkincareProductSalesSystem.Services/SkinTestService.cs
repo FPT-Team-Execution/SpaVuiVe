@@ -67,6 +67,12 @@ namespace SkincareProductSalesSystem.Services
         {
             var skinTest = await _unitOfWork.SkinTestRepository.GetByIdAsync(id);
             if (skinTest == null) return new ServiceResult(404, "Không tìm thấy");
+            //delete options
+            var options = await _unitOfWork.SkinTestOptionRepository.GetByQuestionIdAsync(skinTest.QuestionId);
+            foreach (var option in options)
+            {
+                await _unitOfWork.SkinTestOptionRepository.RemoveAsync(option);
+            }
 
             await _unitOfWork.SkinTestRepository.RemoveAsync(skinTest);
             await _unitOfWork.SkinTestRepository.SaveAsync();

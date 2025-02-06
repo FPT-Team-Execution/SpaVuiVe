@@ -15,5 +15,9 @@ namespace SkincareProductSalesSystem.Repositories.Repositories
         {
             return await _context.Set<SkinTestOption>().FindAsync(id);
         }
+        public async Task<List<SkinTestOption>> GetByQuestionIdAsync(string questionId)
+        {
+            return await _context.Set<SkinTestOption>().Where(x => x.QuestionId.Equals(questionId)).ToListAsync();
+        }
     }
 }

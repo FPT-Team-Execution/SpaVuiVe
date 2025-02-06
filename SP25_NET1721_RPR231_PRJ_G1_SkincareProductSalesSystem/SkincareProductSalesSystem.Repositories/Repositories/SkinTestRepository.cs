@@ -1,4 +1,5 @@
-﻿using SkincareProductSalesSystem.Repositories.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SkincareProductSalesSystem.Repositories.Base;
 using SkincareProductSalesSystem.Repositories.Models;
 
 namespace SkincareProductSalesSystem.Repositories
@@ -9,5 +10,6 @@ namespace SkincareProductSalesSystem.Repositories
         {
             return await _context.Set<SkinTestQuestion>().FindAsync(id);
         }
+      
     }
 }
