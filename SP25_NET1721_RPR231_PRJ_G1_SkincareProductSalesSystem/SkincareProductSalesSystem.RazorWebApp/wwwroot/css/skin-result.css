@@ -1,11 +1,23 @@
 ﻿* {
     --button-color: #FFFFFF;
+    --white-text-color: #FFFFFF;
     --button-border-color: #ffc0cb;
+    --background-choosen-color: rgb(255, 193, 203);
     --button-border-hover-color: #ff4f9d;
     --text-button-color: #ff4f9d;
     --standard-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+@font-face {
+    font-family: 'Segoe UI';
+    src: url('path-to-font/SegoeUI.woff2') format('woff2'), url('path-to-font/SegoeUI.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 /*** Spinner Start ***/
 #spinner {
@@ -20,6 +32,7 @@
         visibility: visible;
         opacity: 1;
     }
+
 /*** Spinner End ***/
 
 .back-to-top {
@@ -385,6 +398,7 @@
         z-index: -1;
     }
 }
+
 /*** Navbar End ***/
 
 
@@ -531,6 +545,7 @@
         height: 700px;
     }
 }
+
 /*** Carousel Hero Header End ***/
 
 
@@ -553,6 +568,7 @@
         .bg-breadcrumb .breadcrumb .breadcrumb-item a {
             color: var(--bs-white);
         }
+
 /*** Single Page Hero Header End ***/
 
 
@@ -617,6 +633,7 @@
         transform: rotate(45deg);
         z-index: 2;
     }
+
 /*** Banner End ***/
 
 /*** Service Start ***/
@@ -696,6 +713,7 @@
         justify-content: center;
     }
 }
+
 /*** Service End ***/
 
 /*** Projects Start ***/
@@ -726,6 +744,7 @@
     .projects .nav-item a.active .projects-icon span {
         color: var(--bs-primary);
     }
+
 /*** Projects End ***/
 
 
@@ -801,6 +820,7 @@
         .blog .blog-item:hover .blog-heading a.h4:hover {
             color: var(--bs-dark);
         }
+
 /*** Blog End ***/
 
 /*** Team Start ***/
@@ -852,6 +872,7 @@
 .team .team-item:hover .team-content {
     box-shadow: 0 0 20px rgba(0, 0, 0, .2);
 }
+
 /*** Team End ***/
 
 /*** FAQs Start ***/
@@ -871,6 +892,7 @@
             color: var(--bs-dark);
             background: var(--bs-light);
         }
+
 /*** FAQs End ***/
 
 /*** Testimonial Start ***/
@@ -973,6 +995,7 @@
     background: var(--bs-primary);
     transition: 0.5s;
 }
+
 /*** Testimonial End ***/
 
 /*** Footer Start ***/
@@ -1006,6 +1029,7 @@
         .footer .footer-item .footer-btn a:hover {
             color: var(--bs-primary);
         }
+
 /*** Footer End ***/
 
 /*** copyright Start ***/
@@ -1013,6 +1037,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     background: var(--bs-dark);
 }
+
 /*** copyright end ***/
 .highlight-text {
     font-weight: 600;
@@ -1026,23 +1051,30 @@
         content: "";
         position: absolute;
         left: 50%;
-        bottom: 8px; /* Điều chỉnh vị trí */
+        bottom: 8px;
+        /* Điều chỉnh vị trí */
         width: 80%;
-        height: 20px; /* Điều chỉnh độ dày của nền */
-        background: rgb(255, 193, 203, 0.4); /* Màu nền */
+        height: 20px;
+        /* Điều chỉnh độ dày của nền */
+        background: rgb(255, 193, 203, 0.4);
+        /* Màu nền */
         z-index: -1;
         transform: translateX(-50%);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
 .square-image-container {
-    width: 100%; /* Chiều rộng theo thiết kế */
-    aspect-ratio: 1 / 1; /* Luôn giữ tỷ lệ vuông */
-    overflow: hidden; /* Cắt phần dư thừa */
+    width: 100%;
+    /* Chiều rộng theo thiết kế */
+    aspect-ratio: 1 / 1;
+    /* Luôn giữ tỷ lệ vuông */
+    overflow: hidden;
+    /* Cắt phần dư thừa */
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #560e0e; /* Màu nền nếu ảnh không tải */
+    background-color: #560e0e;
+    /* Màu nền nếu ảnh không tải */
     position: relative;
 }
 
@@ -1060,36 +1092,40 @@
 /*** Product ***/
 .product-item {
     transition: .1s;
+    font-family: var(--standard-font-family);
 }
 
     .product-item:hover {
         border-width: 0 !important;
         box-shadow: 0 0 35px rgba(188, 121, 148, 0.25);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: var(--standard-font-family);
     }
 
         .product-item:hover a.btn {
             color: #fff;
             background: var(--button-border-hover-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--standard-font-family);
         }
 
 .btn-outline-primary {
     color: var(--button-border-color);
-    border-color: var(--button-border-color)
+    border-color: var(--button-border-color);
+    font-family: var(--standard-font-family);
 }
 
     .btn-outline-primary:hover {
         color: #000;
         background-color: var(--button-border-color);
-        border-color: var(--button-border-color)
+        border-color: var(--button-border-color);
+        font-family: var(--standard-font-family);
     }
 
 .btn-primary {
     color: #000;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--button-border-hover-color);
-    border-color: var(--button-border-hover-color)
+    border-color: var(--button-border-hover-color);
+    font-family: var(--standard-font-family);
 }
 
 .product-name {
@@ -1100,6 +1136,7 @@
     line-height: 1.2;
     color: #1c2900;
     text-decoration: none;
+    font-family: var(--standard-font-family);
 }
 
 small,
@@ -1114,6 +1151,63 @@ small,
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-a, p, h1, h2, h3, h4, h5, h6 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-family: var(--standard-font-family) !important;
 }
+
+.choose-answer {
+    border-radius: 0.5rem;
+    margin-bottom: 1em;
+    align-items: center;
+}
+
+    .choose-answer:hover {
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -3px -3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .choose-answer p {
+        padding: 0.5rem;
+        padding-left: 2rem;
+        padding-top: 1rem;
+    }
+
+        .choose-answer p span {
+            font-weight: 600;
+            color: #ffc0cb;
+            font-size: 1.5rem;
+        }
+
+    .choose-answer.choosen {
+        background-color: var(--background-choosen-color);
+    }
+
+        .choose-answer.choosen p span {
+            color: var(--white-text-color);
+        }
+
+.square-image-container-question {
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white-text-color);
+    position: relative;
+    margin-right: 2rem;
+}
+
+    .square-image-container-question img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }

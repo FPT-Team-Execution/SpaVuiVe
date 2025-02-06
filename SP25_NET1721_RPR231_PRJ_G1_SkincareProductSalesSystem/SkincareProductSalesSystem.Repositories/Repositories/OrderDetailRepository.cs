@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-﻿using KoiMuseum.Data.Base;
 using Microsoft.EntityFrameworkCore;
-=======
 ﻿using Microsoft.EntityFrameworkCore;
 using SkincareProductSalesSystem.Repositories.Base;
->>>>>>> develop
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Repositories.Paginate;
 
@@ -13,7 +9,6 @@ namespace SkincareProductSalesSystem.Repositories
     public class OrderDetailRepository : GenericRepository<OrderDetail>
     {
         public OrderDetailRepository() { }
-<<<<<<< HEAD
 
         public async Task<List<OrderDetail>> GetOrderDetailsByOrderId(string orderId)
         {
@@ -41,7 +36,5 @@ namespace SkincareProductSalesSystem.Repositories
             var isSuccessfull = (await _context.SaveChangesAsync()) > 0;
             return isSuccessfull ? orderDetail : null;
         }
-=======
->>>>>>> develop
     }
 }

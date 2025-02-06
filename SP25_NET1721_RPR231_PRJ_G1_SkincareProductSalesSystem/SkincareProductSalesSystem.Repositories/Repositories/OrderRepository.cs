@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-﻿using KoiMuseum.Data.Base;
 using Microsoft.EntityFrameworkCore;
-=======
-﻿using Microsoft.EntityFrameworkCore;
 using SkincareProductSalesSystem.Repositories.Base;
->>>>>>> develop
 using SkincareProductSalesSystem.Repositories.Models;
 using System.Collections;
 
@@ -12,7 +7,6 @@ namespace SkincareProductSalesSystem.Repositories
 {
     public class OrderRepository : GenericRepository<Order>
     {
-<<<<<<< HEAD
         public OrderRepository() { }
         public async Task<List<Order>> GetOrderPagination(int page, int size)
         {
@@ -38,7 +32,7 @@ namespace SkincareProductSalesSystem.Repositories
             _context.UpdateRange(order);
             var isSuccessful = await (_context.SaveChangesAsync()) > 0;
             return isSuccessful ? order : null;
-=======
+        }
         public async Task<IEnumerable<Order>> Search(DateTime start, DateTime end, string status, string userId)
         {
             return await _context.Orders
@@ -47,7 +41,6 @@ namespace SkincareProductSalesSystem.Repositories
                         && (string.IsNullOrEmpty(status) || x.Status.Equals(status))
                         &&(x.Customer.UserId.Equals(userId)) || String.IsNullOrEmpty(userId))
                         .ToListAsync();
->>>>>>> develop
         }
     }
 }
