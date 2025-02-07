@@ -3,17 +3,11 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using SkincareProductSalesSystem.Repositories.Models;
 
-namespace SkincareProductSalesSystem.Repositories.Database;
+namespace SkincareProductSalesSystem.Repositories.Models;
 
 public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext : DbContext
 {
-    public SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext()
-    {
-    }
-
     public SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext(DbContextOptions<SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext> options)
         : base(options)
     {
@@ -49,35 +43,21 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
     public virtual DbSet<SkinCareRoutine> SkinCareRoutines { get; set; }
 
-    public virtual DbSet<SkinTestQuestion> SkinTestQuestions { get; set; }
     public virtual DbSet<SkinTestOption> SkinTestOptions { get; set; }
 
+    public virtual DbSet<SkinTestQuestion> SkinTestQuestions { get; set; }
 
     public virtual DbSet<SkinType> SkinTypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-    public static string GetConnectionString(string connectionStringName)
-    {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        string connectionString = config.GetConnectionString(connectionStringName);
-        return connectionString;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnectionString")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
- 
+    public virtual DbSet<UserAccount> UserAccounts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BlogPost>(entity =>
         {
-            entity.HasKey(e => e.PostId).HasName("PK__BlogPost__AA1260385DF445CD");
+            entity.HasKey(e => e.PostId).HasName("PK__BlogPost__AA12603854B77D36");
 
             entity.Property(e => e.PostId)
                 .HasMaxLength(100)
@@ -98,12 +78,12 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
             entity.HasOne(d => d.Author).WithMany(p => p.BlogPosts)
                 .HasForeignKey(d => d.AuthorId)
-                .HasConstraintName("FK__BlogPosts__Autho__440B1D61");
+                .HasConstraintName("FK__BlogPosts__Autho__45F365D3");
         });
 
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.BrandId).HasName("PK__Brand__DAD4F05E519720C7");
+            entity.HasKey(e => e.BrandId).HasName("PK__Brand__DAD4F05EC0AEFB21");
 
             entity.ToTable("Brand");
 
@@ -122,7 +102,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A0B5F2AF4D7");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A0B3976EA4F");
 
             entity.ToTable("Category", tb => tb.HasTrigger("TR_Category_UpdatedAt"));
 
@@ -150,7 +130,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<CustomerAddress>(entity =>
         {
-            entity.HasKey(e => e.CustomerAddressId).HasName("PK__Customer__DB891B7836966F15");
+            entity.HasKey(e => e.CustomerAddressId).HasName("PK__Customer__DB891B780062038A");
 
             entity.ToTable("CustomerAddress");
 
@@ -168,7 +148,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<CustomerProfile>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D82DD1193F");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D868E4A601");
 
             entity.ToTable("CustomerProfile");
 
@@ -206,7 +186,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCFE04B1E45");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCFB97360E1");
 
             entity.ToTable("Order", tb => tb.HasTrigger("TR_Order_UpdatedAt"));
 
@@ -233,7 +213,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
             entity.HasOne(d => d.CustomerAddress).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerAddressId)
-                .HasConstraintName("FK__Order__CustomerA__0F624AF8");
+                .HasConstraintName("FK__Order__CustomerA__14270015");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
@@ -242,7 +222,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__D3B9D36C96BC29B2");
+            entity.HasKey(e => e.OrderDetailId).HasName("PK__OrderDet__D3B9D36C1B161EAA");
 
             entity.ToTable("OrderDetail", tb => tb.HasTrigger("TR_OrderDetail_UpdatedAt"));
 
@@ -277,11 +257,11 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A3830DE1928");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A383384320B");
 
             entity.ToTable("Payment");
 
-            entity.HasIndex(e => e.OrderId, "UQ__Payment__C3905BCE904A0A72").IsUnique();
+            entity.HasIndex(e => e.OrderId, "UQ__Payment__C3905BCE840B09BC").IsUnique();
 
             entity.Property(e => e.PaymentId).HasMaxLength(100);
             entity.Property(e => e.Code)
@@ -313,12 +293,12 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.PaymentMethodId)
-                .HasConstraintName("FK__Payment__Payment__236943A5");
+                .HasConstraintName("FK__Payment__Payment__282DF8C2");
         });
 
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1D39B66D204");
+            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1D3A8D953A5");
 
             entity.ToTable("PaymentMethod");
 
@@ -328,7 +308,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6CD0BB21816");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6CD85693611");
 
             entity.ToTable("Product", tb => tb.HasTrigger("TR_Product_UpdatedAt"));
 
@@ -357,7 +337,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
                 .HasForeignKey(d => d.BrandId)
-                .HasConstraintName("FK__Product__BrandId__571DF1D5");
+                .HasConstraintName("FK__Product__BrandId__59063A47");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
@@ -376,7 +356,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
                         .HasConstraintName("FK_ProductSkinType_Product"),
                     j =>
                     {
-                        j.HasKey("ProductId", "SkinTypeId").HasName("PK__ProductS__1951EFAD26042475");
+                        j.HasKey("ProductId", "SkinTypeId").HasName("PK__ProductS__1951EFADC7FB2ABA");
                         j.ToTable("ProductSkinType");
                         j.IndexerProperty<string>("ProductId").HasMaxLength(100);
                         j.IndexerProperty<string>("SkinTypeId").HasMaxLength(100);
@@ -385,7 +365,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42FCFDB3986B8");
+            entity.HasKey(e => e.PromotionId).HasName("PK__Promotio__52C42FCFEBA2E991");
 
             entity.ToTable("Promotion");
 
@@ -414,7 +394,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<PromotionUsage>(entity =>
         {
-            entity.HasKey(e => e.UsageId).HasName("PK__Promotio__29B19720BC886A48");
+            entity.HasKey(e => e.UsageId).HasName("PK__Promotio__29B1972049DD7CEC");
 
             entity.ToTable("PromotionUsage");
 
@@ -446,7 +426,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__Review__74BC79CE31801353");
+            entity.HasKey(e => e.ReviewId).HasName("PK__Review__74BC79CE3BA3F3F8");
 
             entity.ToTable("Review");
 
@@ -479,7 +459,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<RoutineProduct>(entity =>
         {
-            entity.HasKey(e => e.RoutineProductId).HasName("PK__RoutineP__901DE1BCF531F53F");
+            entity.HasKey(e => e.RoutineProductId).HasName("PK__RoutineP__901DE1BC74672CC3");
 
             entity.ToTable("RoutineProduct");
 
@@ -506,7 +486,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<SkinCareRoutine>(entity =>
         {
-            entity.HasKey(e => e.RoutineId).HasName("PK__SkinCare__A6E3E4FA69B86AC5");
+            entity.HasKey(e => e.RoutineId).HasName("PK__SkinCare__A6E3E4FA16E0BD04");
 
             entity.ToTable("SkinCareRoutine", tb => tb.HasTrigger("TR_SkinCareRoutine_UpdatedAt"));
 
@@ -535,67 +515,53 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
                 .HasConstraintName("FK_SkinCareRoutine_SkinType");
         });
 
-        modelBuilder.Entity<SkinTestQuestion>(entity =>
-        {
-            entity.HasKey(e => e.QuestionId).HasName("PK_SkinTestQuestion");
-
-            entity.ToTable("SkinTestQuestion");
-
-            entity.Property(e => e.QuestionId)
-                .HasMaxLength(100);
-
-            entity.Property(e => e.Question)
-                .IsRequired()
-                .HasMaxLength(500);
-
-            entity.Property(e => e.QuestionOrder)
-                .IsRequired();
-               
-
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true);
-
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("GETDATE()")
-                .HasColumnType("datetime");
-        });
-
         modelBuilder.Entity<SkinTestOption>(entity =>
         {
-            entity.HasKey(e => e.OptionId).HasName("PK_SkinTestOption");
+            entity.HasKey(e => e.OptionId).HasName("PK__SkinTest__92C7A1FF146E7E59");
 
             entity.ToTable("SkinTestOption");
 
-            entity.Property(e => e.OptionId)
-                .HasMaxLength(100);
-
-            entity.Property(e => e.QuestionId)
-                .HasMaxLength(100);
-
+            entity.Property(e => e.OptionId).HasMaxLength(100);
             entity.Property(e => e.OptionText)
                 .IsRequired()
                 .HasMaxLength(200);
-
+            entity.Property(e => e.QuestionId)
+                .IsRequired()
+                .HasMaxLength(100);
             entity.Property(e => e.SkinTypeId)
+                .IsRequired()
                 .HasMaxLength(100);
 
-            entity.HasOne(d => d.Question)
-                .WithMany(p => p.SkinTestOptions)
+            entity.HasOne(d => d.Question).WithMany(p => p.SkinTestOptions)
                 .HasForeignKey(d => d.QuestionId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_SkinTestOption_SkinTestQuestion");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__SkinTestO__Quest__73BA3083");
 
-            entity.HasOne(d => d.SkinType)
-                .WithMany(p => p.SkinTestOptions)
+            entity.HasOne(d => d.SkinType).WithMany(p => p.SkinTestOptions)
                 .HasForeignKey(d => d.SkinTypeId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_SkinTestOption_SkinType");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__SkinTestO__SkinT__74AE54BC");
         });
 
+        modelBuilder.Entity<SkinTestQuestion>(entity =>
+        {
+            entity.HasKey(e => e.QuestionId).HasName("PK__SkinTest__0DC06FAC79CFD5AB");
+
+            entity.ToTable("SkinTestQuestion");
+
+            entity.Property(e => e.QuestionId).HasMaxLength(100);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.Question)
+                .IsRequired()
+                .HasMaxLength(500);
+        });
 
         modelBuilder.Entity<SkinType>(entity =>
         {
-            entity.HasKey(e => e.SkinTypeId).HasName("PK__SkinType__D5D2960BCCBAAAD6");
+            entity.HasKey(e => e.SkinTypeId).HasName("PK__SkinType__D5D2960BAA4AD02B");
 
             entity.ToTable("SkinType");
 
@@ -621,7 +587,7 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4CCBDF1E16");
+            entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4CD69C96ED");
 
             entity.ToTable("User", tb => tb.HasTrigger("TR_User_UpdatedAt"));
 
@@ -668,6 +634,37 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Username)
+                .IsRequired()
+                .HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<UserAccount>(entity =>
+        {
+            entity.ToTable("UserAccount");
+
+            entity.Property(e => e.UserAccountId).HasColumnName("UserAccountID");
+            entity.Property(e => e.ApplicationCode).HasMaxLength(50);
+            entity.Property(e => e.CreatedBy).HasMaxLength(50);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(150);
+            entity.Property(e => e.EmployeeCode)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.FullName)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.Password)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.Phone)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.RequestCode).HasMaxLength(50);
+            entity.Property(e => e.UserName)
                 .IsRequired()
                 .HasMaxLength(50);
         });

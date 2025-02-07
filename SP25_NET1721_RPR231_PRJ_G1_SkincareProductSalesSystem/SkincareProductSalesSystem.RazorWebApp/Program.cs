@@ -6,6 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".SkincareSession"; 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);  
+    options.Cookie.IsEssential = true; 
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ApiClient>();
 builder.Services.Configure<CookiePolicyOptions>(options =>
@@ -49,7 +55,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthentication();

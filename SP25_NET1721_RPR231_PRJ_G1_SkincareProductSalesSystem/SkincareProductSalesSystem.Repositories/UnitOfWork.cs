@@ -22,6 +22,7 @@ namespace SkincareProductSalesSystem.Repositories
         private RoutineProductRepository routineProductRepository;
         private SkinCareRoutineRepository skinCareRoutineRepository;
         private SkinTestRepository skinTestRepository;
+        private SkinTestOptionRepository skinTestOptionRepository;
         private SkinTypeRepository skinTypeRepository;
         private UserRepository userRepository;
 
@@ -46,6 +47,8 @@ namespace SkincareProductSalesSystem.Repositories
         public RoutineProductRepository RoutineProductRepository { get { return routineProductRepository ??= new RoutineProductRepository(); } }
         public SkinCareRoutineRepository SkinCareRoutineRepository { get { return skinCareRoutineRepository ??= new SkinCareRoutineRepository(); } }
         public SkinTestRepository SkinTestRepository { get { return skinTestRepository ??= new SkinTestRepository(); } }
+        public SkinTestOptionRepository SkinTestOptionRepository { get { return skinTestOptionRepository ??= new SkinTestOptionRepository(); } }
+
         public SkinTypeRepository SkinTypeRepository { get { return skinTypeRepository ??= new SkinTypeRepository(); } }
         public UserRepository UserRepository { get { return userRepository ??= new UserRepository(); } }
 

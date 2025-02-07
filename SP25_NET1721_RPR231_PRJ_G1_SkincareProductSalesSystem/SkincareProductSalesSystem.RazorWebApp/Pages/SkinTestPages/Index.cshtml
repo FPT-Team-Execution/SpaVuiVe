@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
-    // var demo = Model.SkinTest.Count();
 }
 
 <div class="container-fluid services py-5">
@@ -24,23 +23,25 @@
             {
                 <div class="row g-4">
 
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 py-2">
                         <div class="services-item bg-light border-4 border-end rounded p-4" style="border: 2px solid #ffc0cb;color: #ffc0cb;">
                             <div class="row align-items-center">
                                 <div class="col-8">
                                     <div class="services-content text-end">
-                                        <h3>Câu hỏi @i</h3>
-                                        <p>@Model.SkinTest[i]</p>
-                                        <div class="row mb-3">
-                                            <div class="col-6 d-flex flex-column justify-content-between">
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">A. @Model.SkinTest[i].OptionA</a>
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">B. @Model.SkinTest[i].OptionB</a>
-                                            </div>
-                                            <div class="col-6 d-flex flex-column justify-content-between">
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">C. @Model.SkinTest[i].OptionC</a>
-                                                <a href="#" class="btn rounded-pill py-2 px-4 mx-2  my-2" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">D. @Model.SkinTest[i].OptionD</a>
-                                            </div>
-                                        </div>
+                                        <h3>Câu hỏi @(i + 1)</h3>
+                                        <p>@Model.SkinTest[i].Question</p>
+                                        @foreach (var option in Model.SkinTest[i].SkinTestOptions)
+                                        {
+                                            <a href="#"
+                                               class="btn rounded-pill py-2 px-4 mx-2 my-2 option-btn"
+                                               data-question="@Model.SkinTest[i].QuestionId"
+                                               data-option="@option.OptionId"
+                                               data-skinTypeId="@option.SkinTypeId"
+                                               style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">
+                                                @option.OptionText
+                                            </a>
+                                        }
+
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -51,16 +52,65 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 my-2">
-                        <div class="services-btn text-center">
-                            <a href="#" class="btn rounded-pill py-3 px-5" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">Xem kết quả</a>
-                        </div>
-                    </div>
+
+
                 </div>
             }
+            <div class="col-12 my-2">
+                <div class="services-btn text-center">
+                    <form method="post">
+                        <button type="submit" class="btn rounded-pill py-3 px-5" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">Xem kết quả</button>
+                    </form>
+                </div>
+            </div>
         }
     </div>
 </div>
+
+<script>
+         document.querySelectorAll(".option-btn").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            let optionId = this.getAttribute("data-option");
+            let questionId = this.getAttribute("data-question");
+            let skinTypeId = this.getAttribute("data-skinTypeId");
+
+            console.log(optionId)
+            let optionText = this.innerText;
+
+            let requestData = {
+                questionId: questionId,
+                option: {
+                    optionId: optionId,
+                    optionText: optionText,
+                    skinTypeId: skinTypeId
+                }
+            };
+
+            fetch(window.location.pathname + "?handler=SaveAnswer", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove old chosen option highlight
+                    document.querySelectorAll(`.option-btn[data-question="${questionId}"]`)
+                        .forEach(btn => btn.style.backgroundColor = "#ffc0cb");
+
+                    // Highlight chosen one
+                    this.style.backgroundColor = "#ff69b4";
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+
+</script>
 
 
 
