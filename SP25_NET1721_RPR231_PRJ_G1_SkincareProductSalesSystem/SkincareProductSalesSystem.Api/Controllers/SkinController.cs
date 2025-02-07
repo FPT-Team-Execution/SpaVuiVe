@@ -43,6 +43,12 @@ namespace SkincareProductSalesSystem.Api.Controllers
             var response = _skinTestService.Create(request);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
+        [HttpPost("/skin-tests/result")]
+        public IActionResult SubmitSkinTest(SubmitSkinTestRequest request)
+        {
+            var response = _skinTestService.SubmitSkinTest(request);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
         [HttpPost("/skin-tests/{id}/options")]
         public IActionResult CreateSkinTestOption(string id, CreateSkinTestOptionRequest request)
         {

@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
-    // var demo = Model.SkinTest.Count();
 }
 
 <div class="container-fluid services py-5">
@@ -37,6 +36,7 @@
                                                class="btn rounded-pill py-2 px-4 mx-2 my-2 option-btn"
                                                data-question="@Model.SkinTest[i].QuestionId"
                                                data-option="@option.OptionId"
+                                               data-skinTypeId="@option.SkinTypeId"
                                                style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">
                                                 @option.OptionText
                                             </a>
@@ -58,7 +58,7 @@
             }
             <div class="col-12 my-2">
                 <div class="services-btn text-center">
-                    <form method="post" asp-page-handler="Update">
+                    <form method="post">
                         <button type="submit" class="btn rounded-pill py-3 px-5" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">Xem kết quả</button>
                     </form>
                 </div>
@@ -72,15 +72,19 @@
         button.addEventListener("click", function (event) {
             event.preventDefault();
 
-            let questionId = this.getAttribute("data-question");
             let optionId = this.getAttribute("data-option");
+            let questionId = this.getAttribute("data-question");
+            let skinTypeId = this.getAttribute("data-skinTypeId");
+
+            console.log(optionId)
             let optionText = this.innerText;
 
             let requestData = {
                 questionId: questionId,
                 option: {
-                    id: optionId,
-                    optionText: optionText
+                    optionId: optionId,
+                    optionText: optionText,
+                    skinTypeId: skinTypeId
                 }
             };
 

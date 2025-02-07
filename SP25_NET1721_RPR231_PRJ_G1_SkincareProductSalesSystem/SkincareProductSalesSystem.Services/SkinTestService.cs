@@ -23,6 +23,7 @@ namespace SkincareProductSalesSystem.Services
         Task<IServiceResult> UpdateOption(string questionId, UpdateOptionRequest request);
         Task<IServiceResult> Delete(string id);
         Task<IServiceResult> DeleteOption(string questionId, string optionId);
+        Task<IServiceResult> SubmitSkinTest(SubmitSkinTestRequest request);
 
     }
     public class SkinTestService : ISkinTestService
@@ -221,6 +222,36 @@ namespace SkincareProductSalesSystem.Services
 
         }
 
+        public async Task<IServiceResult> SubmitSkinTest(SubmitSkinTestRequest request)
+        {
+            var skinTypeCount = new Dictionary<string, int>();
+
+            foreach (var option in request.ChosenOptions.Values)
+            {
+                if (skinTypeCount.ContainsKey(option.SkinTypeId))
+                {
+
+                    skinTypeCount[option.SkinTypeId]++;
+                }
+                else
+                {
+
+                    skinTypeCount[option.SkinTypeId] = 1;
+                }
+            }
+            var mostSelected = skinTypeCount
+                .OrderByDescending(pair => pair.Value)
+                .FirstOrDefault();
+            var skinType = await _unitOfWork.SkinTypeRepository.GetByIdAsync(mostSelected.Key);
+            if (skinType == null) return new ServiceResult(404, "Không tìm thấy loại da");
+
+            return new ServiceResult
+            {
+                Status = 200,
+                Message = "Thành công",
+                Data = skinType
+            };
+        }
     }
 
 
