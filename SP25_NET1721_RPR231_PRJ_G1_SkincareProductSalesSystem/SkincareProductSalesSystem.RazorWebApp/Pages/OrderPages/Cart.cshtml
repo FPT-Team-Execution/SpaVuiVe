@@ -1,0 +1,298 @@
+﻿@page
+@model SpaVuiVe_FE.Pages.OrderPages.CartModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="body" style="margin: 2rem;">
+    <div class="cart-container">
+        <div class="cart-container-row">
+            <div class="cart-container-cell" style="display: flex; align-items: center;">
+                <input type="checkbox">
+            </div>
+            <div style="display: flex; align-items: center;">
+                Sản Phẩm
+            </div>
+            <div style="display: flex; align-items: center;justify-content: center;">
+                <div class="cart-item-price">Đơn Giá</div>
+            </div>
+            <div style="display: flex; align-items: center;justify-content: center;">
+                Số Lượng
+            </div>
+            <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                Số Tiền
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">Thao Tác</div>
+        </div>
+    </div>
+    <div class="cart-product">
+        <div class="cart-shop">Shop</div>
+        <div class="cart-line"></div>
+        <div class="cart-container">
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-product">
+        <div class="cart-shop">Shop</div>
+        <div class="cart-line"></div>
+        <div class="cart-container">
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <div class="cart-container-row">
+                <div class="cell" style="display: flex; align-items: center;">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-actions">
+                        <button onclick="changeValue(-1)">-</button>
+                        <input type="number" id="number" value="1" min="0" max="10">
+                        <button onclick="changeValue(1)">+</button>
+                    </div>
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="checkout-button">
+        <input type="submit" value="Mua hàng">
+    </div>
+</div>
