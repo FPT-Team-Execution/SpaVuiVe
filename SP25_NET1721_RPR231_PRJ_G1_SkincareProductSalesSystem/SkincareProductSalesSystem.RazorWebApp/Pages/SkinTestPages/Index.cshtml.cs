@@ -65,11 +65,35 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.SkinTestPages
             }
             return new JsonResult(new { success = true });
         }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (HttpContext.Session.TryGetValue("ChosenOptions", out var storedOptions))
+            {
+                var jsonString = Encoding.UTF8.GetString(storedOptions);
+                ChosenOptions = JsonConvert.DeserializeObject<Dictionary<string, SkinTestOption>>(jsonString) ?? new();
+            }
+            ServiceResult submitTestRs = await _apiClient.PostAsync("/skin-tests/result", new SubmitSkinTestRequest(ChosenOptions));
+            var skinType = GetItemsFromResponse<SkinType>(submitTestRs);
+            TempData["SkinTypeResult"] = JsonConvert.SerializeObject(skinType);
+            //return RedirectToPage("/SkinTestPages/Result", new { param = skinType });
+            return RedirectToPage("/SkinTestPages/Result");
+
+        }
     }
 
     public class SaveAnswerBody
     {
         public string QuestionId { get; set; }
         public SkinTestOption Option { get; set; }
+    }
+
+    public class SubmitSkinTestRequest
+    {
+        public SubmitSkinTestRequest(Dictionary<string, SkinTestOption> data)
+        {
+            ChosenOptions = data;
+        }
+        public Dictionary<string, SkinTestOption> ChosenOptions { get; set; }
+
     }
 }

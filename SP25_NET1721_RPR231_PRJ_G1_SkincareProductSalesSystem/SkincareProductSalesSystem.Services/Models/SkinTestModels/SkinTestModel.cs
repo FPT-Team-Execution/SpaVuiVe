@@ -22,12 +22,5 @@ namespace SkincareProductSalesSystem.Services.Models.SkinTestModels
         public virtual List<SkinTestOptionModel> SkinTestOptions { get; set; } = new List<SkinTestOptionModel>();
     }
 
-    public class SkinTestOptionModel
-    {
-        public string OptionId { get; set; }
-
-        public string OptionText { get; set; }
-
-        public string SkinTypeId { get; set; }
-    }
+   
 }
