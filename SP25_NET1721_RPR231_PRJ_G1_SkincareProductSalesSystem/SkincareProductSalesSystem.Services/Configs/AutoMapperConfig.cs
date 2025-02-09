@@ -12,7 +12,7 @@ namespace SkincareProductSalesSystem.Services.Configs
 	{
         public AutoMapperConfig()
         {
-			CreateMap<RegisterModel, User>()
+			CreateMap<RegisterRequest, User>()
 				.ForMember(b => b.Email, opt => opt.MapFrom(a => a.Email))
 				.ForMember(b => b.Username, opt => opt.MapFrom(a => a.Username))
 				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))

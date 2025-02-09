@@ -8,6 +8,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
+using Newtonsoft.Json;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
@@ -15,19 +17,20 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
     {
 
 		private HttpClient _httpClient;
+		private ApiClient _apiClient;
 
 		[BindProperty]
-		public LoginRequestModel LoginRequest { get; set; }
-		
+		public LoginRequestModel LoginRequest { get; set; } = new LoginRequestModel();
 
-		public LoginModel(IHttpClientFactory httpClientFactory)
+		public string? ErrorMessage { get; set; }
+
+
+		public LoginModel(IHttpClientFactory httpClientFactory, ApiClient apiClient)
 		{
 			_httpClient = httpClientFactory.CreateClient();
 			_httpClient.BaseAddress = new Uri("https://localhost:7000/api/");
+			_apiClient = apiClient;
 		}
-
-
-
 
 		public void OnGet()
         {
@@ -41,45 +44,48 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 			{
 				if (!ModelState.IsValid)
 				{
+					ErrorMessage = "Invalid username or Password";
 					return Page();
 				}
 
-				var response = await _httpClient.PostAsJsonAsync("api/Auth/login", LoginRequest);
-				if (!response.IsSuccessStatusCode)
+				var response = await _apiClient.PostAsync("/login", LoginRequest);
+
+				if (response.Status != 200)
 				{
+					ErrorMessage = response.Message;
 					return Page();
 				}
-				
-
-				var responseModel = await JsonSerializer.DeserializeAsync<LoginResponseModel>(await response.Content.ReadAsStreamAsync());
+				var responseModel = JsonConvert.DeserializeObject<LoginResponseModel>(response.Data.ToString());
 				var tokenHandler = new JwtSecurityTokenHandler();
-				var jwtToken = tokenHandler.ReadToken(responseModel.AccessToken) as JwtSecurityToken;
-				if (jwtToken == null)
+				var accessToken = tokenHandler.ReadToken(responseModel.AccessToken) as JwtSecurityToken;
+				if (accessToken == null)
 				{
 					return Page();
 				}
 
-				var userName = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-				var roleId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
+				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
 
 				var claims = new List<Claim>
 						{
-							new Claim(ClaimTypes.Name, userName),
-							new Claim(ClaimTypes.Role, roleId),
+							new Claim(ClaimTypes.NameIdentifier, userId),
+							new Claim(ClaimTypes.Role, role),
 						};
 
 				var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-				Response.Cookies.Append("UserName", userName);
-				Response.Cookies.Append("Role", roleId);
-
-				return RedirectToAction("Index", "Home");
+				Response.Cookies.Append("userId", userId);
+				Response.Cookies.Append("Role", role);
+				Response.Cookies.Append("AccessToken", responseModel.AccessToken);
+				Response.Cookies.Append("RefreshToken", responseModel.RefreshToken);
+				return RedirectToPage("/Index");
 
 			} catch (Exception ex) 
 			{
 				Console.WriteLine(ex);
-				return Redirect("Error");
+				ErrorMessage = ex.Message;
+				return Page();
 			};
 		}
     }

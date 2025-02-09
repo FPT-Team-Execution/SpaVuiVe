@@ -3,9 +3,16 @@
 @{
 	ViewData["Title"] = "Login";
 }
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+
 <div class="login-page">
 	<div class="form">
-		<form class="login-form" asp-page-handler="OnPostAsync">
+		<form class="login-form" asp-page-handler="OnPost">
 			<div class="header">Welcome back!</div>
 			<br />
 
@@ -30,8 +37,15 @@
 
 			<p class="input_label">Email</p>
 			<input type="text" placeholder="" asp-for="LoginRequest.Username"/>
+			<span id="validation-err" asp-validation-for="LoginRequest.Username"></span>
+
 			<p class="input_label">Password</p>
 			<input type="password" placeholder="" asp-for="LoginRequest.Password"/>
+			<span id="validation-err" asp-validation-for="LoginRequest.Password"></span>
+			@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+			{
+				<div class="alert alert-danger">@Model.ErrorMessage</div>
+			}
 			<button type="submit">login</button>
 			<p class="message">Not registered? <a href="#">Create an account</a></p>
 		</form>
@@ -117,6 +131,12 @@
 		max-width: 300px;
 		margin: 0 auto;
 	}
+
+	#validation-err {
+		color: #FF0000;
+		font-size: 10px;
+	}
+
 
 		.container:before, .container:after {
 			content: "";

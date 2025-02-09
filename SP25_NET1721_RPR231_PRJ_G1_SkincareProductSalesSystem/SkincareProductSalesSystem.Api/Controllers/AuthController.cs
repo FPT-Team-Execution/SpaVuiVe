@@ -20,8 +20,8 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			_authService = userService;
 		}
 
-		[HttpPost("register")]
-		public async Task<IActionResult> Register(RegisterModel model)
+		[HttpPost("/register")]
+		public async Task<IActionResult> Register(Services.RegisterRequest model)
 		{
 			if (!ModelState.IsValid) 
 				return BadRequest(ModelState);
@@ -40,7 +40,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[HttpPost("login")]
+		[HttpPost("/login")]
 		public async Task<IActionResult> Login(LoginRequestModel model)
 		{
 			if (!ModelState.IsValid) 
@@ -60,7 +60,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[HttpPost("forgot-password")]
+		[HttpPost("/forgot-password")]
 		public async Task<IActionResult> ForgotPassword([Required] string username)
 		{
 			if (!ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[HttpPost("reset-password")]
+		[HttpPost("/reset-password")]
 		public async Task<IActionResult> ResetPassword(ResetPasswordRequestModel model)
 		{
 			if (!ModelState.IsValid)

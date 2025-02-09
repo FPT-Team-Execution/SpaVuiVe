@@ -27,6 +27,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Account/AccessDenied";
         options.SlidingExpiration = true;
     });
+
+builder.Services.AddHttpClient();
 //* Add after login
 //Response.Cookies.Append("AccessToken", tokenValue, new CookieOptions
 //{
@@ -39,7 +41,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-builder.Services.AddHttpClient();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

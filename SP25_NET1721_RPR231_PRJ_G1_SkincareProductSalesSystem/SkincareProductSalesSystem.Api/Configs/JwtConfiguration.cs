@@ -7,7 +7,6 @@ namespace SkincareProductSalesSystem.Api.Configs
 {
 	public static class JwtConfiguration
 	{
-
 		public static void ConfigureJwt(WebApplicationBuilder builder)
 		{
 			ConfigureJwtAuth(builder);
@@ -66,5 +65,8 @@ namespace SkincareProductSalesSystem.Api.Configs
 	});
 			});
 		}
+
+
+
 	}
 }

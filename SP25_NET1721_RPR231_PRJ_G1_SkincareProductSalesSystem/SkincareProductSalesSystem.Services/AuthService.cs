@@ -20,7 +20,7 @@ namespace SkincareProductSalesSystem.Services
 {
 	public interface IAuthService
 	{
-		Task<IServiceResult> Register(RegisterModel request);
+		Task<IServiceResult> Register(RegisterRequest request);
 		Task<IServiceResult> LoginByUsername(LoginRequestModel request);
 		Task<IServiceResult> ForgotPassword(string username);
 		Task<IServiceResult> ResetPassword(ResetPasswordRequestModel request);
@@ -39,7 +39,7 @@ namespace SkincareProductSalesSystem.Services
 			_jwtHelper = jwtHelper;
 		}
 
-		public async Task<IServiceResult> Register(RegisterModel request)
+		public async Task<IServiceResult> Register(RegisterRequest request)
 		{
 			try
 			{
@@ -47,19 +47,19 @@ namespace SkincareProductSalesSystem.Services
 					return new ServiceResult()
 					{
 						Status = 500,
-						Message = "Username already exists"
+						Message = "Tên tài khoản đã tồn tại."
 					};
 				if (await _uOW.UserRepository.CheckEmailExistsAsync(request.Email) != null)
 					return new ServiceResult()
 					{
 						Status = 500,
-						Message = "Email already exists"
+						Message = "Email đã tồn tại"
 					};
 				if (await _uOW.UserRepository.CheckPhoneNumberExistsAsync(request.PhoneNumber) != null)
 					return new ServiceResult()
 					{
 						Status = 500,
-						Message = "Phone Number already exists"
+						Message = "Số điện thoại đã tồn tại"
 					};
 
 				string passwordSalt = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8));
@@ -72,7 +72,8 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = 200
+					Status = 200,
+					Message = "Thành công"
 				};
 			}
 			catch (Exception ex)
@@ -94,13 +95,13 @@ namespace SkincareProductSalesSystem.Services
 					return new ServiceResult()
 					{
 						Status = 500,
-						Message = "Username not found"
+						Message = "Không tìm thấy tên người dùng"
 					};
 				if (!PasswordHelper.HashPassword(request.Password, user.PasswordSalt).Equals(user.PasswordHash))
 					return new ServiceResult()
 					{
 						Status = 500,
-						Message = "Incorrect Password"
+						Message = "Sai mật khẩu"
 					};
 
 				string jwtToken = await _jwtHelper.GenerateAccessTokenAsync(user);
@@ -208,17 +209,17 @@ namespace SkincareProductSalesSystem.Services
 		}
 	}
 
-	public class RegisterModel : BaseModel
+	public class RegisterRequest : BaseModel
 	{
 		[Required]
-		public string? Username { get; set; }
+		public string Username { get; set; }
 		[Required]
-		public string? Email { get; set; }
+		public string Email { get; set; }
 		[Required]
-		public string? FullName { get; set; }
+		public string FullName { get; set; }
 		[Required]
 		[RegularExpression(@"^0\d{9}$", ErrorMessage = "Invalid Phone Number format")]
-		public string? PhoneNumber { get; set; }
+		public string PhoneNumber { get; set; }
 		[Required]
 		[RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$", ErrorMessage = "Password must contain at least 8 characters, 1 uppercase character, 1 lowercase character, and 1 number")]
 		public string Password { get; set; }
