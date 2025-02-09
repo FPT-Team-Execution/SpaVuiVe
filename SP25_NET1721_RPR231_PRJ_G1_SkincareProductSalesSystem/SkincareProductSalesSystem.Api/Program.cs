@@ -18,7 +18,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
     });
-
+builder.Services.AddGrpc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext>();
 builder.Services.AddScoped<OrderRepository>();
@@ -51,6 +51,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
+//Define grpc endpoint through service
+app.UseEndpoints(endpoints =>
+{
+    //* endpoints.MapGrpcService<Your-Service-Implement-GrpcBase>();
+    //...
+});
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
