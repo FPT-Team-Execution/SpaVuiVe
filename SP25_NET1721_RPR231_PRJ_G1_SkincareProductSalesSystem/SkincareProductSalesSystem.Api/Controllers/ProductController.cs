@@ -1,0 +1,53 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SkincareProductSalesSystem.Services;
+
+namespace SkincareProductSalesSystem.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductController : ControllerBase
+    {
+        private readonly IProductService _productService;
+
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        [HttpGet("/products")]
+        public async Task<IActionResult> GetAllProduct([FromQuery] GetAllProductQuery query)
+        {
+            var response = await _productService.GetAllAsync(query);
+            return response != null ? Ok(response) : StatusCode(500);
+        }
+
+        [HttpGet("/products/{id}")]
+        public async Task<IActionResult> GetProductById([FromRoute] string id)
+        {
+            var product = await _productService.GetAsync(id);
+            return product != null ? Ok(product) : StatusCode(500);
+        }
+
+        [HttpPost("/products")]
+        public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequest request)
+        {
+            var response = await _productService.Create(request);
+            return response != null ? Ok(response) : StatusCode(500);
+        }
+
+        [HttpPut("/products/{id}")]
+        public async Task<IActionResult> UpdateProduct([FromRoute] string id, [FromForm] UpdateProductRequest request)
+        {
+            var response = await _productService.Update(id, request);
+            return response != null ? Ok(response) : StatusCode(500);
+        }
+
+        [HttpDelete("/products/{id}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] string id)
+        {
+            var response = await _productService.Delete(id);
+            return response != null ? Ok(response) : StatusCode(500);
+        }
+    }
+}

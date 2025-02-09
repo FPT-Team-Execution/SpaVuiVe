@@ -31,7 +31,7 @@ public partial class SkinType
 
     public virtual ICollection<SkinCareRoutine> SkinCareRoutines { get; set; } = new List<SkinCareRoutine>();
 
-    public virtual ICollection<SkinTest> SkinTests { get; set; } = new List<SkinTest>();
+    public virtual ICollection<SkinTestOption> SkinTestOptions { get; set; } = new List<SkinTestOption>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

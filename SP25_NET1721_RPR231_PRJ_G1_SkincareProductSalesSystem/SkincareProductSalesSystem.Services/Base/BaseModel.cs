@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Solara.Main.Payload;
 
 public class BaseModel<TResponseModel, TRequestModel> : BaseModel where TResponseModel : class where TRequestModel : class
@@ -13,7 +15,10 @@ public class BaseModel<TResponseRequestModel> : BaseModel where TResponseRequest
 
 public class BaseModel
 {
+	[JsonIgnore]
     public bool IsSuccess { get; set; }
-    public string Message { get; set; }
-    public int StatusCode { get; set; }
+	[JsonIgnore]
+	public string? Message { get; set; }
+	[JsonIgnore]
+	public int? StatusCode { get; set; }
 };

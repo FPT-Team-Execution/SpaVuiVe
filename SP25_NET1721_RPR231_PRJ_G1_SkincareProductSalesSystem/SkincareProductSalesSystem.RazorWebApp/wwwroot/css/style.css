@@ -47,6 +47,19 @@ body {
 
     --bs-border-color: #F7F7F7;
 }
+
+.text-pink {
+    color: rgb(255, 192, 203);
+}
+
+.bg-pink {
+    background-color: rgb(255, 192, 203);
+}
+
+.flex {
+    display: flex;
+}
+
 .btn-primary {
     --bs-btn-color: #fff;
     --bs-btn-bg: var(--bs-primary);
