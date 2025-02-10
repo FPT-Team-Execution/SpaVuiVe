@@ -30,7 +30,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
             var productResult = productTask.Result;
             var brandResult = brandTask.Result;
 
-            contentData.Categories = GetItemsFromResponse<Category>(categoryResult);
+            contentData.Categories = GetItemsFromResponse<Models.Category>(categoryResult);
             contentData.Products = GetItemsFromResponse<Product>(productResult);
             contentData.Brands = GetItemsFromResponse<Brand>(brandResult);
         }
@@ -49,7 +49,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages
 
     public class ContentData
     {
-        public List<Category> Categories { get; set; } = new List<Category>();
+        public List<Models.Category> Categories { get; set; } = new List<Models.Category>();
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Brand> Brands { get; set; } = new List<Brand>();
     }

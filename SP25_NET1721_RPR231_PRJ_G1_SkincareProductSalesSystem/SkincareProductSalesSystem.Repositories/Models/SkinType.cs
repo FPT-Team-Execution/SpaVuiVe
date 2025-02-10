@@ -7,21 +7,21 @@ namespace SkincareProductSalesSystem.Repositories.Models;
 
 public partial class SkinType
 {
-    public string SkinTypeId { get; set; }
+    public string SkinTypeId { get; set; } = String.Empty;
 
-    public string Name { get; set; }
+    public string Name { get; set; } = String.Empty;
 
-    public string Description { get; set; }
+    public string Description { get; set; } = String.Empty;
 
-    public string Characteristics { get; set; }
+    public string Characteristics { get; set; } = String.Empty;
 
-    public string RecommendedIngredients { get; set; }
+    public string RecommendedIngredients { get; set; } = String.Empty;
 
-    public string AvoidIngredients { get; set; }
+    public string AvoidIngredients { get; set; } = String.Empty;
 
-    public string CareInstructions { get; set; }
+    public string CareInstructions { get; set; } = String.Empty;
 
-    public bool? IsActive { get; set; }
+    public bool? IsActive { get; set; } = false;
 
     public DateTime? CreatedAt { get; set; }
 
