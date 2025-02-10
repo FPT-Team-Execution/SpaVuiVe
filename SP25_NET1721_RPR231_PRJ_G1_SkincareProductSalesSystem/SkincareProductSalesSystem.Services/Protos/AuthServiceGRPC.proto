@@ -1,7 +1,8 @@
-syntax = "proto3";
+﻿syntax = "proto3";
 
-option csharp_namespace = "Protos.AuthClient";
-
+option csharp_namespace = "Protos.AuthService";
+import "google/protobuf/any.proto"; 
+//import "Protos/BaseResult.proto";
 import "google/protobuf/timestamp.proto";
 
 service AuthServiceGRPC
@@ -60,5 +61,3 @@ message ResetPasswordRequestProto{
 	string password = 2;
 	string key = 3;
 }
-
-

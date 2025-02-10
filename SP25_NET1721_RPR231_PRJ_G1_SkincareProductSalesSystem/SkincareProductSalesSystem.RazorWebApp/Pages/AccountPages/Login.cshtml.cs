@@ -11,6 +11,7 @@ using System.Text.Json;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using Newtonsoft.Json;
 using SkincareProductSalesSystem.Common;
+using Protos.AuthClient;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
@@ -19,6 +20,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 		private HttpClient _httpClient;
 		private ApiClient _apiClient;
+		
 
 		[BindProperty]
 		public LoginRequestModel LoginRequest { get; set; } = new LoginRequestModel();
