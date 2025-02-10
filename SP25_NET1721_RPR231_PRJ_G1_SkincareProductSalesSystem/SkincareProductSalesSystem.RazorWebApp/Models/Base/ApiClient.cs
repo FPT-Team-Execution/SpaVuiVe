@@ -43,7 +43,6 @@ namespace SkincareProductSalesSystem.RazorWebApp.Models.Base
             }
             catch (Exception)
             {
-
                 return new ServiceResult(500, "Lỗi");
             }
         }

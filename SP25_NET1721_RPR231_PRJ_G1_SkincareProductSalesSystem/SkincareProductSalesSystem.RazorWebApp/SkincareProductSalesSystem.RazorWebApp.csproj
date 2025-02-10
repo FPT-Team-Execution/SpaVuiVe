@@ -289,4 +289,8 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\login.css" />
+  </ItemGroup>
+
 </Project>

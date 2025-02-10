@@ -151,7 +151,7 @@ namespace SkincareProductSalesSystem.Services
 					};
 				 return new ServiceResult()
 				 {
-					 Status = 204,
+					 Status = 200,
 					 Message = "Thành công",
 				 };
 			}
