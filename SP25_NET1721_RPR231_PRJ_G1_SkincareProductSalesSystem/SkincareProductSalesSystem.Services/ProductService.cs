@@ -11,6 +11,7 @@ using AutoMapper.Execution;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SkincareProductSalesSystem.Services
 {
@@ -131,7 +132,7 @@ namespace SkincareProductSalesSystem.Services
             Expression<Func<Product, bool>> predicate = x => true;
 
 
-            if (query.Category is not null)
+            if (!query.Category.IsNullOrEmpty())
             {
                 Expression<Func<Product, bool>> categoryFilter = x => x.Category.Name == query.Category;
                 predicate = CombineExpressions(predicate, categoryFilter);
