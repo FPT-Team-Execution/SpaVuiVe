@@ -3,8 +3,6 @@ using Grpc.Core;
 using Protos.SkinTypesService;
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
-using SkincareProductSalesSystem.Services.Base;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SkincareProductSalesSystem.Services
 {

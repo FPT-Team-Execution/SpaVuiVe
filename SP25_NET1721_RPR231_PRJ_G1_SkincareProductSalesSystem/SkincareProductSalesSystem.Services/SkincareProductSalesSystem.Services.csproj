@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <Protobuf Include="Protos\BaseResult.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\SkinTypesService.proto" GrpcServices="Server" />
 
   </ItemGroup>
