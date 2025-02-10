@@ -53,7 +53,7 @@ public class Index : PageModel
         var productResult = productTask.Result;
         var brandResult = brandTask.Result;
 
-        indexProductPageData.Categories = GetItemsFromResponse<Category>(categoryResult).Items ?? new List<Category>();
+        indexProductPageData.Categories = GetItemsFromResponse<Models.Category>(categoryResult).Items ?? new List<Models.Category>();
         indexProductPageData.Products = GetItemsFromResponse<Product>(productResult);
         indexProductPageData.Brands = GetItemsFromResponse<Brand>(brandResult).Items ?? new List<Brand>();
     }
@@ -72,7 +72,7 @@ public class Index : PageModel
 
 public class IndexProductPageData
 {
-    public List<Category> Categories { get; set; } = new List<Category>();
+    public List<Models.Category> Categories { get; set; } = new List<Models.Category>();
     public Paginate<Product> Products { get; set; } = new Paginate<Product>();
     public List<Brand> Brands { get; set; } = new List<Brand>();
 }
