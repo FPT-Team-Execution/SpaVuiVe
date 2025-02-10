@@ -55,10 +55,12 @@ namespace SkincareProductSalesSystem.Repositories.Base
         {
             return _context.Set<T>().ToList();
         }
+
         public async Task<List<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }
+
         public async Task<List<T>> GetAllAsync(params string[] includeProperties)
         {
             IQueryable<T> query = _context.Set<T>();
@@ -122,6 +124,12 @@ namespace SkincareProductSalesSystem.Repositories.Base
         {
             return await _context.Set<T>().FindAsync(id);
         }
+
+        public async Task<T> GetByIdAsync(int id, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
         public async Task<T> GetByIdAsync(int id, params string[] includes)
         {
             IQueryable<T> query = _context.Set<T>();
@@ -148,6 +156,25 @@ namespace SkincareProductSalesSystem.Repositories.Base
             return await _context.Set<T>().FindAsync(code);
         }
 
+        public async Task<T> GetByIdAsync(
+            Expression<Func<T, bool>>? predicate = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null
+        )
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return query.First();
+        }
+
         public T GetById(Guid code)
         {
             return _context.Set<T>().Find(code);
@@ -158,8 +185,13 @@ namespace SkincareProductSalesSystem.Repositories.Base
             return await _context.Set<T>().FindAsync(code);
         }
 
-        public Task<IPaginate<T>> GetPagingListAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, int page = 1,
-            int size = 10)
+        public Task<IPaginate<T>> GetPagingListAsync(
+            Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+            int page = 1,
+            int size = 10
+        )
         {
             IQueryable<T> query = _context.Set<T>();
             if (include != null) query = include(query);
@@ -168,8 +200,14 @@ namespace SkincareProductSalesSystem.Repositories.Base
             return query.AsNoTracking().ToPaginateAsync(page, size, 1);
         }
 
-        public Task<IPaginate<TResult>> GetPagingListAsync<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, int page = 1, int size = 10)
+        public Task<IPaginate<TResult>> GetPagingListAsync<TResult>(
+            Expression<Func<T, TResult>> selector,
+            Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
+            int page = 1,
+            int size = 10
+        )
         {
             IQueryable<T> query = _context.Set<T>();
             if (include != null) query = include(query);

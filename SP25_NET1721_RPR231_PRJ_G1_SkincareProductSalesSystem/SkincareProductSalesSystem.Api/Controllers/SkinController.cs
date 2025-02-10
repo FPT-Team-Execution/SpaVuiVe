@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkincareProductSalesSystem.Services;
+using SkincareProductSalesSystem.Services.Models.SkinTestModels;
 
 namespace SkincareProductSalesSystem.Api.Controllers
 {
@@ -9,19 +10,19 @@ namespace SkincareProductSalesSystem.Api.Controllers
     public class SkinController : ControllerBase
     {
         private readonly ISkinTestService _skinTestService;
-        private readonly ISkinTypeService _skinTypeService;
+        //private readonly ISkinTypeService _skinTypeService;
 
         public SkinController(ISkinTestService skinTestService, ISkinTypeService skinTypeService )
         {
             _skinTestService = skinTestService;
-            _skinTypeService = skinTypeService;
+            //_skinTypeService = skinTypeService;
         }
 
         [HttpGet("/skin-tests")]
-        public IActionResult GetAllSkinTest()
+        public async Task<IActionResult> GetAllSkinTest()
         {
-            var responses =  _skinTestService.GetAllAsync();
-            return (responses != null) ? Ok(responses.Result) : StatusCode(500);
+            var responses =  await _skinTestService.GetAllAsync();
+            return (responses != null) ? Ok(responses) : StatusCode(500);
         }
 
         [HttpGet("/skin-tests/{id}")]
@@ -30,16 +31,40 @@ namespace SkincareProductSalesSystem.Api.Controllers
             var response = _skinTestService.GetAsync(id);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
+        [HttpGet("/skin-tests/{questionId}/options/{optionId}")]
+        public IActionResult GetById(string questionId, string optionId)
+        {
+            var response = _skinTestService.GetOptionAsync(questionId, optionId);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
         [HttpPost("/skin-tests")]
         public IActionResult CreateSkinTestQuestion(CreateSkinTestRequest request)
         {
             var response = _skinTestService.Create(request);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
+        [HttpPost("/skin-tests/result")]
+        public IActionResult SubmitSkinTest(SubmitSkinTestRequest request)
+        {
+            var response = _skinTestService.SubmitSkinTest(request);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
+        [HttpPost("/skin-tests/{id}/options")]
+        public IActionResult CreateSkinTestOption(string id, CreateSkinTestOptionRequest request)
+        {
+            var response = _skinTestService.CreateOption(id, request);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
         [HttpPut("/skin-tests/{id}")]
-        public IActionResult UpdatekinTestQuestion(string id, UpdateSkinTestRequest request)
+        public IActionResult UpdateSkinTestQuestion(string id, UpdateSkinTestRequest request)
         {
             var response = _skinTestService.Update(id, request);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
+        [HttpPut("/skin-tests/{id}/options")]
+        public IActionResult UpdateSkinTestOption(string id, UpdateOptionRequest request)
+        {
+            var response = _skinTestService.UpdateOption(id, request);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
         [HttpDelete("/skin-tests/{id}")]
@@ -48,37 +73,43 @@ namespace SkincareProductSalesSystem.Api.Controllers
             var response = _skinTestService.Delete(id);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
-        [HttpGet("/skin-types")]
-        public IActionResult GetAllSkinType()
+        [HttpDelete("/skin-tests/{questionId}/options/{optionId}")]
+        public IActionResult DeleteSkinTestOption(string questionId, string optionId)
         {
-            var responses = _skinTypeService.GetAllAsync();
-            return (responses != null) ? Ok(responses.Result) : StatusCode(500);
+            var response = _skinTestService.DeleteOption(questionId, optionId);
+            return (response != null) ? Ok(response.Result) : NotFound();
         }
+        //[HttpGet("/skin-types")]
+        //public IActionResult GetAllSkinType()
+        //{
+        //    var responses = _skinTypeService.GetAllAsync();
+        //    return (responses != null) ? Ok(responses.Result) : StatusCode(500);
+        //}
 
-        [HttpGet("/skin-types/{id}")]
-        public IActionResult GetTypeById(string id)
-        {
-            var response = _skinTypeService.GetAsync(id);
-            return (response != null) ? Ok(response.Result) : NotFound();
-        }
-        [HttpPost("/skin-types")]
-        public IActionResult CreateSkinType(CreateSkinTypeRequest request)
-        {
-            var response = _skinTypeService.Create(request);
-            return (response != null) ? Ok(response.Result) : NotFound();
-        }
-        [HttpPut("/skin-types/{id}")]
-        public IActionResult UpdateSkinType(string id, UpdateSkinTypeRequest request)
-        {
-            var response = _skinTypeService.Update(id, request);
-            return (response != null) ? Ok(response.Result) : NotFound();
-        }
-        [HttpDelete("/skin-types/{id}")]
-        public IActionResult DeleteSkinType(string id)
-        {
-            var response = _skinTypeService.Delete(id);
-            return (response != null) ? Ok(response.Result) : NotFound();
-        }
+        //[HttpGet("/skin-types/{id}")]
+        //public IActionResult GetTypeById(string id)
+        //{
+        //    var response = _skinTypeService.GetAsync(id);
+        //    return (response != null) ? Ok(response.Result) : NotFound();
+        //}
+        //[HttpPost("/skin-types")]
+        //public IActionResult CreateSkinType(CreateSkinTypeRequest request)
+        //{
+        //    var response = _skinTypeService.Create(request);
+        //    return (response != null) ? Ok(response.Result) : NotFound();
+        //}
+        //[HttpPut("/skin-types/{id}")]
+        //public IActionResult UpdateSkinType(string id, UpdateSkinTypeRequest request)
+        //{
+        //    var response = _skinTypeService.Update(id, request);
+        //    return (response != null) ? Ok(response.Result) : NotFound();
+        //}
+        //[HttpDelete("/skin-types/{id}")]
+        //public IActionResult DeleteSkinType(string id)
+        //{
+        //    var response = _skinTypeService.Delete(id);
+        //    return (response != null) ? Ok(response.Result) : NotFound();
+        //}
     }
 
 }

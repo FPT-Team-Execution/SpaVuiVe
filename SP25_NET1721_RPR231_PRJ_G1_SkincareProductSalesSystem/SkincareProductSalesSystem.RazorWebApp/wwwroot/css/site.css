@@ -20,3 +20,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.text-pink {
+  color: rgb(255, 192, 203);
+}
+
+.bg-pink {
+  background-color: rgb(255, 192, 203) !important;
+}
+
+.flex {
+  display: flex;
+}

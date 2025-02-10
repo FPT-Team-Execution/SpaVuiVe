@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using SkincareProductSalesSystem.Repositories.Models;
+using SkincareProductSalesSystem.Services.Models.AuthModels;
+using SkincareProductSalesSystem.Services.Models.PromotionModels;
+using SkincareProductSalesSystem.Services.Models.SkinTestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +31,14 @@ namespace SkincareProductSalesSystem.Services.Configs
 			CreateMap<UpdatePromotionUsageRequest, PromotionUsage>()
 				.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 		}
+			CreateMap<CreatePromotionRequestModel, Promotion>();
+            
+            CreateMap<SkinTestQuestion, SkinTestModel>()
+                .ForMember(dest => dest.SkinTestOptions, opt => opt.MapFrom(src => src.SkinTestOptions));
+
+            CreateMap<SkinTestOption, SkinTestOptionModel>()
+                .ForMember(dest => dest.SkinTypeId, opt => opt.MapFrom(src => src.SkinTypeId)); 
+
+        }
     }
 }

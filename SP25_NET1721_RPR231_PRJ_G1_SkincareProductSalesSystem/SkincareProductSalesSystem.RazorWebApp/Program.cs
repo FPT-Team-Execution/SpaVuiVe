@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 
@@ -6,8 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".SkincareSession"; 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);  
+    options.Cookie.IsEssential = true; 
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ApiClient>();
+builder.Services.AddSingleton(typeof(GrpcClient<>), typeof(GrpcClient<>));
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => true;
@@ -52,7 +60,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthentication();

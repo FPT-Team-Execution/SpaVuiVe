@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkincareProductSalesSystem.Services;
 
 namespace SkincareProductSalesSystem.Api.Configs
 {
@@ -22,6 +23,8 @@ namespace SkincareProductSalesSystem.Api.Configs
 		{
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<IPromotionService, PromotionService>();
+			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<IPromotionUsageService, PromotionUsageService>();
 		}
 

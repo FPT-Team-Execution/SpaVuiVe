@@ -1,4 +1,10 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Newtonsoft.Json
+@using SkincareProductSalesSystem.RazorWebApp.Models
+@using SkincareProductSalesSystem.RazorWebApp.Models.Base
+@using SkincareProductSalesSystem.Repositories.Paginate
+@inject ApiClient _apiClient
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -254,160 +260,180 @@
     <div class="offcanvas-body">
 
         <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
-            <li class="nav-item border-dashed active">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#fruits"></use>
-                    </svg>
-                    <span>Fruits and vegetables</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#dairy"></use>
-                    </svg>
-                    <span>Dairy and Eggs</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#meat"></use>
-                    </svg>
-                    <span>Meat and Poultry</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#seafood"></use>
-                    </svg>
-                    <span>Seafood</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#bakery"></use>
-                    </svg>
-                    <span>Bakery and Bread</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#canned"></use>
-                    </svg>
-                    <span>Canned Goods</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#frozen"></use>
-                    </svg>
-                    <span>Frozen Foods</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#pasta"></use>
-                    </svg>
-                    <span>Pasta and Rice</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#breakfast"></use>
-                    </svg>
-                    <span>Breakfast Foods</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#snacks"></use>
-                    </svg>
-                    <span>Snacks and Chips</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <button class="btn btn-toggle dropdown-toggle position-relative w-100 d-flex justify-content-between align-items-center text-dark p-2" data-bs-toggle="collapse" data-bs-target="#beverages-collapse" aria-expanded="false">
-                    <div class="d-flex gap-3">
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <use xlink:href="#beverages"></use>
-                        </svg>
-                        <span>Beverages</span>
-                    </div>
-                </button>
-                <div class="collapse" id="beverages-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal ps-5 pb-1">
-                        <li class="border-bottom py-2">
-                            <a href="index.html" class="dropdown-item">Water</a>
-                        </li>
-                        <li class="border-bottom py-2">
-                            <a href="index.html" class="dropdown-item">Juice</a>
-                        </li>
-                        <li class="border-bottom py-2">
-                            <a href="index.html" class="dropdown-item">Soda</a>
-                        </li>
-                        <li class="border-bottom py-2">
-                            <a href="index.html" class="dropdown-item">Tea</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#spices"></use>
-                    </svg>
-                    <span>Spices and Seasonings</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#baby"></use>
-                    </svg>
-                    <span>Baby Food and Formula</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#health"></use>
-                    </svg>
-                    <span>Health and Wellness</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#household"></use>
-                    </svg>
-                    <span>Household Supplies</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#personal"></use>
-                    </svg>
-                    <span>Personal Care</span>
-                </a>
-            </li>
-            <li class="nav-item border-dashed">
-                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <use xlink:href="#pet"></use>
-                    </svg>
-                    <span>Pet Food and Supplies</span>
-                </a>
-            </li>
+            @{
+                var categoryResponse = await _apiClient.GetAsync("/categories?page=1&size=100");
+                var categoryResult = JsonConvert.DeserializeObject<Paginate<Category>>(categoryResponse.Data.ToString());
+
+                foreach (var category in categoryResult.Items)
+                {
+                    <li class="nav-item border-dashed active">
+                        <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+                            <svg width="24" height="24" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#FF8FA3">
+                                <rect x="22" y="12" width="20" height="40" rx="4" ry="4" stroke="#D62857" stroke-width="2" fill="#FFDDE4"/>
+                                <rect x="26" y="6" width="12" height="10" rx="2" ry="2" stroke="#D62857" stroke-width="2" fill="#FF8FA3"/>
+                                <circle cx="32" cy="34" r="6" fill="#FF8FA3" stroke="#D62857" stroke-width="2"/>
+                                <line x1="22" y1="20" x2="42" y2="20" stroke="#D62857" stroke-width="2"/>
+                            </svg>
+
+                            <span>@category.Name</span>
+                        </a>
+                    </li>
+                }
+            }
+            @* <li class="nav-item border-dashed active"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#fruits"></use> *@
+            @*         </svg> *@
+            @*         <span>Fruits and vegetables</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#dairy"></use> *@
+            @*         </svg> *@
+            @*         <span>Dairy and Eggs</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#meat"></use> *@
+            @*         </svg> *@
+            @*         <span>Meat and Poultry</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#seafood"></use> *@
+            @*         </svg> *@
+            @*         <span>Seafood</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#bakery"></use> *@
+            @*         </svg> *@
+            @*         <span>Bakery and Bread</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#canned"></use> *@
+            @*         </svg> *@
+            @*         <span>Canned Goods</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#frozen"></use> *@
+            @*         </svg> *@
+            @*         <span>Frozen Foods</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#pasta"></use> *@
+            @*         </svg> *@
+            @*         <span>Pasta and Rice</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#breakfast"></use> *@
+            @*         </svg> *@
+            @*         <span>Breakfast Foods</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#snacks"></use> *@
+            @*         </svg> *@
+            @*         <span>Snacks and Chips</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <button class="btn btn-toggle dropdown-toggle position-relative w-100 d-flex justify-content-between align-items-center text-dark p-2" data-bs-toggle="collapse" data-bs-target="#beverages-collapse" aria-expanded="false"> *@
+            @*         <div class="d-flex gap-3"> *@
+            @*             <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*                 <use xlink:href="#beverages"></use> *@
+            @*             </svg> *@
+            @*             <span>Beverages</span> *@
+            @*         </div> *@
+            @*     </button> *@
+            @*     <div class="collapse" id="beverages-collapse"> *@
+            @*         <ul class="btn-toggle-nav list-unstyled fw-normal ps-5 pb-1"> *@
+            @*             <li class="border-bottom py-2"> *@
+            @*                 <a href="index.html" class="dropdown-item">Water</a> *@
+            @*             </li> *@
+            @*             <li class="border-bottom py-2"> *@
+            @*                 <a href="index.html" class="dropdown-item">Juice</a> *@
+            @*             </li> *@
+            @*             <li class="border-bottom py-2"> *@
+            @*                 <a href="index.html" class="dropdown-item">Soda</a> *@
+            @*             </li> *@
+            @*             <li class="border-bottom py-2"> *@
+            @*                 <a href="index.html" class="dropdown-item">Tea</a> *@
+            @*             </li> *@
+            @*         </ul> *@
+            @*     </div> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#spices"></use> *@
+            @*         </svg> *@
+            @*         <span>Spices and Seasonings</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#baby"></use> *@
+            @*         </svg> *@
+            @*         <span>Baby Food and Formula</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#health"></use> *@
+            @*         </svg> *@
+            @*         <span>Health and Wellness</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#household"></use> *@
+            @*         </svg> *@
+            @*         <span>Household Supplies</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#personal"></use> *@
+            @*         </svg> *@
+            @*         <span>Personal Care</span> *@
+            @*     </a> *@
+            @* </li> *@
+            @* <li class="nav-item border-dashed"> *@
+            @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
+            @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
+            @*             <use xlink:href="#pet"></use> *@
+            @*         </svg> *@
+            @*         <span>Pet Food and Supplies</span> *@
+            @*     </a> *@
+            @* </li> *@
         </ul>
 
     </div>
@@ -419,7 +445,7 @@
 
             <div class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
                 <div class="d-flex align-items-center my-3 my-sm-0">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="~/images/logo.svg" alt="logo" class="img-fluid">
                     </a>
                 </div>
@@ -435,10 +461,7 @@
                 <div class="search-bar row bg-light p-2 rounded-4">
                     <div class="col-md-4 d-none d-md-block">
                         <select class="form-select border-0 bg-transparent">
-                            <option>Categories</option>
-                            <option>Groceries</option>
-                            <option>Drinks</option>
-                            <option>Chocolates</option>
+                            <option>English</option>
                         </select>
                     </div>
                     <div class="col-11 col-md-7">
@@ -457,7 +480,7 @@
             <div class="col-lg-4">
                 <ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
                     <li class="nav-item active">
-                        <a href="index.html" class="nav-link">Home</a>
+                        <a href="/" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">More</a>
@@ -545,7 +568,7 @@
 
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer-menu">
-                    <img src="images/logo.svg" width="240" height="70" alt="logo">
+                    <img src="~/images/logo.svg" width="240" height="70" alt="logo">
                     <div class="social-links mt-3">
                         <ul class="d-flex list-unstyled gap-2">
                             <li>

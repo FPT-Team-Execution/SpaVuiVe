@@ -49,7 +49,9 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
 
     public virtual DbSet<SkinCareRoutine> SkinCareRoutines { get; set; }
 
-    public virtual DbSet<SkinTest> SkinTests { get; set; }
+    public virtual DbSet<SkinTestQuestion> SkinTestQuestions { get; set; }
+    public virtual DbSet<SkinTestOption> SkinTestOptions { get; set; }
+
 
     public virtual DbSet<SkinType> SkinTypes { get; set; }
 
@@ -533,30 +535,63 @@ public partial class SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBCont
                 .HasConstraintName("FK_SkinCareRoutine_SkinType");
         });
 
-        modelBuilder.Entity<SkinTest>(entity =>
+        modelBuilder.Entity<SkinTestQuestion>(entity =>
         {
-            entity.HasKey(e => e.TestId).HasName("PK__SkinTest__8CC33160D4C6A537");
+            entity.HasKey(e => e.QuestionId).HasName("PK_SkinTestQuestion");
 
-            entity.ToTable("SkinTest");
+            entity.ToTable("SkinTestQuestion");
 
-            entity.Property(e => e.TestId).HasMaxLength(100);
-            entity.Property(e => e.CorrectSkinTypeId).HasMaxLength(100);
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.OptionA).HasMaxLength(200);
-            entity.Property(e => e.OptionB).HasMaxLength(200);
-            entity.Property(e => e.OptionC).HasMaxLength(200);
-            entity.Property(e => e.OptionD).HasMaxLength(200);
+            entity.Property(e => e.QuestionId)
+                .HasMaxLength(100);
+
             entity.Property(e => e.Question)
                 .IsRequired()
                 .HasMaxLength(500);
 
-            entity.HasOne(d => d.CorrectSkinType).WithMany(p => p.SkinTests)
-                .HasForeignKey(d => d.CorrectSkinTypeId)
-                .HasConstraintName("FK_SkinTest_SkinType");
+            entity.Property(e => e.QuestionOrder)
+                .IsRequired();
+               
+
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true);
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("GETDATE()")
+                .HasColumnType("datetime");
         });
+
+        modelBuilder.Entity<SkinTestOption>(entity =>
+        {
+            entity.HasKey(e => e.OptionId).HasName("PK_SkinTestOption");
+
+            entity.ToTable("SkinTestOption");
+
+            entity.Property(e => e.OptionId)
+                .HasMaxLength(100);
+
+            entity.Property(e => e.QuestionId)
+                .HasMaxLength(100);
+
+            entity.Property(e => e.OptionText)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.Property(e => e.SkinTypeId)
+                .HasMaxLength(100);
+
+            entity.HasOne(d => d.Question)
+                .WithMany(p => p.SkinTestOptions)
+                .HasForeignKey(d => d.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_SkinTestOption_SkinTestQuestion");
+
+            entity.HasOne(d => d.SkinType)
+                .WithMany(p => p.SkinTestOptions)
+                .HasForeignKey(d => d.SkinTypeId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_SkinTestOption_SkinType");
+        });
+
 
         modelBuilder.Entity<SkinType>(entity =>
         {
