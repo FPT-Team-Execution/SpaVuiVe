@@ -56,13 +56,17 @@
 
                 </div>
             }
-            <div class="col-12 my-2">
-                <div class="services-btn text-center">
-                    <form method="post">
-                        <button type="submit" class="btn rounded-pill py-3 px-5" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">Xem kết quả</button>
-                    </form>
+
+            if (Model.SkinTest.Count > 0)
+            {
+                <div class="col-12 my-2">
+                    <div class="services-btn text-center">
+                        <form method="post">
+                            <button type="submit" class="btn rounded-pill py-3 px-5" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">Xem kết quả</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
