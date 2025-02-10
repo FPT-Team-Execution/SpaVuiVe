@@ -7,13 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <Protobuf Include="Protos\BaseResult.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\SkinTypesService.proto" GrpcServices="Server" />
+
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.29.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+    <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
     <ProjectReference Include="..\SkincareProductSalesSystem.Repositories\SkincareProductSalesSystem.Repositories.csproj" />
+	<PackageReference Include="Grpc.AspNetCore.Server" Version="2.67.0" />
+	<PackageReference Include="Grpc.Tools" Version="2.69.0" />
   </ItemGroup>
 
 </Project>

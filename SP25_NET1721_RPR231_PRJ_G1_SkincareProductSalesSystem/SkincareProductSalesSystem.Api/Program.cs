@@ -1,7 +1,6 @@
 using AutoMapper;
 using SkincareProductSalesSystem.Api.Configs;
 using SkincareProductSalesSystem.Services.Configs;
-
 using SkincareProductSalesSystem.Repositories.Database;
 using SkincareProductSalesSystem.Repositories.Repositories;
 using SkincareProductSalesSystem.Repositories;
@@ -39,11 +38,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
 
+
 DependencyInjection.AddInfrastructure(builder.Services);
 //JwtConfiguration.ConfigureJwt(builder);
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -56,6 +55,7 @@ app.UseEndpoints(endpoints =>
 {
     //* endpoints.MapGrpcService<Your-Service-Implement-GrpcBase>();
     //...
+    endpoints.MapGrpcService<SkinTypeService2>();
 });
 app.UseHttpsRedirection();
 
@@ -65,3 +65,4 @@ app.UseAuthorization();
 app.MapControllers();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.Run();
+
