@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Common
 {
-  
+
     public class GrpcClient<T> where T : class
     {
         public T Client { get; }
@@ -22,7 +22,7 @@ namespace SkincareProductSalesSystem.Common
              }
              */
             var channel = GrpcChannel.ForAddress(grpcAddress);
-            Client = (T)Activator.CreateInstance(typeof(T), channel)!;
+            Client ??= (T)Activator.CreateInstance(typeof(T), channel)!;
         }
     }
 
