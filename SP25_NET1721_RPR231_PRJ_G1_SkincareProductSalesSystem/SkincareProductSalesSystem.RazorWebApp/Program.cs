@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 
@@ -14,6 +15,7 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ApiClient>();
+builder.Services.AddSingleton(typeof(GrpcClient<>), typeof(GrpcClient<>));
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => true;
