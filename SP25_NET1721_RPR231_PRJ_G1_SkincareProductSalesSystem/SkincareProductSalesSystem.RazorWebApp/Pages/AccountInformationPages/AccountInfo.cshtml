@@ -42,24 +42,27 @@
                     <div class="form-group">
                         <label>Avatar</label>
                         <div class="avatar-upload">
-                            <img src="@(Model.Avatar ?? "https://via.placeholder.com/100")" alt="Profile" class="avatar-image" />
-                            <input type="file" id="avatar" name="avatar" class="avatar-input" accept="image/*" />
+                            <img src="@(Model.UserAccount.Avatar ?? "https://via.placeholder.com/100")" alt="Profile" class="avatar-image" />
+                            <input type="file" id="avatar" name="AvatarUpload" class="avatar-input" accept="image/*" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Name & Surname</label>
-                        <input type="text" id="name" name="name" class="form-input" value="@Model.FullName" />
+                        <label asp-for="UserAccount.FullName">Name & Surname</label>
+                        <input asp-for="UserAccount.FullName" class="form-input" />
+                        <span asp-validation-for="UserAccount.FullName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="jobTitle">Phone Number</label>
-                        <input type="text" id="jobTitle" name="jobTitle" class="form-input" value="@Model.PhoneNumber" />
+                        <label asp-for="UserAccount.PhoneNumber">Phone Number</label>
+                        <input asp-for="UserAccount.PhoneNumber" class="form-input" />
+                        <span asp-validation-for="UserAccount.PhoneNumber" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-input" value="@Model.Email" />
+                        <label asp-for="UserAccount.Email">Email</label>
+                        <input asp-for="UserAccount.Email" class="form-input" />
+                        <span asp-validation-for="UserAccount.Email" class="text-danger"></span>
                     </div>
                 </section>
 

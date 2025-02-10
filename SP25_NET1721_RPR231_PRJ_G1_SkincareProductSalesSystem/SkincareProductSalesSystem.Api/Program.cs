@@ -33,7 +33,7 @@ builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
 builder.Services.AddScoped<ISkinTestService, SkinTestService>();
 //builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
 builder.Services.AddScoped<IChatBotService, ChatBotService>();
-
+builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
