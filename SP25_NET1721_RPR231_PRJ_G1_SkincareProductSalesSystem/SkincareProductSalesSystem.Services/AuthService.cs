@@ -23,7 +23,7 @@ namespace SkincareProductSalesSystem.Services
 		Task<IServiceResult> Register(RegisterRequest request);
 		Task<IServiceResult> LoginByUsername(LoginRequestModel request);
 		Task<IServiceResult> ForgotPassword(string username);
-		Task<IServiceResult> ResetPassword(ResetPasswordRequestModel request);
+		Task<IServiceResult> ResetPassword(ResetPasswordRequest request);
 	}
 
 	public class AuthService : IAuthService
@@ -165,7 +165,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-		public async Task<IServiceResult> ResetPassword(ResetPasswordRequestModel request)
+		public async Task<IServiceResult> ResetPassword(ResetPasswordRequest request)
 		{
 			try
 			{
@@ -241,7 +241,7 @@ namespace SkincareProductSalesSystem.Services
 		public string RefreshToken { get; set; }
 	}
 
-	public class ResetPasswordRequestModel : BaseModel
+	public class ResetPasswordRequest : BaseModel
 	{
 		[Required]
 		public string Username { get; set; }

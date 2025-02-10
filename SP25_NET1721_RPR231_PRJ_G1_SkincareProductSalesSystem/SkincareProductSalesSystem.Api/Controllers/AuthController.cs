@@ -81,7 +81,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		}
 
 		[HttpPost("/reset-password")]
-		public async Task<IActionResult> ResetPassword(ResetPasswordRequestModel model)
+		public async Task<IActionResult> ResetPassword(Services.ResetPasswordRequest model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
