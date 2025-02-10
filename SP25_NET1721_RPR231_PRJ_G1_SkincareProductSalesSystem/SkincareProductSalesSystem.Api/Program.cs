@@ -56,6 +56,7 @@ app.UseEndpoints(endpoints =>
     //* endpoints.MapGrpcService<Your-Service-Implement-GrpcBase>();
     //...
     endpoints.MapGrpcService<SkinTypeService2>();
+    endpoints.MapGrpcService<ProductGrpcService>();
 });
 app.UseHttpsRedirection();
 
