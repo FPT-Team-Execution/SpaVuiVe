@@ -1,23 +1,22 @@
 ﻿using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Protos.SkinTypesClient;
+using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models;
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.SkinTypePages
 {
     public class IndexModel : PageModel
     {
-       // private readonly SkinTypes.SkinTypesClient _client;
+       private readonly GrpcClient<SkinTypesService.SkinTypesServiceClient> _grpcClient;
 
-        public IndexModel()
+        public IndexModel(GrpcClient<SkinTypesService.SkinTypesServiceClient> grpcClient)
         {
-            
+            _grpcClient = grpcClient;
         }
         public List<SkinType> SkinTypes = new();
         public async Task OnGet()
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:7000");
-            SkinTypesService.SkinTypesServiceClient _client = new SkinTypesService.SkinTypesServiceClient(channel);
-            var response =  await _client.GetAllAsync(new EmptyRequestProto());
+            var response =  await _grpcClient.Client.GetAllAsync(new EmptyRequestProto());
             foreach (var skinType in response.Data)
             {
                 SkinTypes.Add(new SkinType
