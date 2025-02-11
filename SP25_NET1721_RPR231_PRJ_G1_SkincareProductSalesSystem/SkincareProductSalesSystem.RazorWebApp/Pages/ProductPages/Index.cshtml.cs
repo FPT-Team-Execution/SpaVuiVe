@@ -13,7 +13,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.ProductPages;
 public class Index : PageModel
 {
     private readonly ApiClient _apiClient;
-    private readonly GrpcClient<ProductGrpcClient.ProductGrpcClientClient> _grpcClient;
+    private readonly GrpcClient<ProductGrpcProto.ProductGrpcProtoClient> _grpcClient;
 
     public IndexProductPageData indexProductPageData { get; set; } = new();
 
@@ -25,7 +25,7 @@ public class Index : PageModel
     public string? SortBy { get; set; }
     public bool IsAsc { get; set; }
 
-    public Index(ApiClient apiClient, GrpcClient<ProductGrpcClient.ProductGrpcClientClient> grpcClient)
+    public Index(ApiClient apiClient, GrpcClient<ProductGrpcProto.ProductGrpcProtoClient> grpcClient)
     {
         _apiClient = apiClient;
         _grpcClient = grpcClient;
@@ -92,7 +92,6 @@ public class Index : PageModel
             Page = Page,
             Size = Size,
             SortBy = SortBy,
-
         });
 
         await Task.WhenAll(categoryTask, brandTask);
