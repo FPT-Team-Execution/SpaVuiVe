@@ -3,12 +3,6 @@
 @{
     ViewData["Title"] = "Da mặt";
     var notUpdated = "Chưa cập nhật";
-    var primaryColor = "#7122e7";
-    var secondaryColor = "#f67b18";
-    var dangerColor = "#dc3545";
-    var lightBg = "#f8f9fa";
-    var darkText = "#333333";
-    var grayText = "#666666";
 }
 
 <div class="testimonial">
@@ -31,10 +25,10 @@
                         @foreach (var skinType in @Model.SkinTypes)
                         {
                             <div class="item my-2">
-                                <span class="skin-icon">
+                                <span class="skin-icon bg-primary text-white">
                                     @(string.IsNullOrEmpty(skinType.Name) ? "?" : skinType.Name.Substring(0, 1))
                                 </span>
-                                <h3>@(string.IsNullOrEmpty(skinType.Name) ? notUpdated : skinType.Name)</h3>
+                                <h3 style="color: #ffc0cb;">@(string.IsNullOrEmpty(skinType.Name) ? notUpdated : skinType.Name)</h3>
                                 <div class="skin-content">
                                     <div class="description-section">
                                         <h4>Mô tả</h4>
@@ -81,14 +75,6 @@
 </div>
 
 <style>
-    :root {
-        --primary-color: @primaryColor;
-        --secondary-color: @secondaryColor;
-        --danger-color: @dangerColor;
-        --light-bg: @lightBg;
-        --dark-text: @darkText;
-        --gray-text: @grayText;
-    }
 
     .testimonial {
         padding: 60px 0;
@@ -167,7 +153,7 @@
     .ingredients,
     .care-instructions {
         background: var(--light-bg);
-        padding: 20px;
+        padding: 0px;
         border-radius: 10px;
         margin: 15px 0;
         border-left: 4px solid var(--primary-color);
@@ -249,5 +235,5 @@
         font-size: 15px;
     }
 
-    }
+    
 </style>

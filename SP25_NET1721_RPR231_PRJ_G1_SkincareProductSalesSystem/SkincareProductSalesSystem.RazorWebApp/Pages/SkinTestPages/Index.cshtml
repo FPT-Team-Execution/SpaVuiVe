@@ -62,15 +62,31 @@
                 <div class="col-12 my-2">
                     <div class="services-btn text-center">
                         <form method="post">
-                            <button type="submit" class="btn rounded-pill py-3 px-5" style="background-color: #ffc0cb; color: #333; border: 2px solid #ffc0cb; transition: all 0.3s ease;">Xem kết quả</button>
+                            <button type="submit" class="btn custom-btn rounded-pill py-3 px-5 me-3">Xem kết quả</button>
+
                         </form>
+
+                       
                     </div>
                 </div>
             }
         }
     </div>
 </div>
+<style>
+    .custom-btn {
+        background-color: #ffc0cb;
+        color: #333;
+        border: 2px solid #ffc0cb;
+        transition: all 0.3s ease;
+    }
 
+        .custom-btn:hover {
+            background-color: transparent;
+            color: #333;
+            border-color: #ffc0cb;
+        }
+</style>
 <script>
          document.querySelectorAll(".option-btn").forEach(button => {
         button.addEventListener("click", function (event) {
