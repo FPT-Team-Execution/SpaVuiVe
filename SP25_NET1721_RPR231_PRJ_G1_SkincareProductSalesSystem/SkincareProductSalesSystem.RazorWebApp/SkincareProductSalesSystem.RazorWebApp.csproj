@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\ProductGrpcClient.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\css\adminStyle.css" />
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\css\ajax-loader.gif" />
     <_ContentIncludedByDefault Remove="wwwroot\wwwroot\css\normalize.css" />
@@ -279,6 +283,7 @@
   </ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos/SkinTypesClient.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\ProductGrpcClient.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>
