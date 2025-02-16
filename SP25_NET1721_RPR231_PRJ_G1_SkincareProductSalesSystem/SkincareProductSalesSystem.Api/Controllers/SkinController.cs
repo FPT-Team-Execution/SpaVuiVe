@@ -12,7 +12,9 @@ namespace SkincareProductSalesSystem.Api.Controllers
         private readonly ISkinTestService _skinTestService;
         //private readonly ISkinTypeService _skinTypeService;
 
-        public SkinController(ISkinTestService skinTestService, ISkinTypeService skinTypeService )
+        public SkinController(ISkinTestService skinTestService
+            //ISkinTypeService skinTypeService
+            )
         {
             _skinTestService = skinTestService;
             //_skinTypeService = skinTypeService;
