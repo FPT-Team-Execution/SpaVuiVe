@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\SkinTypesService.proto" GrpcServices="Server" />
-	 <Protobuf Include="Protos\AuthServiceGRPC.proto" GrpcServices="Server" />
+	 <Protobuf Include="Protos\AuthService.proto" GrpcServices="Server" />
+  <Protobuf Include="Protos\PromotionService.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,11 +10,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 	[ApiController]
 	public class PromotionUsageController : ControllerBase
 	{
-		private IPromotionUsageService promotionUsageService;
+		private IPromotionUsageService _promotionUsageService;
 
 		public PromotionUsageController(IPromotionUsageService promotionUsageService)
 		{
-			this.promotionUsageService = promotionUsageService;
+			this._promotionUsageService = promotionUsageService;
 		}
 
 		[HttpPost]
@@ -24,7 +24,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var response = await promotionUsageService.Create(request);
+				var response = await _promotionUsageService.Create(request);
 				return response != null ?
 					StatusCode(response.Status, response)
 					:
@@ -44,7 +44,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var response = await promotionUsageService.Update(request);
+				var response = await _promotionUsageService.Update(request);
 				return response != null ?
 					StatusCode(response.Status, response)
 					:
@@ -64,7 +64,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				return BadRequest(ModelState);
 			try
 			{
-				var response = await promotionUsageService.Delete(promoUsageId);
+				var response = await _promotionUsageService.Delete(promoUsageId);
 				return response != null ?
 					StatusCode(response.Status, response)
 					:
@@ -83,7 +83,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		{
 			try
 			{
-				var response = await promotionUsageService.GetAll();
+				var response = await _promotionUsageService.GetAll();
 				return response != null ?
 					StatusCode(response.Status, response)
 					:
@@ -101,7 +101,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		{
 			try
 			{
-				var response = await promotionUsageService.GetById(id);
+				var response = await _promotionUsageService.GetById(id);
 				return response != null ?
 					StatusCode(response.Status, response)
 					:
@@ -112,6 +112,13 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
+		}
+
+		[HttpGet("{page}/{size}")]
+		public async Task<IActionResult> Get(int page = 1, int size = 10)
+		{
+			var response = await _promotionUsageService.GetPaginate(page: page, size:size);
+			return response != null ? StatusCode(200, response) : StatusCode(500, "No response");
 		}
 	}
 }

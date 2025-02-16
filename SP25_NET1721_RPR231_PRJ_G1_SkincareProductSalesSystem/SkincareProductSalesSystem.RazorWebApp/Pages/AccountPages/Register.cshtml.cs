@@ -8,19 +8,20 @@ using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using SkincareProductSalesSystem.Common;
+using Protos.AuthClient;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
     public class RegisterModel : PageModel
     {
-		private ApiClient _apiClient;
+		private GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> _grpcClient;
 
-		public RegisterModel(ApiClient client)
+		public RegisterModel(GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> grpcClient)
 		{
-			_apiClient = client;
+			_grpcClient = grpcClient;
 		}
 
-		
 		public string? ErrorMessage { get; set; }
 
 		[BindProperty]
@@ -42,7 +43,14 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 					return Page();
 				}
 
-				var response = await _apiClient.PostAsync("/register", RegisterRequest);
+				var response = await _grpcClient.Client.RegisterAsync(new RegisterRequestProto() {
+					Username = RegisterRequest.Username,
+					FullName = RegisterRequest.FullName,
+					Email = RegisterRequest.Email,	
+					PhoneNumber = RegisterRequest.PhoneNumber,
+					Password = RegisterRequest.Password
+				});
+
 				if (response.Status != 200)
 				{
 					ErrorMessage = response.Message;

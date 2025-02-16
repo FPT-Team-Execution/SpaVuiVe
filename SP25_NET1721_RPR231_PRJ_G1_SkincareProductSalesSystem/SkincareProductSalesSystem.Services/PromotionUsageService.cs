@@ -2,6 +2,7 @@
 using Azure.Core;
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
+using SkincareProductSalesSystem.Repositories.Paginate;
 using SkincareProductSalesSystem.Services.Base;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,8 @@ namespace SkincareProductSalesSystem.Services
 		Task<IServiceResult> Update(UpdatePromotionUsageRequest request);
 		Task<IServiceResult> Delete(string promoUsageId);
 		Task<IServiceResult> GetAll();
+		Task<IPaginate<PromotionUsage>?> GetPaginate(int page, int size);
 		Task<IServiceResult> GetById(string promoUsageId);
-
-
 	}
 
 
@@ -41,11 +41,11 @@ namespace SkincareProductSalesSystem.Services
 		{
 			try
 			{
-				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
-				if (promo == null) return new ServiceResult(404, "Code not found");
+				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode.ToUpper());
+				if (promo == null) return new ServiceResult(404, "Không tìm thấy code");
 
 				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
-				if (order == null) return new ServiceResult(404, "Order not found)");
+				if (order == null) return new ServiceResult(404, "Không tìm thấy Order");
 
 				var promoUsage = _mapper.Map<PromotionUsage>(request);
 				promoUsage.DiscountAmount = promo.DiscountAmount;
@@ -63,6 +63,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return new ServiceResult()
 				{
 					Status = 500,
@@ -123,6 +124,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return new ServiceResult()
 				{
 					Status = 500,
@@ -147,6 +149,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return new ServiceResult()
 				{
 					Status = 500,
@@ -155,6 +158,18 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
+		public async Task<IPaginate<PromotionUsage>?> GetPaginate(int page, int size)
+		{
+			try
+			{
+				return await _uOW.PromotionUsageRepository.GetPagingListAsync(page: page, size: size);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return null;
+			}
+		}
 	}
 	public class CreatePromotionUsageRequest
 	{
@@ -162,8 +177,6 @@ namespace SkincareProductSalesSystem.Services
 		public string PromoCode { get; set; }
 		[Required]
 		public string OrderId { get; set; }
-
-		public bool? IsValid { get; set; }
 		[Required]
 		public string Notes { get; set; }
 	}

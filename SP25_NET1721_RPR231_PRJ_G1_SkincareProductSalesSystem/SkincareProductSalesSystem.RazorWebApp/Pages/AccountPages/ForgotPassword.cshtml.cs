@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Protos.AuthClient;
+using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,14 +10,13 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
     public class ForgotPasswordModel : PageModel
     {
-		
+		private GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> _grpcClient;
 
-		private ApiClient _apiClient;
-
-		public ForgotPasswordModel(ApiClient apiClient)
+		public ForgotPasswordModel(GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> grpcClient)
 		{
-			_apiClient = apiClient;
+			_grpcClient = grpcClient;
 		}
+
 
 		[BindProperty]
 		[Required]
@@ -30,11 +31,14 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 		{
 			if (!ModelState.IsValid)
 			{
-				ErrorMessage = "Không thể gửi yêu cầu";
+				ErrorMessage = "Invalid username";
 				return Page();
 			}
 
-			var response = await _apiClient.PostAsync("/forgot-password", Username);
+			var response = await _grpcClient.Client.ForgotPasswordAsync(new ForgotPasswordRequestProto()
+			{
+				Username = Username,
+			});
 
 			if (response.Status != 200)
 			{

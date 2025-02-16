@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Identity;
+using Grpc.Core;
 using Microsoft.IdentityModel.Tokens;
 using Protos.AuthService;
 using SkincareProductSalesSystem.Repositories;
@@ -34,7 +35,7 @@ namespace SkincareProductSalesSystem.Services
 			_jwtHelper = jwtHelper;
 		}
 
-		public async Task<ServiceResultProto> Register(RegisterRequest request)
+		public override async Task<ServiceResultProto> Register(RegisterRequestProto request, ServerCallContext context)
 		{
 			try
 			{
@@ -81,7 +82,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-		public async Task<ServiceResulLoginProto> LoginByUsername(LoginRequestModel request)
+		public override async Task<ServiceResulLoginProto> Login(LoginRequestProto request, ServerCallContext context)
 		{
 			try
 			{
@@ -125,11 +126,11 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-		public async Task<ServiceResultProto> ForgotPassword(string username)
+		public override async Task<ServiceResultProto> ForgotPassword(ForgotPasswordRequestProto request, ServerCallContext context)
 		{
 			try
 			{
-				var user = await _uOW.UserRepository.CheckUsernameExistsAsync(username);
+				var user = await _uOW.UserRepository.CheckUsernameExistsAsync(request.Username);
 				if (user == null)
 					return new ServiceResultProto()
 					{
@@ -137,7 +138,7 @@ namespace SkincareProductSalesSystem.Services
 						Message = "Username not found"
 					};
 
-				var passwordResetKey = PasswordHelper.CreateResetPasswordKey(username);
+				var passwordResetKey = PasswordHelper.CreateResetPasswordKey(request.Username);
 				if (string.IsNullOrEmpty(passwordResetKey))
 					return new ServiceResultProto()
 					{
@@ -160,7 +161,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-		public async Task<ServiceResultProto> ResetPassword(ResetPasswordRequest request)
+		public override async Task<ServiceResultProto> ResetPassword(ResetPasswordRequestProto request, ServerCallContext context)
 		{
 			try
 			{
@@ -170,7 +171,7 @@ namespace SkincareProductSalesSystem.Services
 					return new ServiceResultProto()
 					{
 						Status = 500,
-						Message = "Incorrect Security Key"
+						Message = "Mã bảo mật không đúng"
 					};
 				}
 				var user = await _uOW.UserRepository.CheckUsernameExistsAsync(request.Username);
@@ -178,10 +179,10 @@ namespace SkincareProductSalesSystem.Services
 					return new ServiceResultProto()
 					{
 						Status = 500,
-						Message = "Username not found"
+						Message = "Không tìm thấy tên người dùng"
 					};
 				string passwordSalt = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8));
-				string hashedPassword = PasswordHelper.HashPassword(request.NewPassword, passwordSalt);
+				string hashedPassword = PasswordHelper.HashPassword(request.Password, passwordSalt);
 
 				user.PasswordHash = hashedPassword;
 				user.PasswordSalt = passwordSalt;

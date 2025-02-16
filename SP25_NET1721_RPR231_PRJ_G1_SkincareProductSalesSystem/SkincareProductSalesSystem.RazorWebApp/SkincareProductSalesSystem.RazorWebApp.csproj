@@ -280,6 +280,7 @@
 	<ItemGroup>
 		<Protobuf Include="Protos/SkinTypesClient.proto" GrpcServices="Client" />
 		<Protobuf Include="Protos/AuthClient.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos/PromotionClient.proto" GrpcServices="Client" />
 	</ItemGroup>
 
   <ItemGroup>

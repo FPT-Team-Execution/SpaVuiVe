@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Protos.AuthService;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Models.SkinTestModels;
 using System;
@@ -14,6 +15,12 @@ namespace SkincareProductSalesSystem.Services.Configs
         public AutoMapperConfig()
         {
 			CreateMap<RegisterRequest, User>()
+				.ForMember(b => b.Email, opt => opt.MapFrom(a => a.Email))
+				.ForMember(b => b.Username, opt => opt.MapFrom(a => a.Username))
+				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))
+				.ForMember(b => b.FullName, opt => opt.MapFrom(a => a.FullName));
+
+			CreateMap<RegisterRequestProto, User>()
 				.ForMember(b => b.Email, opt => opt.MapFrom(a => a.Email))
 				.ForMember(b => b.Username, opt => opt.MapFrom(a => a.Username))
 				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))
