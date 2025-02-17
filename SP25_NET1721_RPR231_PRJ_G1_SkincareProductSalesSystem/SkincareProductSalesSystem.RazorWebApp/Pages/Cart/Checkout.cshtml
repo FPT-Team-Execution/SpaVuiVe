@@ -1,0 +1,76 @@
+﻿@page
+@model SpaVuiVe_FE.Pages.OrderPages.CheckoutModel
+@{
+}
+<div class="body">
+    <div class="container">
+        <div class="popup" id="popup">
+            <div><i class=" fa fa-check-circle" style="font-size:100px;color:green"></i></div>
+            <div class=" popup-header">Thành công</div>
+            <div class="popup-body">Spa-vui ve sẽ sớm liên hệ với quý khách để bàn giao sản phẩm, dịch vụ.</div>
+            <button onclick="closePopup()"><i class="fa fa-chevron-right" style="font-size:20px"></i></button>
+        </div>
+        <div class="address-container">
+            <div class="title">Địa chỉ nhận hàng</div>
+            <div class="address">
+                Nhật Minh (+84) 984072435
+                <span>Số 15, Đường Lô Ồ, Phường Bình An, Thành Phố Dĩ An, Bình Dương</span>
+            </div>
+        </div>
+        <div class="checkout-container">
+            <div class="checkout-container-row">
+                <div style="display: flex; align-items: center;">
+                    Sản Phẩm
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">Đơn Giá</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    Số Lượng
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    Số Tiền
+                </div>
+            </div>
+        </div>
+        <div class="checkout-container">
+            <div class="checkout-container-row">
+                <div style="display: flex; align-items: center;">
+                    <div class="cell"
+                         style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                        <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
+                             alt="Tai nghe" style="width: 100%;
+                            object-fit: cover;">
+                    </div>
+                    <div class="cell cart-item-details">
+                        <p>Tai Nghe Bluetooth LG TONE Free T90S - Công nghệ Dolby Atmos</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    <div class="cart-item-price">₫3.239.000</div>
+                </div>
+                <div style="display: flex; align-items: center;justify-content: center;">
+                    1
+                </div>
+                <div class="cart-item-total" style="display: flex; align-items: center;justify-content: center;">
+                    ₫3.239.000
+                </div>
+            </div>
+        </div>
+
+        <div class="address-container">
+            <div style="display: flex; justify-content: right;">
+                <div style="display: grid; grid-template-columns: 50% 50%; width: 20%; max-width: 30%;">
+                    <div style="display: flex; justify-content: left;">Tổng tiền hàng</div>
+                    <div style="display: flex; justify-content: right;">₫635.000</div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: right; padding-top: 20px;">
+                <form action="">
+                    <input style="font-size: 1.25rem; padding: 5px 20px; font-weight: 600; border: none; color: #FFFFFF; background-color: #212529; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                           type="submit" value="Đặt hàng" id="" />
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>

@@ -13,40 +13,80 @@ namespace SkincareProductSalesSystem.Services.ExtendServices
             var redis = ConnectionMultiplexer.Connect("localhost:6379");
             _cacheDb = redis.GetDatabase();
         }
-        T ICacheService.GetData<T>(string key)
+
+        public async Task<T> GetDataAsync<T>(string key)
         {
-            var value = _cacheDb.StringGet(key);
-            if (!string.IsNullOrEmpty(value))
+            var value = await _cacheDb.StringGetAsync(key);
+            if (!value.IsNullOrEmpty)
             {
-                return JsonSerializer.Deserialize<T>(value);
+                return JsonSerializer.Deserialize<T>(value.ToString());
             }
             return default;
-        }
 
-        List<T> ICacheService.GetListData<T>(string key)
+        }
+        public async Task<bool> SetDataAsync<T>(string key, T value, DateTimeOffset? expirationTime = null)
         {
-            throw new NotImplementedException();
+            TimeSpan? expiryTime = expirationTime.HasValue
+                ? expirationTime.Value - DateTimeOffset.Now
+                : (TimeSpan?)null;
+
+            return await _cacheDb.StringSetAsync(key, JsonSerializer.Serialize(value), expiryTime);
         }
 
-        object ICacheService.RemoveData(string key)
+        public async Task<object> RemoveDataAsync(string key)
         {
             var exist = _cacheDb.KeyExists(key);
             if (exist)
             {
-                return _cacheDb.KeyDelete(key);
+                return await _cacheDb.KeyDeleteAsync(key);
             }
             return false;
         }
 
-        bool ICacheService.SetData<T>(string key, T value, DateTimeOffset expirationTime)
-        {
-            var expirtyTime = expirationTime.DateTime.Subtract(DateTime.Now);
-            return _cacheDb.StringSet(key, JsonSerializer.Serialize(value), expirtyTime);
-        }
 
-        bool ICacheService.SetListData<T>(string key, List<T> value, DateTimeOffset expirationTime)
+        public Task<List<T>> GetListDataAsync<T>(string key)
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> SetListDataAsync<T>(string key, List<T> value, DateTimeOffset? expirationTime)
+        {
+            throw new NotImplementedException();
+        }
+        //T ICacheService.GetData<T>(string key)
+        //{
+        //    var value = _cacheDb.StringGet(key);
+        //    if (!string.IsNullOrEmpty(value))
+        //    {
+        //        return JsonSerializer.Deserialize<T>(value);
+        //    }
+        //    return default;
+        //}
+
+        //List<T> ICacheService.GetListData<T>(string key)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //object ICacheService.RemoveData(string key)
+        //{
+        //    var exist = _cacheDb.KeyExists(key);
+        //    if (exist)
+        //    {
+        //        return _cacheDb.KeyDelete(key);
+        //    }
+        //    return false;
+        //}
+
+        //bool ICacheService.SetData<T>(string key, T value, DateTimeOffset expirationTime)
+        //{
+        //    var expirtyTime = expirationTime.DateTime.Subtract(DateTime.Now);
+        //    return _cacheDb.StringSet(key, JsonSerializer.Serialize(value), expirtyTime);
+        //}
+
+        //bool ICacheService.SetListData<T>(string key, List<T> value, DateTimeOffset expirationTime)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
