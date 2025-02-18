@@ -56,7 +56,7 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = 201,
+					Status = 200,
 					Message = "Thành công",
 					Data = promoUsage
 				};
@@ -102,14 +102,23 @@ namespace SkincareProductSalesSystem.Services
 				var promoUsage = await _uOW.PromotionUsageRepository.GetByIdAsync(request.PromoId);
 				if (promoUsage == null) return new ServiceResult(404, "PromotionUsage not found");
 
-				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
-				if (promo == null) return new ServiceResult(404, "Code not found");
-
-				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
-				if (order == null) return new ServiceResult(404, "Order not found)");
+				
+				
+				if (request.OrderId != null)
+				{
+					var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
+					if (order == null) return new ServiceResult(404, "Order not found)");
+				}
 
 				promoUsage = _mapper.Map<PromotionUsage>(request);
-				promoUsage.DiscountAmount = promo.DiscountAmount;
+
+				if (request.PromoCode != null)
+				{
+					var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
+					if (promo == null) return new ServiceResult(404, "Code not found");
+
+					promoUsage.DiscountAmount = promo.DiscountAmount;
+				}
 				promoUsage.UsedAt = DateTime.Now;
 				promoUsage.CreatedAt = DateTime.Now;
 				promoUsage.IsValid = true;

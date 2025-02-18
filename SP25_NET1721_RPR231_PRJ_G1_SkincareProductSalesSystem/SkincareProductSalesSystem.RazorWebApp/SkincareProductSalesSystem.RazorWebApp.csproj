@@ -298,6 +298,7 @@
   <ItemGroup>
     <None Include="wwwroot\css\login.css" />
   </ItemGroup>
+  <ItemGroup>
 		<Protobuf Include="Protos\ProductGrpcClient.proto" GrpcServices="Client" />
 	</ItemGroup>
 
