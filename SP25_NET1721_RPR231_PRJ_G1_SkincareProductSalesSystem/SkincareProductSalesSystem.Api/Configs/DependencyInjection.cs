@@ -9,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SkincareProductSalesSystem.Services;
+using SkincareProductSalesSystem.Services.ExtendServices;
+using SkincareProductSalesSystem.Repositories.Database;
+using SkincareProductSalesSystem.Repositories.Repositories;
 
 namespace SkincareProductSalesSystem.Api.Configs
 {
@@ -25,8 +28,22 @@ namespace SkincareProductSalesSystem.Api.Configs
 			services.AddScoped<IPromotionService, PromotionService>();
 			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<ICategoryService, CategoryService>();
-			services.AddScoped<IPromotionUsageService, PromotionUsageService>();
-		}
+			services.AddScoped<ICacheService, CacheService>();
+            services.AddDbContext<SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext>();
+            services.AddScoped<OrderRepository>();
+            services.AddScoped<BrandRepository>();
+            services.AddScoped<OrderDetailRepository>();
+            services.AddScoped<PaymentMethodRepository>();
+            services.AddScoped<PaymentRepository>();
+            services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IOrderDetailServices, OrderDetailServices>();
+            services.AddScoped<IBrandService, BrandServices>();
+            services.AddScoped<IPaymentServices, PaymentServices>();
+            services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
+            services.AddScoped<ISkinTestService, SkinTestService>();
+            //services.AddScoped<ISkinTypeService, SkinTypeService>();
+            services.AddScoped<IChatBotService, ChatBotService>();
+        }
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)
 		{
