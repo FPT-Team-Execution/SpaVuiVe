@@ -21,7 +21,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/cart_page.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/checkout_page.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/pop_up.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/skin-result.css" />
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -261,26 +266,33 @@
     <div class="offcanvas-body">
 
         <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
-            @{
-                var categoryResponse = await _apiClient.GetAsync("/categories?page=1&size=100");
-                var categoryResult = JsonConvert.DeserializeObject<Paginate<Category>>(categoryResponse.Data.ToString());
+                @{
+                    var categoryResponse = await _apiClient.GetAsync("/categories?page=1&size=100");
+                    if (categoryResponse?.Data != null)
+                    {
+                        var categoryResult = JsonConvert.DeserializeObject<Paginate<Category>>(categoryResponse.Data.ToString());
 
-                foreach (var category in categoryResult.Items)
-                {
-                    <li class="nav-item border-dashed active">
-                        <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-                            <svg width="24" height="24" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#FF8FA3">
-                                <rect x="22" y="12" width="20" height="40" rx="4" ry="4" stroke="#D62857" stroke-width="2" fill="#FFDDE4"/>
-                                <rect x="26" y="6" width="12" height="10" rx="2" ry="2" stroke="#D62857" stroke-width="2" fill="#FF8FA3"/>
-                                <circle cx="32" cy="34" r="6" fill="#FF8FA3" stroke="#D62857" stroke-width="2"/>
-                                <line x1="22" y1="20" x2="42" y2="20" stroke="#D62857" stroke-width="2"/>
-                            </svg>
+                        foreach (var category in categoryResult.Items)
+                        {
+                            <li class="nav-item border-dashed active">
+                                <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+                                    <svg width="24" height="24" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#FF8FA3">
+                                        <rect x="22" y="12" width="20" height="40" rx="4" ry="4" stroke="#D62857" stroke-width="2" fill="#FFDDE4" />
+                                        <rect x="26" y="6" width="12" height="10" rx="2" ry="2" stroke="#D62857" stroke-width="2" fill="#FF8FA3" />
+                                        <circle cx="32" cy="34" r="6" fill="#FF8FA3" stroke="#D62857" stroke-width="2" />
+                                        <line x1="22" y1="20" x2="42" y2="20" stroke="#D62857" stroke-width="2" />
+                                    </svg>
 
-                            <span>@category.Name</span>
-                        </a>
-                    </li>
+                                    <span>@category.Name</span>
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        var categoryResult = new Paginate<Category>();
+                    }
                 }
-            }
             @* <li class="nav-item border-dashed active"> *@
             @*     <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2"> *@
             @*         <svg width="24" height="24" viewBox="0 0 24 24"> *@
