@@ -3,7 +3,7 @@
 @{
     Layout = "Shared/_Layout";
 }
- 
+
 @if (Model?.IndextProductCartPage?.ProductCart != null && Model.IndextProductCartPage.ProductCart.Any())
 {
     <div class="body" style="margin: 2rem;">
@@ -32,35 +32,42 @@
             <div class="cart-container">
                 @foreach (var productCart in Model.IndextProductCartPage.ProductCart)
                 {
-                <div class="cart-container-row">
-                    <div class="cell" style="display: flex; align-items: center;">
-                        <input type="checkbox">
-                    </div>
-                    <div style="display: flex;">
-                        <div class="cell" style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
-                            <img src="@productCart.ProductInCart.ImageUrl" alt="Sản phẩm" style="width: 100%; object-fit: cover;">
+                    <div class="cart-container-row">
+                        <div class="cell" style="display: flex; align-items: center;">
+                            <input type="checkbox">
                         </div>
-                        <div class="cell cart-item-details">
-                            <p>@productCart.ProductInCart.Name</p>
+                        <div style="display: flex;">
+                            <div class="cell" style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
+                                <img src="@productCart.ProductInCart.ImageUrl" alt="Sản phẩm" style="width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="cell cart-item-details">
+                                <p>@productCart.ProductInCart.Name</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <div class="cart-item-price">₫@productCart.ProductInCart.Price</div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <div class="cart-item-actions">
+                                <button onclick="changeValue(-1)">-</button>
+                                <form method="post" asp-page-handler="AddToCart">
+                                    <input type="hidden" name="productCartId" value="@productCart.ProductInCart.ProductId" />
+                                    <input type="number" id="number" name="quantity" value="@productCart.Quantity">
+                                </form>
+                                <button onclick="changeValue(1)">+</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="productCart" value="@productCart" />
+                        <input type="hidden" name="productQuantity" value="@productCart.Quantity" />
+
+                        <div class="cart-item-total" style="display: flex; align-items: center; justify-content: center;">
+                            ₫@(productCart.Quantity * productCart.ProductInCart.Price)
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <i class="material-icons">close</i>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <div class="cart-item-price">₫@productCart.ProductInCart.Price</div>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <div class="cart-item-actions">
-                            <button onclick="changeValue(-1)">-</button>
-                            <input type="number" id="number" value="@productCart.Quantity" min="0" max="10">
-                            <button onclick="changeValue(1)">+</button>
-                        </div>
-                    </div>
-                    <div class="cart-item-total" style="display: flex; align-items: center; justify-content: center;">
-                        ₫@(productCart.Quantity * productCart.ProductInCart.Price)
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <i class="material-icons">close</i>
-                    </div>
-                </div>
                 }
 
             </div>

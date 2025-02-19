@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using SkincareProductSalesSystem.RazorWebApp.Models;
@@ -53,8 +54,40 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.Cart
 
             return new List<T>();
         }
-    }
 
+        public async Task<IActionResult> OnPostAddToCart([FromForm] string productCartId, int quantity)
+        {
+            try
+            {
+                if (quantity > 0)
+                {
+                    var productCart = await _apiClient.GetMinhAsync<ProductCart>($"/cart/product/{productCartId}");
+                    if (productCart != null && productCart.Status == 200 && productCart.Data != null)
+                    {
+
+                        if (productCart.Data is ProductCart)
+                        {
+                            var responseData = (ProductCart)productCart.Data;
+                            if (responseData == null) throw new Exception();
+                            var productCartResult = await _apiClient.PutAsync($"/cart/product?quantity={quantity}", responseData.ProductInCart);
+                        }
+
+                    }
+                }
+                else
+                {
+                    var productCart = await _apiClient.DeleteAsync($"/cart/product/{productCartId}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return RedirectToPage("Index");
+        }
+    }
     public class IndextProductCartPage
     {
         public List<ProductCart>? ProductCart { get; set; }
