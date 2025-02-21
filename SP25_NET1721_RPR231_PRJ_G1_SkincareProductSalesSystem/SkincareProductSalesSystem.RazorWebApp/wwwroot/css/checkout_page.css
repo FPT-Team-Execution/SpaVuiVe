@@ -1,6 +1,6 @@
 ﻿.checkout-container {
     display: grid;
-    grid-template-columns: 50% 20% 10% 20%;
+    grid-template-columns: 20% 30% 20% 10% 20%;
     gap: 0px;
     margin-top: 20px;
     margin: 20px auto;
@@ -38,3 +38,5 @@
             padding-left: 30px;
             font-weight: 400;
         }
+
+

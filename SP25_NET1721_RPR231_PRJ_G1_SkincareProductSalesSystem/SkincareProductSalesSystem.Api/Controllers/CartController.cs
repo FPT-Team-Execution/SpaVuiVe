@@ -107,7 +107,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
                 });
             }
         }
-        [HttpPut("cart/product")]
+        [HttpPatch("cart/product")]
         public async Task<IActionResult> UpdateToCart(Product product, int quantity)
         {
             try
