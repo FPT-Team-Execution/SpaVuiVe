@@ -276,9 +276,11 @@
   <ItemGroup>
     <ProjectReference Include="..\SkincareProductSalesSystem.Common\SkincareProductSalesSystem.Common.csproj" />
     <ProjectReference Include="..\SkincareProductSalesSystem.Repositories\SkincareProductSalesSystem.Repositories.csproj" />
+    <ProjectReference Include="..\SkincareProductSalesSystem.Services\SkincareProductSalesSystem.Services.csproj" />
   </ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos/SkinTypesClient.proto" GrpcServices="Client" />
+		<Protobuf Include="..\SkincareProductSalesSystem.Services\Protos\UserAccountGrpcProto.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

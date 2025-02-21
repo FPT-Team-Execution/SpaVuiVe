@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "SkincareProductSalesSystem.Services.GrpcServices";
+
+package userAccount;
+
+service UserAccountGrpc {
+  rpc GetUserAccount (UserAccountRequest) returns (UserAccountResponse);
+}
+
+message UserAccountRequest {
+  int32 id = 1;
+}
+
+message UserAccountResponse {
+  int32 id = 1;
+  string userName = 2;
+  string fullName = 3;
+  string email = 4;
+  string phone = 5;
+}
