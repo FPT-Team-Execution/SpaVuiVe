@@ -31,3 +31,4 @@ public partial class OrderDetail
 
     public virtual Product Product { get; set; }
 }
+
