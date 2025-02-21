@@ -24,9 +24,9 @@ namespace SkincareProductSalesSystem.Api.Configs
 {
 	options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = false,
-		ValidateAudience = false,
-		ValidateLifetime = false,
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = builder.Configuration["Jwt:Issuer"],
 		ValidAudience = builder.Configuration["Jwt:Audience"],

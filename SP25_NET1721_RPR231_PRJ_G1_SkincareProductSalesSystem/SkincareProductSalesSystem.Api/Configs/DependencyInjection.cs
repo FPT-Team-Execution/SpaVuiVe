@@ -43,6 +43,7 @@ namespace SkincareProductSalesSystem.Api.Configs
             services.AddScoped<ISkinTestService, SkinTestService>();
             //services.AddScoped<ISkinTypeService, SkinTypeService>();
             services.AddScoped<IChatBotService, ChatBotService>();
+			services.AddScoped<IPromotionService, PromotionService>();
         }
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)
