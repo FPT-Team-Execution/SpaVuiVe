@@ -46,7 +46,6 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
 				UsageLimit = Convert.ToInt32(Promotion.UsageLimit)
 			});
 
-
 			if (response.Status != 200)
 			{
 				Console.WriteLine(response.Message);

@@ -61,7 +61,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 		}
 
 		[HttpPost("/forgot-password")]
-		public async Task<IActionResult> ForgotPassword([FromBody][Required] string username)
+		public async Task<IActionResult> ForgotPassword([Required] string username)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);

@@ -45,7 +45,7 @@ namespace SkincareProductSalesSystem.Services
 						Status = 500,
 						Message = "Tên tài khoản đã tồn tại."
 					};
-				if (await _uOW.UserRepository.CheckEmailExistsAsync(request.Email) != null)
+				if (await _uOW.UserRepository.CheckEmailExistsAsync(request.Email.ToLower()) != null)
 					return new ServiceResultProto()
 					{
 						Status = 500,
@@ -62,6 +62,7 @@ namespace SkincareProductSalesSystem.Services
 				string hashedPassword = PasswordHelper.HashPassword(request.Password, passwordSalt);
 
 				User user = _mapper.Map<User>(request);
+				user.Email = request.Email.ToLower();
 				user.PasswordHash = hashedPassword;
 				user.PasswordSalt = passwordSalt;
 				await _uOW.UserRepository.CreateAsync(user);
