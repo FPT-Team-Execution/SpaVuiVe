@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SkincareProductSalesSystem.Repositories;
+using SkincareProductSalesSystem.Services;
 using SkincareProductSalesSystem.Services.Helpers;
-using SkincareProductSalesSystem.Services.Services;
-using SkincareProductSalesSystem.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ using SkincareProductSalesSystem.Repositories.Repositories;
 
 namespace SkincareProductSalesSystem.Api.Configs
 {
-    public static class DependencyInjection
+	public static class DependencyInjection
     {
 		public static void AddInfrastructure(this IServiceCollection services)
 		{
@@ -44,6 +43,8 @@ namespace SkincareProductSalesSystem.Api.Configs
             services.AddScoped<ISkinTestService, SkinTestService>();
             //services.AddScoped<ISkinTypeService, SkinTypeService>();
             services.AddScoped<IChatBotService, ChatBotService>();
+			services.AddScoped<IPromotionService, PromotionService>();
+			services.AddScoped<IPromotionUsageService, PromotionUsageService>();
         }
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)

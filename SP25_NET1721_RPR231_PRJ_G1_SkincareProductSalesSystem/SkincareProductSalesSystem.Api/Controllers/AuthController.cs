@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using SkincareProductSalesSystem.Services.Models.AuthModels;
-using SkincareProductSalesSystem.Services.Services;
-using SkincareProductSalesSystem.Services.Services.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using SkincareProductSalesSystem.Services;
+using SkincareProductSalesSystem.Services.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.Api.Controllers
@@ -20,78 +20,84 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			_authService = userService;
 		}
 
-		[HttpPost("register")]
-		public async Task<IActionResult> Register(RegisterModel model)
+		[HttpPost("/register")]
+		public async Task<IActionResult> Register(Services.RegisterRequest model)
 		{
 			if (!ModelState.IsValid) 
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.Register(model);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200);
+				var response = await _authService.Register(model);
+				return response != null ?
+					StatusCode(response.Status, response)
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
 
-		[HttpPost("login")]
+		[HttpPost("/login")]
 		public async Task<IActionResult> Login(LoginRequestModel model)
 		{
 			if (!ModelState.IsValid) 
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.LoginByUsername(model);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200, result);
+				var response = await _authService.LoginByUsername(model);
+				return response != null ?
+					StatusCode(response.Status, response)
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
 
-		[HttpPost("forgot-password")]
+		[HttpPost("/forgot-password")]
 		public async Task<IActionResult> ForgotPassword([Required] string username)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.ForgotPassword(username);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200, result);
+				var response = await _authService.ForgotPassword(username);
+				return response != null ?
+					StatusCode(response.Status, response)
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
 
-		[HttpPost("reset-password")]
-		public async Task<IActionResult> ResetPassword(ResetPasswordRequestModel model)
+		[HttpPost("/reset-password")]
+		public async Task<IActionResult> ResetPassword(Services.ResetPasswordRequest model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 			try
 			{
-				var result = await _authService.ResetPassword(model);
-				if (!result.IsSuccess)
-					return StatusCode(500, result.Message);
-				return StatusCode(200, result);
+				var response = await _authService.ResetPassword(model);
+				return response != null ?
+					StatusCode(response.Status, response)
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return StatusCode(500, ex.Message);
 			}
 		}
-
-
 	}
 }

@@ -291,6 +291,22 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos/SkinTypesClient.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos/AuthClient.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos/PromotionClient.proto" GrpcServices="Client" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\login.css" />
+  </ItemGroup>
+  <ItemGroup>
 		<Protobuf Include="Protos\ProductGrpcClient.proto" GrpcServices="Client" />
 	</ItemGroup>
 
