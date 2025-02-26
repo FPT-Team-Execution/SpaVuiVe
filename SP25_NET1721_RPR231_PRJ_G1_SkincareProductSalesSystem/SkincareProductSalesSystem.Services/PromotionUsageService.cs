@@ -48,11 +48,12 @@ namespace SkincareProductSalesSystem.Services
 				if (order == null) return new ServiceResult(404, "Không tìm thấy Order");
 
 				var promoUsage = _mapper.Map<PromotionUsage>(request);
+				promoUsage.PromotionId = promo.PromotionId;
 				promoUsage.DiscountAmount = promo.DiscountAmount;
 				promoUsage.UsedAt = DateTime.Now;
 				promoUsage.CreatedAt = DateTime.Now;
 				promoUsage.IsValid = true;
-				await _uOW.PromotionRepository.CreateAsync(promo);
+				await _uOW.PromotionUsageRepository.CreateAsync(promoUsage);
 
 				return new ServiceResult()
 				{
@@ -99,26 +100,23 @@ namespace SkincareProductSalesSystem.Services
 		{
 			try
 			{
-				var promoUsage = await _uOW.PromotionUsageRepository.GetByIdAsync(request.PromoId);
+				var promoUsage = await _uOW.PromotionUsageRepository.GetByIdAsync(request.UsageId);
 				if (promoUsage == null) return new ServiceResult(404, "PromotionUsage not found");
-
-				
-				
 				if (request.OrderId != null)
 				{
 					var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
 					if (order == null) return new ServiceResult(404, "Order not found)");
 				}
 
-				promoUsage = _mapper.Map<PromotionUsage>(request);
-
+				Promotion? promo = new Promotion();
 				if (request.PromoCode != null)
 				{
-					var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
+					promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
 					if (promo == null) return new ServiceResult(404, "Code not found");
-
-					promoUsage.DiscountAmount = promo.DiscountAmount;
 				}
+
+				promoUsage = _mapper.Map<PromotionUsage>(request);
+				promoUsage.DiscountAmount = promo.DiscountAmount;
 				promoUsage.UsedAt = DateTime.Now;
 				promoUsage.CreatedAt = DateTime.Now;
 				promoUsage.IsValid = true;
@@ -193,7 +191,7 @@ namespace SkincareProductSalesSystem.Services
 	public class UpdatePromotionUsageRequest
 	{
 		[Required]
-		public string PromoId { get; set; }
+		public string UsageId { get; set; }
 
 		public string? PromoCode { get; set; }
 

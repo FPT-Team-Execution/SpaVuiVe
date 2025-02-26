@@ -57,14 +57,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> Delete([FromBody][Required] string promoUsageId)
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete([Required] string id)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 			try
 			{
-				var response = await _promotionUsageService.Delete(promoUsageId);
+				var response = await _promotionUsageService.Delete(id);
 				return response != null ?
 					StatusCode(response.Status, response)
 					:

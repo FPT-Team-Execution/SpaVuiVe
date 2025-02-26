@@ -191,6 +191,7 @@ namespace SkincareProductSalesSystem.Services
 				{
 					Status = 200,
 					Message = "Thành công",
+					Data = result
 				};
 			}
 

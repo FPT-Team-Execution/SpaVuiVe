@@ -2,12 +2,16 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkincareProductSalesSystem.Repositories.Models;
 
 public partial class PromotionUsage
 {
-    public string UsageId { get; set; }
+	[Key]
+	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	public string UsageId { get; set; }
 
     public string PromotionId { get; set; }
 

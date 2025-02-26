@@ -180,7 +180,6 @@ namespace SkincareProductSalesSystem.Services
 			}
 		}
 
-
 		public override async Task<ServiceResultProto> Delete(DeletePromotionRequestProto request, ServerCallContext context)
 		{
 			try
