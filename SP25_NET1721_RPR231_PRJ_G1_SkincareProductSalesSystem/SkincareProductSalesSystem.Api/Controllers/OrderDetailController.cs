@@ -16,7 +16,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
         }
 
         [HttpGet("/order-details/{orderId}")]
-        public async Task<IActionResult> GetOrderDetailsByOrderId(string orderId, [FromQuery] int page, [FromQuery] int size)
+        public async Task<IActionResult> GetOrderDetailsByOrderId(string orderId, [FromQuery] int page = 1, [FromQuery] int size = 10)
         {
             var responses = await _orderDetailServices.GetOrderDetailsByOrderId(
                     orderId: orderId,
@@ -27,8 +27,20 @@ namespace SkincareProductSalesSystem.Api.Controllers
         }
 
         [HttpPost("/order-details")]
-        public async Task<IActionResult> CreateOrderDetail(OrderDetail orderDetail)
+        public async Task<IActionResult> CreateOrderDetail(string orderId, int quanity, Product product)
         {
+            var orderDetail = new OrderDetail 
+            { 
+                OrderDetailId = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow,
+                Discount = 0,
+                OrderId = orderId,
+                IsReviewed = false,
+                ProductId = product.ProductId,
+                Quantity = quanity,
+                UnitPrice = product.Price,
+                UpdatedAt = DateTime.UtcNow,
+            };
             var response = await _orderDetailServices.CreateOrderDetail(orderDetail);
             return (response != null)? Ok(response) : StatusCode(300);
         }

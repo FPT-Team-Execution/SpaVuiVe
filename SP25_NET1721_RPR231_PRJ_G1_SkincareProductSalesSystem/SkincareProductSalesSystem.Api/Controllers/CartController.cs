@@ -46,13 +46,26 @@ namespace SkincareProductSalesSystem.Api.Controllers
             }
         }
 
+        [HttpGet("cart/product/{productId}")]
+        public async Task<IActionResult> GetProductInCartById(string productId)
+        {
+            var oldCart = await _cacheService.GetDataAsync<List<ProductCart>>(CART_REDIS_KEY);
+            if (oldCart != null)
+            {
+                var existingProductCart = oldCart.FirstOrDefault(item =>
+    item.ProductInCart.ProductId != null && item.ProductInCart.ProductId.Equals(productId));
+
+                return Ok(existingProductCart);
+            }
+            return Ok(null);
+        }
         [HttpPost("cart/product")]
         public async Task<IActionResult> AddToCart(Product product, int quantity)
         {
             try
             {
                 var oldCart = await _cacheService.GetDataAsync<List<ProductCart>>(CART_REDIS_KEY);
-                if (oldCart != null) 
+                if (oldCart != null)
                 {
                     var existingProductCart = oldCart.FirstOrDefault(item => item.ProductInCart.ProductId == product.ProductId);
                     if (existingProductCart == null)
@@ -75,15 +88,97 @@ namespace SkincareProductSalesSystem.Api.Controllers
                 else
                 {
                     var newCart = new List<ProductCart>();
-                    newCart.Add(new ProductCart{ProductInCart = product, Quantity = quantity});
+                    newCart.Add(new ProductCart { ProductInCart = product, Quantity = quantity });
                     var response = await _cacheService.SetDataAsync(CART_REDIS_KEY, newCart);
                     return Ok(new ServiceResult
                     {
                         Status = 200,
-                        Message = (response)? "Success" : "Fail ",
+                        Message = (response) ? "Success" : "Fail ",
                     });
                 }
-                
+
+            }
+            catch (Exception e)
+            {
+                return Ok(new ServiceResult
+                {
+                    Status = 500,
+                    Message = e.Message
+                });
+            }
+        }
+        [HttpPatch("cart/product")]
+        public async Task<IActionResult> UpdateToCart(Product product, int quantity)
+        {
+            try
+            {
+                var oldCart = await _cacheService.GetDataAsync<List<ProductCart>>(CART_REDIS_KEY);
+                if (oldCart != null)
+                {
+                    var existingProductCart = oldCart.FirstOrDefault(item => item.ProductInCart.ProductId == product.ProductId);
+                    if (existingProductCart == null)
+                    {
+                        oldCart.Add(new ProductCart { ProductInCart = product, Quantity = quantity });
+                    }
+                    else
+                    {
+                        oldCart.Remove(existingProductCart);
+                        existingProductCart.Quantity = quantity;
+                        oldCart.Add(existingProductCart);
+                    }
+                    var response = await _cacheService.SetDataAsync(CART_REDIS_KEY, oldCart);
+                    return Ok(new ServiceResult
+                    {
+                        Status = (response) ? 200 : 500,
+                        Message = (response) ? "Success" : "Fail ",
+                    });
+                }
+                else
+                {
+                    var newCart = new List<ProductCart>();
+                    newCart.Add(new ProductCart { ProductInCart = product, Quantity = quantity });
+                    var response = await _cacheService.SetDataAsync(CART_REDIS_KEY, newCart);
+                    return Ok(new ServiceResult
+                    {
+                        Status = (response) ? 200 : 500,
+                        Message = (response) ? "Success" : "Fail ",
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Ok(new ServiceResult
+                {
+                    Status = 500,
+                    Message = e.Message
+                });
+            }
+        }
+
+        [HttpDelete("cart/product/{id}")]
+        public async Task<IActionResult> RemoveFromCart(string id)
+        {
+            try
+            {
+                var oldCart = await _cacheService.GetDataAsync<List<ProductCart>>(CART_REDIS_KEY);
+                if (oldCart != null)
+                {
+                    var existingProductCart = oldCart.FirstOrDefault(item => item.ProductInCart.ProductId == id);
+                    if (existingProductCart == null) return NotFound(new ServiceResult { Status = 404, Message = "Product is not found" });
+                    oldCart.Remove(existingProductCart);
+                    var response = await _cacheService.SetDataAsync(CART_REDIS_KEY, oldCart);
+                    return Ok(new ServiceResult
+                    {
+                        Status = (response) ? 200 : 500,
+                        Message = (response) ? "Success" : "Fail ",
+                    });
+                }
+                return Ok(new ServiceResult
+                {
+                    Status = 400,
+                    Message = "Fail"
+                });
             }
             catch (Exception e)
             {

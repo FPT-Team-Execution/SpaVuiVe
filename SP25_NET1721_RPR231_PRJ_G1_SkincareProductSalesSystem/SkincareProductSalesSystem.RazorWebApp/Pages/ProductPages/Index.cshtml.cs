@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Protos;
 using Protos.SkinTypesClient;
@@ -142,6 +143,27 @@ public class Index : PageModel
         }
 
         return new Paginate<T>();
+    }
+
+    public async Task<IActionResult> OnPostAddToCart(string productCartId, int quantity)
+    {
+        // Xử lý thêm vào giỏ hàng
+        //TempData["Message"] = "Product added to cart!";
+        if (quantity <= 0)
+        {
+            var product = await _apiClient.GetAsync($"/products/{productCartId}");
+            if (product != null && product.Status == 200 && product.Data != null)
+            {
+
+                if (product.Data is Product)
+                {
+                    var responseData = (Product)product.Data;
+                    var productCartResult = await _apiClient.PostAsync($"/cart/product?quantity={quantity}", responseData);
+                }
+
+            }
+        }
+        return RedirectToPage();
     }
 }
 
