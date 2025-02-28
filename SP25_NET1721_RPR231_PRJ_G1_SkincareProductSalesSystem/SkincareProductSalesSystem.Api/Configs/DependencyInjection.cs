@@ -45,6 +45,8 @@ namespace SkincareProductSalesSystem.Api.Configs
             services.AddScoped<IChatBotService, ChatBotService>();
 			services.AddScoped<IPromotionService, PromotionService>();
 			services.AddScoped<IPromotionUsageService, PromotionUsageService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IUserAccountService, UserAccountService>();
         }
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)
