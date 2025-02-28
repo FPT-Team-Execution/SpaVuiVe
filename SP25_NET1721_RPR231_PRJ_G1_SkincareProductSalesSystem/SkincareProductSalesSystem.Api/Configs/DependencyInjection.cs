@@ -35,6 +35,8 @@ namespace SkincareProductSalesSystem.Api.Configs
             services.AddScoped<OrderDetailRepository>();
             services.AddScoped<PaymentMethodRepository>();
             services.AddScoped<PaymentRepository>();
+            services.AddScoped<ReviewRepository>();
+            services.AddScoped<UserAccountRepository>();
             services.AddScoped<IOrderServices, OrderServices>();
             services.AddScoped<IOrderDetailServices, OrderDetailServices>();
             services.AddScoped<IBrandService, BrandServices>();
@@ -45,6 +47,8 @@ namespace SkincareProductSalesSystem.Api.Configs
             services.AddScoped<IChatBotService, ChatBotService>();
 			services.AddScoped<IPromotionService, PromotionService>();
 			services.AddScoped<IPromotionUsageService, PromotionUsageService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IUserAccountService, UserAccountService>();
         }
 
 		public static void AddServicesDependencyInjection(this IServiceCollection services)
