@@ -7,7 +7,6 @@ namespace SkincareProductSalesSystem.Api.Configs
 {
 	public static class JwtConfiguration
 	{
-
 		public static void ConfigureJwt(WebApplicationBuilder builder)
 		{
 			ConfigureJwtAuth(builder);
@@ -25,9 +24,9 @@ namespace SkincareProductSalesSystem.Api.Configs
 {
 	options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = false,
-		ValidateAudience = false,
-		ValidateLifetime = false,
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = builder.Configuration["Jwt:Issuer"],
 		ValidAudience = builder.Configuration["Jwt:Audience"],
@@ -66,5 +65,8 @@ namespace SkincareProductSalesSystem.Api.Configs
 	});
 			});
 		}
+
+
+
 	}
 }

@@ -6,6 +6,11 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Protos\SkinTypesService.proto" GrpcServices="Server" />
+	 <Protobuf Include="Protos\AuthService.proto" GrpcServices="Server" />
+  <Protobuf Include="Protos\PromotionService.proto" GrpcServices="Server" />
+  </ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos\SkinTypesService.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\ProductGrpcProto.proto" GrpcServices="Server" />

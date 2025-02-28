@@ -1,6 +1,8 @@
-﻿using SkincareProductSalesSystem.Repositories;
+﻿using Azure;
+using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Repositories.Paginate;
+using SkincareProductSalesSystem.Services.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,10 @@ namespace SkincareProductSalesSystem.Services
 {
     public interface IOrderServices
     {
-        Task<IPaginate<Order>> GetPagination(int page, int size);
-        Task<Order?> GetOrderById(string id);
-        Task<Order?> CreateOrder(Order order);
-        Task<Order?> UpdateOrder(Order order);
+        Task<ServiceResult> GetPagination(int page, int size);
+        Task<ServiceResult?> GetOrderById(string id);
+        Task<ServiceResult?> CreateOrder();
+        Task<ServiceResult?> UpdateOrder(Order order);
     }
     public class OrderServices : IOrderServices
     {
@@ -25,26 +27,60 @@ namespace SkincareProductSalesSystem.Services
             _orderRepository = orderRepository;
         }
 
-        public async Task<Order?> CreateOrder(Order order)
+        public async Task<ServiceResult?> CreateOrder()
         {
-            return ((await _orderRepository.CreateAsync(order)) > 0)? order : null;
+            var newOrder = new Order
+            {
+                OrderId = Guid.NewGuid().ToString(),
+                OrderDate = DateTime.Now,
+                Status = "Processing",
+                TotalAmount = 0,
+                UpdatedAt = DateTime.Now,
+                ShippingFee = 0,
+            };
+            var isSuccessful = (await _orderRepository.CreateAsync(newOrder));
+            return new ServiceResult
+            {
+                Status = ((isSuccessful) > 0) ? 200 : 500,
+                Data = ((isSuccessful) > 0) ? newOrder : null,
+                Message = ((isSuccessful) > 0) ? "Success" : "Fail"
+            };
         }
 
-        public async Task<Order?> GetOrderById(string id)
+        public async Task<ServiceResult?> GetOrderById(string id)
         {
-            return await _orderRepository.GetByIdAsync(id);
+            var response = await _orderRepository.GetByIdAsync(id);
+            return new ServiceResult
+            {
+                Status = (response != null)? 200:500,
+                Data = (response != null) ? response: null,
+                Message = (response != null) ? "Success" : "Fail"
+            };
         }
 
-        public async Task<IPaginate<Order>> GetPagination(int page, int size)
+        public async Task<ServiceResult> GetPagination(int page, int size)
         {
-            return await _orderRepository.GetPagingListAsync(
-                page:page,
-                size:size
+            var responses = await _orderRepository.GetPagingListAsync(
+                page: page,
+                size: size,
+                orderBy: x => x.OrderByDescending(x => x.OrderDate)
                 );
+            return new ServiceResult
+            {
+                Status = 200, 
+                Data = responses,
+                Message = "Success"
+            };
         }
-        public async Task<Order?> UpdateOrder(Order order)
+        public async Task<ServiceResult?> UpdateOrder(Order order)
         {
-            return ((await _orderRepository.UpdateAsync(order)) > 0)? order : null;
+            var isSuccessful = (await _orderRepository.UpdateAsync(order));
+            return new ServiceResult
+            {
+                Status = (isSuccessful > 0) ? 200 : 500,
+                Data = (isSuccessful > 0) ? order : null,
+                Message = (isSuccessful > 0) ? "Success" : "Fail"
+            };
         }
     }
 }

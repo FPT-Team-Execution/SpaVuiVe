@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using Protos.AuthService;
 using SkincareProductSalesSystem.Repositories.Models;
-using SkincareProductSalesSystem.Services.Models.AuthModels;
-using SkincareProductSalesSystem.Services.Models.PromotionModels;
 using SkincareProductSalesSystem.Services.Models.SkinTestModels;
 using System;
 using System.Collections.Generic;
@@ -15,20 +14,36 @@ namespace SkincareProductSalesSystem.Services.Configs
 	{
         public AutoMapperConfig()
         {
-			CreateMap<RegisterModel, User>()
+			CreateMap<RegisterRequest, User>()
 				.ForMember(b => b.Email, opt => opt.MapFrom(a => a.Email))
 				.ForMember(b => b.Username, opt => opt.MapFrom(a => a.Username))
 				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))
 				.ForMember(b => b.FullName, opt => opt.MapFrom(a => a.FullName));
 
-			CreateMap<CreatePromotionRequestModel, Promotion>();
-            
-            CreateMap<SkinTestQuestion, SkinTestModel>()
-                .ForMember(dest => dest.SkinTestOptions, opt => opt.MapFrom(src => src.SkinTestOptions));
+			CreateMap<RegisterRequestProto, User>()
+				.ForMember(b => b.Email, opt => opt.MapFrom(a => a.Email))
+				.ForMember(b => b.Username, opt => opt.MapFrom(a => a.Username))
+				.ForMember(b => b.PhoneNumber, opt => opt.MapFrom(a => a.PhoneNumber))
+				.ForMember(b => b.FullName, opt => opt.MapFrom(a => a.FullName));
 
-            CreateMap<SkinTestOption, SkinTestOptionModel>()
-                .ForMember(dest => dest.SkinTypeId, opt => opt.MapFrom(src => src.SkinTypeId)); 
+			CreateMap<CreatePromotionRequest, Promotion>();
 
-        }
+			CreateMap<UpdatePromotionRequest, Promotion>()
+				.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+			CreateMap<CreatePromotionUsageRequest, PromotionUsage>();
+
+			CreateMap<UpdatePromotionUsageRequest, PromotionUsage>()
+				.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+			CreateMap<CreatePromotionRequest, Promotion>();
+
+			CreateMap<SkinTestQuestion, SkinTestModel>()
+				.ForMember(dest => dest.SkinTestOptions, opt => opt.MapFrom(src => src.SkinTestOptions));
+
+			CreateMap<SkinTestOption, SkinTestOptionModel>()
+				.ForMember(dest => dest.SkinTypeId, opt => opt.MapFrom(src => src.SkinTypeId));
+		}
     }
 }
+
