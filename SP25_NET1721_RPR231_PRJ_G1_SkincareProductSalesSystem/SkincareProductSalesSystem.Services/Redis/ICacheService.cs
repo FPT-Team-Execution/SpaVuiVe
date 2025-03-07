@@ -8,10 +8,10 @@ namespace SkincareProductSalesSystem.Services.ExtendServices
 {
     public interface ICacheService
     {
-        T GetData<T>(string key);
-        List<T> GetListData<T>(string key);
-        bool SetData<T>(string key, T value, DateTimeOffset expirationTime);
-        bool SetListData<T>(string key, List<T> value, DateTimeOffset expirationTime);
-        object RemoveData(string key);
+        Task<T> GetDataAsync<T>(string key);
+        Task<List<T>> GetListDataAsync<T>(string key);
+        Task<bool> SetDataAsync<T>(string key, T value, DateTimeOffset? expirationTime = null);
+        Task<bool> SetListDataAsync<T>(string key, List<T> value, DateTimeOffset? expirationTime = null);
+        Task<object> RemoveDataAsync(string key);
     }
 }

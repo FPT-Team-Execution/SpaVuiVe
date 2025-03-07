@@ -59,6 +59,24 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
+		[HttpGet("{page}/{size}")]
+		public async Task<IActionResult> Get(int page = 1, int size = 10)
+		{
+			try
+			{
+				var response = await _promotionService.GetPaginate(page : page ,size : size);
+
+				return response != null ?
+					StatusCode(200, response)
+					:
+					StatusCode(500, "No Response");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(string id)

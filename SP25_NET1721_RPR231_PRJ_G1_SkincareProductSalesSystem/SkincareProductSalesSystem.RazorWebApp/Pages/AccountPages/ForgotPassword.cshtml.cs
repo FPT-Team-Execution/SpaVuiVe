@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Protos.AuthClient;
+using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
-    public class ForgotPasswordModel : PageModel
-    {
-		
-
+	public class ForgotPasswordModel : PageModel
+	{
 		private ApiClient _apiClient;
 
 		public ForgotPasswordModel(ApiClient apiClient)
@@ -44,5 +44,5 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 			HttpContext.Session.SetString("ForgotPasswordUsername", Username);
 			return RedirectToPage("/AccountPages/ResetPassword");
 		}
-    }
+	}
 }

@@ -2,6 +2,7 @@
 using Azure.Core;
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
+using SkincareProductSalesSystem.Repositories.Paginate;
 using SkincareProductSalesSystem.Services.Base;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,10 @@ namespace SkincareProductSalesSystem.Services
 		Task<IServiceResult> Update(UpdatePromotionUsageRequest request);
 		Task<IServiceResult> Delete(string promoUsageId);
 		Task<IServiceResult> GetAll();
+		Task<IPaginate<PromotionUsage>?> GetPaginate(int page, int size);
 		Task<IServiceResult> GetById(string promoUsageId);
-
-
+		Task<IServiceResult> CheckCode(CreatePromotionUsageRequest request);
 	}
-
 
 	public class PromotionUsageService : IPromotionUsageService
 	{
@@ -41,28 +41,37 @@ namespace SkincareProductSalesSystem.Services
 		{
 			try
 			{
-				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
-				if (promo == null) return new ServiceResult(404, "Code not found");
+				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode.ToUpper());
+				if (promo == null) return new ServiceResult(404, "Không tìm thấy code");
+				if (DateTime.Now < promo.StartDate) return new ServiceResult(400, "Code chưa được mở");
+				if (DateTime.Now > promo.EndDate) return new ServiceResult(400, "Code đã hết hạn");
+				if (promo.IsActive != true) return new ServiceResult(400, "Code không hợp lệ");
+				if ((promo.UsageLimit > 0) && (await _uOW.PromotionUsageRepository.GetUsageCountAsync(promo.PromotionId) > promo.UsageLimit))
+					return new ServiceResult(400, "Code đã được sử dụng hết");
 
 				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
-				if (order == null) return new ServiceResult(404, "Order not found)");
+				if (order == null) return new ServiceResult(404, "Không tìm thấy Order");
+				if (order.TotalAmount < promo.MinimumPurchase)
+					return new ServiceResult(400, $"Bạn phải mua tối thiểu {promo.MinimumPurchase}");
 
 				var promoUsage = _mapper.Map<PromotionUsage>(request);
+				promoUsage.PromotionId = promo.PromotionId;
 				promoUsage.DiscountAmount = promo.DiscountAmount;
 				promoUsage.UsedAt = DateTime.Now;
 				promoUsage.CreatedAt = DateTime.Now;
 				promoUsage.IsValid = true;
-				await _uOW.PromotionRepository.CreateAsync(promo);
+				await _uOW.PromotionUsageRepository.CreateAsync(promoUsage);
 
 				return new ServiceResult()
 				{
-					Status = 201,
+					Status = 200,
 					Message = "Thành công",
 					Data = promoUsage
 				};
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return new ServiceResult()
 				{
 					Status = 500,
@@ -98,14 +107,20 @@ namespace SkincareProductSalesSystem.Services
 		{
 			try
 			{
-				var promoUsage = await _uOW.PromotionUsageRepository.GetByIdAsync(request.PromoId);
+				var promoUsage = await _uOW.PromotionUsageRepository.GetByIdAsync(request.UsageId);
 				if (promoUsage == null) return new ServiceResult(404, "PromotionUsage not found");
+				if (request.OrderId != null)
+				{
+					var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
+					if (order == null) return new ServiceResult(404, "Order not found)");
+				}
 
-				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
-				if (promo == null) return new ServiceResult(404, "Code not found");
-
-				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
-				if (order == null) return new ServiceResult(404, "Order not found)");
+				Promotion? promo = new Promotion();
+				if (request.PromoCode != null)
+				{
+					promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode);
+					if (promo == null) return new ServiceResult(404, "Code not found");
+				}
 
 				promoUsage = _mapper.Map<PromotionUsage>(request);
 				promoUsage.DiscountAmount = promo.DiscountAmount;
@@ -123,6 +138,7 @@ namespace SkincareProductSalesSystem.Services
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 				return new ServiceResult()
 				{
 					Status = 500,
@@ -147,6 +163,54 @@ namespace SkincareProductSalesSystem.Services
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
+				return new ServiceResult()
+				{
+					Status = 500,
+					Message = ex.Message
+				};
+			}
+		}
+
+		public async Task<IPaginate<PromotionUsage>?> GetPaginate(int page, int size)
+		{
+			try
+			{
+				return await _uOW.PromotionUsageRepository.GetPagingListAsync(page: page, size: size);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return null;
+			}
+		}
+
+		public async Task<IServiceResult> CheckCode(CreatePromotionUsageRequest request)
+		{
+			try
+			{
+				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode.ToUpper());
+				if (promo == null) return new ServiceResult(404, "Không tìm thấy code");
+				if (DateTime.Now < promo.StartDate) return new ServiceResult(400, "Code chưa được mở");
+				if (DateTime.Now > promo.EndDate) return new ServiceResult(400, "Code đã hết hạn");
+				if (promo.IsActive != true) return new ServiceResult(400, "Code không hợp lệ");
+				if ((promo.UsageLimit > 0) && (await _uOW.PromotionUsageRepository.GetUsageCountAsync(promo.PromotionId) > promo.UsageLimit))
+					return new ServiceResult(400, "Code đã được sử dụng hết");
+
+				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
+				if (order == null) return new ServiceResult(404, "Không tìm thấy Order");
+				if (order.TotalAmount < promo.MinimumPurchase) 
+					return new ServiceResult(400, $"Bạn phải mua tối thiểu {promo.MinimumPurchase}");
+
+				return new ServiceResult()
+				{
+					Status = 200,
+					Message = "Thành công",
+				};
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
 				return new ServiceResult()
 				{
 					Status = 500,
@@ -162,16 +226,14 @@ namespace SkincareProductSalesSystem.Services
 		public string PromoCode { get; set; }
 		[Required]
 		public string OrderId { get; set; }
-
-		public bool? IsValid { get; set; }
 		[Required]
-		public string Notes { get; set; }
+		public string? Notes { get; set; }
 	}
 
 	public class UpdatePromotionUsageRequest
 	{
 		[Required]
-		public string PromoId { get; set; }
+		public string UsageId { get; set; }
 
 		public string? PromoCode { get; set; }
 

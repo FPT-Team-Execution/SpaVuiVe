@@ -1,0 +1,81 @@
+﻿@page
+@model SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages.IndexModel
+@{
+	ViewData["Title"] = "Promotions";
+}
+
+<div class="container mt-4">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h1>Promotions</h1>
+		<a asp-page="Create" class="btn btn-primary">Create New</a>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-striped table-hover">
+			<thead class="table-dark">
+				<tr>
+					<th style ="min-width: 200px;">Code</th>
+					<th style ="min-width: 200px;">Name</th>
+					<th>Discount</th>
+					<th>Minimum Purchase</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Usage Limit</th>
+					<th>Is Active</th>
+					<th>Creted At</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Promotion)
+				{
+					<tr>
+						<td style="min-width: 200px;">@Html.DisplayFor(modelItem => item.Code)</td>
+						<td style="min-width: 200px;">@Html.DisplayFor(modelItem => item.Name)</td>
+						<td>@Html.DisplayFor(modelItem => item.DiscountAmount)</td>
+						<td>@Html.DisplayFor(modelItem => item.MinimumPurchase)</td>
+						<td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+						<td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+						<td>@Html.DisplayFor(modelItem => item.UsageLimit)</td>
+						<td>
+							<span class="badge @((bool) item.IsActive ? "bg-success" : "bg-danger")">
+								@((bool)item.IsActive ? "Active" : "Inactive")
+							</span>
+						</td>
+						<td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+						<td>
+							<div class="btn-group" role="group">
+								<a asp-page="./Edit" asp-route-id="@item.PromotionId"
+								   class="btn btn-sm btn-outline-primary">Edit</a>
+								<a asp-page="./Delete" asp-route-id="@item.PromotionId"
+								   class="btn btn-sm btn-outline-danger">Delete</a>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+		<div class="pagination">
+			@if (Model.PageNumber > 1)
+			{
+				<a href="/Admin/TransactionManage/Index?pageNumber=@(Model.PageNumber - 1)&searchTransaction=@Request.Query["searchTransaction"]" class="btn btn-secondary prev-btn">Previous</a>
+			}
+			else
+			{
+				<button class="btn btn-secondary prev-btn" disabled>Previous</button>
+			}
+
+			<span class="page-number">@Model.PageNumber</span>
+
+			@if (Model.PageNumber < Model.TotalPages)
+			{
+				<a href="/Admin/TransactionManage/Index?pageNumber=@(Model.PageNumber + 1)&searchTransaction=@Request.Query["searchTransaction"]" class="btn btn-secondary next-btn">Next</a>
+			}
+			else
+			{
+				<button class="btn btn-secondary next-btn" disabled>Next</button>
+			}
+		</div>
+	</div>
+</div>

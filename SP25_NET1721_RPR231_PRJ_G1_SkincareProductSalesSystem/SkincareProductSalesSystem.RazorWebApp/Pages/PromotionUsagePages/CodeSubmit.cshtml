@@ -1,0 +1,18 @@
+﻿@page
+@model SkincareProductSalesSystem.RazorWebApp.Pages.PromotionUsagePages.CodeSubmitModel
+@{
+
+}
+
+<form method="post">
+	<div class="form-group">
+		<label  class="control-label">Mã khuyến mãi</label>
+		<input asp-for="Model.PromoCode" class="form-control"/>
+		<span asp-validation-for="Model.PromoCode" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Create" class="btn btn-primary" />
+	</div>
+	<div>@Model.ResponseMessage</div>
+</form>
+

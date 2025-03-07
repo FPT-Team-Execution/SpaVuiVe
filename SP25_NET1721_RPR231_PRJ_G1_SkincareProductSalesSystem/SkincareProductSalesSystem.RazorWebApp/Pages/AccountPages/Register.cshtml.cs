@@ -8,11 +8,13 @@ using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using SkincareProductSalesSystem.Common;
+using Protos.AuthClient;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
-    public class RegisterModel : PageModel
-    {
+	public class RegisterModel : PageModel
+	{
 		private ApiClient _apiClient;
 
 		public RegisterModel(ApiClient client)
@@ -20,7 +22,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 			_apiClient = client;
 		}
 
-		
+
 		public string? ErrorMessage { get; set; }
 
 		[BindProperty]
@@ -28,8 +30,8 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 
 		public void OnGet()
-        {
-        }
+		{
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> OnPost()

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Protos.AuthClient;
+using SkincareProductSalesSystem.Common;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +30,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 		public async Task<IActionResult> OnPost()
 		{
-			
+
 			if (HttpContext.Session.GetString("ForgotPasswordUsername") == null)
 			{
 				ErrorMessage = "Không tìm thấy tên tài khoản";
@@ -54,7 +56,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 	public class ResetPasswordRequest
 	{
-		
+
 		public string? Username { get; set; }
 
 		[Required]

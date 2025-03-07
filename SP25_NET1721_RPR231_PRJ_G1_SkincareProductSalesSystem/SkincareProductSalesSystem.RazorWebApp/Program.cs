@@ -38,7 +38,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddHttpClient();
 //* Add after login
-//Response.Cookies.Append("AccessToken", tokenValue, new CookieOptions
+//ResponseMessage.Cookies.Append("AccessToken", tokenValue, new CookieOptions
 //{
 //    HttpOnly = true,
 //    Secure = true,

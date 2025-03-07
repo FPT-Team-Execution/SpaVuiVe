@@ -1,4 +1,5 @@
-﻿using SkincareProductSalesSystem.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Repositories.Paginate;
 using System;
@@ -34,7 +35,8 @@ namespace SkincareProductSalesSystem.Services
             return await _orderDetailRepository.GetPagingListAsync(
                     predicate: x => x.OrderId == orderId,
                     size: size,
-                    page: page
+                    page: page,
+                    include: x => x.Include(x => x.Product)
                 );
         }
 

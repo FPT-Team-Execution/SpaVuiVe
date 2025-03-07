@@ -67,11 +67,13 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				}
 
 				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
+				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
 				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
 
 				var claims = new List<Claim>
 						{
 							new Claim(ClaimTypes.NameIdentifier, userId),
+							new Claim(ClaimTypes.Name, uniqueName),
 							new Claim(ClaimTypes.Role, role),
 						};
 
@@ -79,6 +81,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
 				Response.Cookies.Append("userId", userId);
+				Response.Cookies.Append("UniqueName", uniqueName);
 				Response.Cookies.Append("Role", role);
 				Response.Cookies.Append("AccessToken", responseModel.AccessToken);
 				Response.Cookies.Append("RefreshToken", responseModel.RefreshToken);

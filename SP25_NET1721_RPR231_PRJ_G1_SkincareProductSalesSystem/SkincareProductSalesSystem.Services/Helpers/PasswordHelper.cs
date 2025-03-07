@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services.Helpers
 {
-	public static  class PasswordHelper
+	public static class PasswordHelper
 	{
 		private static Dictionary<string, PasswordResetStruct> _passwordResetKeyStorage = new();
+
 
 		public static string HashPassword(string password, string salt)
 		{
@@ -36,7 +37,7 @@ namespace SkincareProductSalesSystem.Services.Helpers
 					Key = generatedKey,
 					Expiry = DateTime.UtcNow.AddDays(1)
 				};
-				
+				Console.WriteLine(generatedKey);
 				return generatedKey;
 			}
 			catch (Exception ex) { return null; }

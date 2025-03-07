@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.IdentityModel.Tokens;
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
+using SkincareProductSalesSystem.Repositories.Paginate;
 using SkincareProductSalesSystem.Services.Base;
 using Solara.Main.Payload;
 using System;
@@ -20,6 +21,7 @@ namespace SkincareProductSalesSystem.Services
 		Task<IServiceResult> Create(CreatePromotionRequest request);
 		Task<IServiceResult> Delete(DeletePromotionRequest request);
 		Task<IServiceResult> GetAll();
+		Task<IPaginate<Promotion>?> GetPaginate(int page, int size);
 		Task<IServiceResult> GetById(string promotionId);
 		Task<IServiceResult> Update(UpdatePromotionRequest request);
 	}
@@ -54,17 +56,18 @@ namespace SkincareProductSalesSystem.Services
 						Message = "End Date must be after current date"
 					};
 
-				if (request.Code.IsNullOrEmpty())
+				if (request.Code.IsNullOrEmpty()) //nếu không nhập code thì random code
 				{
 					request.Code = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8)).Substring(0, 16);
 				};
 
 				Promotion entity = _mapper.Map<Promotion>(request);
+				entity.Code = entity.Code.ToUpper();
 				await _uOW.PromotionRepository.CreateAsync(entity);
 
 				return new ServiceResult()
 				{
-					Status = 201,
+					Status = 200,
 					Message = "Thành công",
 					Data = entity
 				};
@@ -87,8 +90,8 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = (result.Count > 0) ? 200 : 404,
-					Message = (result.Count > 0) ? "Thành công" : "Không tìm thấy",
+					Status = 200,
+					Message = "Thành công",
 					Data = result
 				};
 			}
@@ -110,8 +113,8 @@ namespace SkincareProductSalesSystem.Services
 
 				return new ServiceResult()
 				{
-					Status = result != null ? 200 : 404,
-					Message = result != null ? "Thành công" : "Không tìm thấy",
+					Status = 200,
+					Message = "Thành công",
 					Data = result
 				};
 			}
@@ -122,6 +125,18 @@ namespace SkincareProductSalesSystem.Services
 					Status = 500,
 					Message = ex.Message
 				};
+			}
+		}
+
+		public async Task<IPaginate<Promotion>?> GetPaginate(int page, int size)
+		{
+			try
+			{
+				return await _uOW.PromotionRepository.GetPagingListAsync(page : page, size: size);	
+			}
+			catch (Exception ex)
+			{
+				return null;
 			}
 		}
 
@@ -176,6 +191,7 @@ namespace SkincareProductSalesSystem.Services
 				{
 					Status = 200,
 					Message = "Thành công",
+					Data = result
 				};
 			}
 

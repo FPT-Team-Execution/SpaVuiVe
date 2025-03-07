@@ -30,13 +30,11 @@ namespace SkincareProductSalesSystem.Services.Helpers
 				Subject = new ClaimsIdentity(new[]
 				{
 					new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 					new Claim(ClaimTypes.Name, user.FullName),
 					new Claim("Phone", user.PhoneNumber),
 					new Claim(ClaimTypes.Role, user.RoleName)   ,
 					new Claim(ClaimTypes.Email, user.Email),
 					new Claim("UserId", user.UserId)
-
 				}),
 				Expires = DateTime.UtcNow.AddMinutes(120),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
@@ -54,6 +52,5 @@ namespace SkincareProductSalesSystem.Services.Helpers
 				return Convert.ToBase64String(random); //chuyen mang byte thanh base64
 			}
 		}
-
 	}
 }

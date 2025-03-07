@@ -19,6 +19,7 @@ builder.Services.AddControllers()
     });
 builder.Services.AddGrpc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddDbContext<SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<BrandRepository>();
@@ -31,14 +32,30 @@ builder.Services.AddScoped<IBrandService, BrandServices>();
 builder.Services.AddScoped<IPaymentServices, PaymentServices>();
 builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
 builder.Services.AddScoped<ISkinTestService, SkinTestService>();
-//builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
+builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
 builder.Services.AddScoped<IChatBotService, ChatBotService>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
-
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+    });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 DependencyInjection.AddInfrastructure(builder.Services);
 //JwtConfiguration.ConfigureJwt(builder);
 
@@ -50,18 +67,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
-//Define grpc endpoint through service
-app.UseEndpoints(endpoints =>
-{
-    //* endpoints.MapGrpcService<Your-Service-Implement-GrpcBase>();
-    //...
-    endpoints.MapGrpcService<SkinTypeService2>();
-});
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("AllowAll");
 app.MapControllers();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.Run();

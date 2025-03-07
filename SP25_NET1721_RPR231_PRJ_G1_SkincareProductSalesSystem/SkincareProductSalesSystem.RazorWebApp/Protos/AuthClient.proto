@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 service AuthServiceGRPC
 {
-	rpc LoginByUsername (LoginRequestProto) returns (ServiceResulLoginProto);
+	rpc Login (LoginRequestProto) returns (ServiceResulLoginProto);
 	rpc Register (RegisterRequestProto) returns (ServiceResultProto);
 	rpc ForgotPassword (ForgotPasswordRequestProto) returns (ServiceResultProto);
 	rpc ResetPassword (ResetPasswordRequestProto) returns (ServiceResultProto);
@@ -60,5 +60,3 @@ message ResetPasswordRequestProto{
 	string password = 2;
 	string key = 3;
 }
-
-
