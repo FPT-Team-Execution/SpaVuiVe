@@ -10,14 +10,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
     public class SkinController : ControllerBase
     {
         private readonly ISkinTestService _skinTestService;
-        //private readonly ISkinTypeService _skinTypeService;
+        private readonly ISkinTypeService _skinTypeService;
 
-        public SkinController(ISkinTestService skinTestService
-            //ISkinTypeService skinTypeService
+        public SkinController(ISkinTestService skinTestService,
+            ISkinTypeService skinTypeService
             )
         {
             _skinTestService = skinTestService;
-            //_skinTypeService = skinTypeService;
+            _skinTypeService = skinTypeService;
         }
 
         [HttpGet("/skin-tests")]
@@ -81,37 +81,37 @@ namespace SkincareProductSalesSystem.Api.Controllers
             var response = _skinTestService.DeleteOption(questionId, optionId);
             return (response != null) ? Ok(response.Result) : NotFound();
         }
-        //[HttpGet("/skin-types")]
-        //public IActionResult GetAllSkinType()
-        //{
-        //    var responses = _skinTypeService.GetAllAsync();
-        //    return (responses != null) ? Ok(responses.Result) : StatusCode(500);
-        //}
+        [HttpGet("/skin-types")]
+        public IActionResult GetAllSkinType()
+        {
+            var responses = _skinTypeService.GetAllAsync();
+            return (responses != null) ? Ok(responses.Result) : StatusCode(500);
+        }
 
-        //[HttpGet("/skin-types/{id}")]
-        //public IActionResult GetTypeById(string id)
-        //{
-        //    var response = _skinTypeService.GetAsync(id);
-        //    return (response != null) ? Ok(response.Result) : NotFound();
-        //}
-        //[HttpPost("/skin-types")]
-        //public IActionResult CreateSkinType(CreateSkinTypeRequest request)
-        //{
-        //    var response = _skinTypeService.Create(request);
-        //    return (response != null) ? Ok(response.Result) : NotFound();
-        //}
-        //[HttpPut("/skin-types/{id}")]
-        //public IActionResult UpdateSkinType(string id, UpdateSkinTypeRequest request)
-        //{
-        //    var response = _skinTypeService.Update(id, request);
-        //    return (response != null) ? Ok(response.Result) : NotFound();
-        //}
-        //[HttpDelete("/skin-types/{id}")]
-        //public IActionResult DeleteSkinType(string id)
-        //{
-        //    var response = _skinTypeService.Delete(id);
-        //    return (response != null) ? Ok(response.Result) : NotFound();
-        //}
+        [HttpGet("/skin-types/{id}")]
+        public IActionResult GetTypeById(string id)
+        {
+            var response = _skinTypeService.GetAsync(id);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
+        [HttpPost("/skin-types")]
+        public IActionResult CreateSkinType(CreateSkinTypeRequest request)
+        {
+            var response = _skinTypeService.Create(request);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
+        [HttpPut("/skin-types/{id}")]
+        public IActionResult UpdateSkinType(string id, UpdateSkinTypeRequest request)
+        {
+            var response = _skinTypeService.Update(id, request);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
+        [HttpDelete("/skin-types/{id}")]
+        public IActionResult DeleteSkinType(string id)
+        {
+            var response = _skinTypeService.Delete(id);
+            return (response != null) ? Ok(response.Result) : NotFound();
+        }
     }
 
 }

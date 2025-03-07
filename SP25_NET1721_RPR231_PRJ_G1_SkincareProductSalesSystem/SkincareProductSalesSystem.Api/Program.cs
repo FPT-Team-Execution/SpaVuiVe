@@ -20,6 +20,22 @@ builder.Services.AddControllers()
 builder.Services.AddGrpc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+builder.Services.AddDbContext<SP25_NET1721_RPR231_PRJ_G1_SkincareProductSalesSystemDBContext>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<BrandRepository>();
+builder.Services.AddScoped<OrderDetailRepository>();
+builder.Services.AddScoped<PaymentMethodRepository>();
+builder.Services.AddScoped<PaymentRepository>();
+builder.Services.AddScoped<IOrderServices, OrderServices>();
+builder.Services.AddScoped<IOrderDetailServices, OrderDetailServices>();
+builder.Services.AddScoped<IBrandService, BrandServices>();
+builder.Services.AddScoped<IPaymentServices, PaymentServices>();
+builder.Services.AddScoped<IPaymentMethodServices, PaymentMethodServices>();
+builder.Services.AddScoped<ISkinTestService, SkinTestService>();
+builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
+builder.Services.AddScoped<IChatBotService, ChatBotService>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
