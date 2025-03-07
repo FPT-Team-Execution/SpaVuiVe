@@ -85,7 +85,7 @@ namespace SkincareProductSalesSystem.Services
             {
                 Status = 200,
                 Message = "Thành công",
-                Data = skinTypes
+                Data = skinTypes.ToList()
             };
         }
 
