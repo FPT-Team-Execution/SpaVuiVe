@@ -67,16 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
-//Define grpc endpoint through service
-app.UseEndpoints(endpoints =>
-{
-    //* endpoints.MapGrpcService<Your-Service-Implement-GrpcBase>();
-    //...
-    endpoints.MapGrpcService<SkinTypeService2>();
-	endpoints.MapGrpcService<AuthService2>();
-	endpoints.MapGrpcService<PromotionService2>();
-    endpoints.MapGrpcService<ProductGrpcService>();
-});
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
