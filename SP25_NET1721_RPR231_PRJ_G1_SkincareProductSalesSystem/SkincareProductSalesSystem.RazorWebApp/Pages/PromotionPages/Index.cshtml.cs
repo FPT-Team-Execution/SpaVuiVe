@@ -22,6 +22,8 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
 			this._grpcClient = grpcClient;
 		}
 
+		public int PageNumber { get; set; } = 1;
+		public int TotalPages { get; set; } = 1;
 		public IList<Promotion> Promotion { get; set; } = new List<Promotion>();
 
         public async Task OnGetAsync()

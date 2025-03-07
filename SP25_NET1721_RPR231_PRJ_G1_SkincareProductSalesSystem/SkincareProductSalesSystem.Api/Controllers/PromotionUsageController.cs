@@ -120,5 +120,25 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			var response = await _promotionUsageService.GetPaginate(page: page, size:size);
 			return response != null ? StatusCode(200, response) : StatusCode(500, "No response");
 		}
+
+		[HttpPost("CheckCode")]
+		public async Task<IActionResult> CheckCode(CreatePromotionUsageRequest request)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+			try
+			{
+				var response = await _promotionUsageService.CheckCode(request);
+				return response != null ?
+					StatusCode(response.Status, response)
+					:
+					StatusCode(500, "No Response");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
 	}
 }
