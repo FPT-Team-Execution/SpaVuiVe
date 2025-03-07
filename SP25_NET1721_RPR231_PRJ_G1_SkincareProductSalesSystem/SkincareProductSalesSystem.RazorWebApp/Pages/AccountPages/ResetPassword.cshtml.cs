@@ -10,11 +10,11 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 	public class ResetPasswordModel : PageModel
 	{
 
-		private ApiClient _apiClient;
+		private GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> _grpcClient;
 
-		public ResetPasswordModel(ApiClient apiClient)
+		public ResetPasswordModel(GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> grpcClient)
 		{
-			_apiClient = apiClient;
+			_grpcClient = grpcClient;
 		}
 
 		[BindProperty]
@@ -43,7 +43,12 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				ErrorMessage = ModelState.ToString();
 				return Page();
 			}
-			var response = await _apiClient.PostAsync("/reset-password", ResetPasswordRequest);
+			var response = await _grpcClient.Client.ResetPasswordAsync(new ResetPasswordRequestProto()
+			{
+				Username = ResetPasswordRequest.Username,
+				Password = ResetPasswordRequest.NewPassword,
+				Key = ResetPasswordRequest.Key
+			});
 
 			if (response.Status != 200)
 			{

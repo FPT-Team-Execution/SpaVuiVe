@@ -14,8 +14,9 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 		public ForgotPasswordModel(ApiClient apiClient)
 		{
-			_apiClient = apiClient;
+			_grpcClient = grpcClient;
 		}
+
 
 		[BindProperty]
 		[Required]
@@ -30,11 +31,14 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 		{
 			if (!ModelState.IsValid)
 			{
-				ErrorMessage = "Không thể gửi yêu cầu";
+				ErrorMessage = "Invalid username";
 				return Page();
 			}
 
-			var response = await _apiClient.PostAsync("/forgot-password", Username);
+			var response = await _grpcClient.Client.ForgotPasswordAsync(new ForgotPasswordRequestProto()
+			{
+				Username = Username,
+			});
 
 			if (response.Status != 200)
 			{
