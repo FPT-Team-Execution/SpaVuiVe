@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkincareProductSalesSystem.Services.ExtendServices;
 using SkincareProductSalesSystem.Repositories.Models;
-using Azure;
 using SkincareProductSalesSystem.Services.Base;
-using SkincareProductSalesSystem.Services;
-using SkincareProductSalesSystem.Services.Models.Cart;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.Api.Controllers
 {
@@ -15,7 +13,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
 
         private String CART_REDIS_KEY = "product_cart";
 
+        public class ProductCart
+        {
+            [Required]
+            public Product ProductInCart { get; set; }
 
+            [Required]
+            public int Quantity { get; set; }
+        }
         public CartController(ICacheService cacheService)
         {
             _cacheService = cacheService;
