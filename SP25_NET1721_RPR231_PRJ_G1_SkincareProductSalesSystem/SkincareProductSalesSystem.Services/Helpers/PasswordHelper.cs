@@ -11,6 +11,7 @@ namespace SkincareProductSalesSystem.Services.Helpers
 	{
 		private static Dictionary<string, PasswordResetStruct> _passwordResetKeyStorage = new();
 
+
 		public static string HashPassword(string password, string salt)
 		{
 

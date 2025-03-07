@@ -6,6 +6,7 @@ using Protos.AuthService;
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Base;
+using SkincareProductSalesSystem.Services.ExtendServices;
 using SkincareProductSalesSystem.Services.Helpers;
 using Solara.Main.Payload;
 using System;
@@ -27,12 +28,14 @@ namespace SkincareProductSalesSystem.Services
 		private UnitOfWork _uOW;
 		private readonly JwtHelper _jwtHelper;
 		private IMapper _mapper;
+		private ICacheService _cacheService;
 
-		public AuthService2(UnitOfWork uOW, IMapper mapper, JwtHelper jwtHelper) 
+		public AuthService2(UnitOfWork uOW, IMapper mapper, JwtHelper jwtHelper, ICacheService cacheService)
 		{
 			_uOW = uOW;
 			_mapper = mapper;
 			_jwtHelper = jwtHelper;
+			_cacheService = cacheService;
 		}
 
 		public override async Task<ServiceResultProto> Register(RegisterRequestProto request, ServerCallContext context)

@@ -23,8 +23,8 @@ namespace SkincareProductSalesSystem.Services
 		Task<IServiceResult> GetAll();
 		Task<IPaginate<PromotionUsage>?> GetPaginate(int page, int size);
 		Task<IServiceResult> GetById(string promoUsageId);
+		Task<IServiceResult> CheckCode(CreatePromotionUsageRequest request);
 	}
-
 
 	public class PromotionUsageService : IPromotionUsageService
 	{
@@ -43,9 +43,16 @@ namespace SkincareProductSalesSystem.Services
 			{
 				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode.ToUpper());
 				if (promo == null) return new ServiceResult(404, "Không tìm thấy code");
+				if (DateTime.Now < promo.StartDate) return new ServiceResult(400, "Code chưa được mở");
+				if (DateTime.Now > promo.EndDate) return new ServiceResult(400, "Code đã hết hạn");
+				if (promo.IsActive != true) return new ServiceResult(400, "Code không hợp lệ");
+				if ((promo.UsageLimit > 0) && (await _uOW.PromotionUsageRepository.GetUsageCountAsync(promo.PromotionId) > promo.UsageLimit))
+					return new ServiceResult(400, "Code đã được sử dụng hết");
 
 				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
 				if (order == null) return new ServiceResult(404, "Không tìm thấy Order");
+				if (order.TotalAmount < promo.MinimumPurchase)
+					return new ServiceResult(400, $"Bạn phải mua tối thiểu {promo.MinimumPurchase}");
 
 				var promoUsage = _mapper.Map<PromotionUsage>(request);
 				promoUsage.PromotionId = promo.PromotionId;
@@ -177,6 +184,41 @@ namespace SkincareProductSalesSystem.Services
 				return null;
 			}
 		}
+
+		public async Task<IServiceResult> CheckCode(CreatePromotionUsageRequest request)
+		{
+			try
+			{
+				var promo = await _uOW.PromotionRepository.GetByCodeAsync(request.PromoCode.ToUpper());
+				if (promo == null) return new ServiceResult(404, "Không tìm thấy code");
+				if (DateTime.Now < promo.StartDate) return new ServiceResult(400, "Code chưa được mở");
+				if (DateTime.Now > promo.EndDate) return new ServiceResult(400, "Code đã hết hạn");
+				if (promo.IsActive != true) return new ServiceResult(400, "Code không hợp lệ");
+				if ((promo.UsageLimit > 0) && (await _uOW.PromotionUsageRepository.GetUsageCountAsync(promo.PromotionId) > promo.UsageLimit))
+					return new ServiceResult(400, "Code đã được sử dụng hết");
+
+				var order = await _uOW.OrderRepository.GetByIdAsync(request.OrderId);
+				if (order == null) return new ServiceResult(404, "Không tìm thấy Order");
+				if (order.TotalAmount < promo.MinimumPurchase) 
+					return new ServiceResult(400, $"Bạn phải mua tối thiểu {promo.MinimumPurchase}");
+
+				return new ServiceResult()
+				{
+					Status = 200,
+					Message = "Thành công",
+				};
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return new ServiceResult()
+				{
+					Status = 500,
+					Message = ex.Message
+				};
+			}
+		}
+
 	}
 	public class CreatePromotionUsageRequest
 	{
@@ -185,7 +227,7 @@ namespace SkincareProductSalesSystem.Services
 		[Required]
 		public string OrderId { get; set; }
 		[Required]
-		public string Notes { get; set; }
+		public string? Notes { get; set; }
 	}
 
 	public class UpdatePromotionUsageRequest
