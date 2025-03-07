@@ -2,16 +2,64 @@
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Base;
-using SkincareProductSalesSystem.Services.Models.SkinTestModels;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services
 {
+    public class CreateSkinTestOptionRequest
+    {
+        public string OptionText { get; set; }
+
+        public string SkinTypeId { get; set; }
+    }
+    public class CreateSkinTestRequest
+    {
+        public string Question { get; set; } = string.Empty;
+
+        public int? QuestionOrder { get; set; }
+
+        public List<CreateSkinTestOptionRequest> Options { get; set; }
+    }
+    public class SkinTestModel
+    {
+        public string QuestionId { get; set; }
+
+        public string Question { get; set; }
+
+        public int? QuestionOrder { get; set; }
+
+        public bool? IsActive { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+
+        public virtual List<SkinTestOptionModel> SkinTestOptions { get; set; } = new List<SkinTestOptionModel>();
+    }
+    public class SkinTestOptionModel
+    {
+        public string OptionId { get; set; }
+
+        public string OptionText { get; set; }
+
+        public string SkinTypeId { get; set; }
+    }
+    public class SubmitSkinTestRequest
+    {
+        public Dictionary<string, SkinTestOption> ChosenOptions { get; set; }
+
+    }
+    public class UpdateOptionRequest
+    {
+        public string OptionId { get; set; }
+        public string OptionText { get; set; }
+        public string SkinTypeId { get; set; }
+    }
+    public class UpdateSkinTestRequest
+    {
+        public string Question { get; set; } = string.Empty;
+
+        public bool IsActive { get; set; } = false;
+
+        public int? QuestionOrder { get; set; }
+    }
     public interface ISkinTestService
     {
         Task<IServiceResult> GetAllAsync();

@@ -1,33 +1,126 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using SkincareProductSalesSystem.Services.Base;
+using SkincareProductSalesSystem.Services.ExtendServices;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services
 {
+    public class AddToCartRequest
+    {
+        [Required]
+        public string ProductId { get; set; }
+        public int Quantity { get; set; }
+    }
+    public class UpdateToCartRequest : AddToCartRequest
+    {
+
+    }
+
     public interface ICartService
     {
-        bool IsItemExistInList<T>(string id, List<T> list) where T : class;
+        Task<IServiceResult> AddOrUpdateToCartAsync(AddToCartRequest request);
+        Task<IServiceResult> RemoveFromCartAsync(string productId);
+        Task<IServiceResult> GetUserCartAsync();
     }
-    public class CartService
+
+
+    public class CartService : ICartService
     {
-        public CartService() { }
-        public bool IsItemExistInList<T>(string id, List<T> list) where T : class
+        private readonly ICacheService _cacheService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private int LIMIT_CART_COUNT = 100;
+        public CartService(ICacheService cacheService, IHttpContextAccessor httpContextAccessor)
         {
-            if (list == null || list.Count == 0) return false;
-
-            var property = typeof(T).GetProperty("id");
-            if (property == null) throw new ArgumentException("T must have an 'id' property");
-
-            foreach (var item in list)
-            {
-                var itemId = property.GetValue(item)?.ToString();
-                if (itemId != null && itemId.Equals(id)) return true;
-            }
-
-            return false;
+            _cacheService = cacheService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
+        private string GetUserId()
+        {
+            var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UnauthorizedAccessException("Người dùng chưa được cấp quyền");
+            }
+            return userId;
+        }
+
+        public async Task<IServiceResult> AddOrUpdateToCartAsync(AddToCartRequest request)
+        {
+            try
+            {
+                string userId = GetUserId();
+                string key = $"cart:{userId}";
+
+                var cart = await _cacheService.GetDataAsync<Dictionary<string, int>>(key) ?? new Dictionary<string, int>();
+                if (cart.Count >= LIMIT_CART_COUNT)
+                    return new ServiceResult(403, "Giỏ hàng đã đạt giới hạn 100");
+
+                if (cart.TryGetValue(request.ProductId, out int quantity))
+                {
+                    cart[request.ProductId] = request.Quantity;
+                }
+                else
+                {
+                    cart.Add(request.ProductId, request.Quantity);
+                }
+                await _cacheService.SetDataAsync(key, cart);
+
+                return new ServiceResult(200, "Thành công", cart);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return new ServiceResult(401, e.Message);
+            }
+
+        }
+
+
+        public async Task<IServiceResult> RemoveFromCartAsync(string productId)
+        {
+            try
+            {
+                string userId = GetUserId();
+                string key = $"cart:{userId}";
+
+                var cart = await _cacheService.GetDataAsync<List<string>>(key);
+                if (cart == null || !cart.Contains(productId)) return new ServiceResult(400, "Không tìm thấy sản phẩm trong giỏ hàng");
+
+                cart.Remove(productId);
+                await _cacheService.SetDataAsync(key, cart);
+
+                return new ServiceResult(200, "Thành công");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return new ServiceResult(401, e.Message);
+            }
+        }
+
+        public async Task<IServiceResult> GetUserCartAsync()
+        {
+            try
+            {
+                string userId = GetUserId();
+                string key = $"cart:{userId}";
+                var cartData = await _cacheService.GetDataAsync<List<string>>(key) ?? new List<string>();
+                return new ServiceResult
+                {
+                    Status = 200,
+                    Message = "Thành công",
+                    Data = cartData
+                };
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return new ServiceResult(401, e.Message);
+            }
+        }
     }
 }

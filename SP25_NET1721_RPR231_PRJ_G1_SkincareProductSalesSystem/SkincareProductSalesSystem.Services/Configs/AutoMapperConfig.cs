@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using Protos.AuthService;
 using SkincareProductSalesSystem.Repositories.Models;
-using SkincareProductSalesSystem.Services.Models.SkinTestModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services.Configs
 {

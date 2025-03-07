@@ -1,4 +1,5 @@
 ﻿using Azure;
+using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Repositories.Paginate;
 using SkincareProductSalesSystem.Repositories.Repositories;
@@ -22,11 +23,11 @@ namespace SkincareProductSalesSystem.Services
     }
     public class BrandServices : IBrandService
     {
-        private readonly BrandRepository _brandRepository;
+        private readonly UnitOfWork _unitOfWork;
 
-        public BrandServices(BrandRepository brandRepository)
+        public BrandServices(UnitOfWork unitOfWork)
         {
-            _brandRepository = brandRepository;
+            _unitOfWork = unitOfWork;
         }
 
         //public async Task<IPaginate<Brand>> GetPaginate(int page, int size)
@@ -38,7 +39,7 @@ namespace SkincareProductSalesSystem.Services
         //}
         public async Task<IServiceResult> GetPaginate(int page, int size)
         {
-            var response = await _brandRepository.GetPagingListAsync(
+            var response = await _unitOfWork.BrandRepository.GetPagingListAsync(
                     page: page,
                     size: size
                 );
@@ -56,7 +57,7 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> GetBrandById(string id)
         {
-            var response = await _brandRepository.GetByIdAsync(id);
+            var response = await _unitOfWork.BrandRepository.GetByIdAsync(id);
             return new ServiceResult
             {
                 Status = 200,
@@ -72,7 +73,7 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> GetBrandByName(int page, int size, string name)
         {
-            var response = await _brandRepository.GetBrandsByName(page, size, name);
+            var response = await _unitOfWork.BrandRepository.GetBrandsByName(page, size, name);
             return new ServiceResult
             {
                 Status = 200,
@@ -88,7 +89,7 @@ namespace SkincareProductSalesSystem.Services
 
         public async Task<IServiceResult> CreateBrand(Brand brand)
         {
-            var response = await _brandRepository.CreateAsync(brand);
+            var response = await _unitOfWork.BrandRepository.CreateAsync(brand);
             return (response > 0) ? (new ServiceResult
             {
                 Status = 200,
@@ -108,7 +109,7 @@ namespace SkincareProductSalesSystem.Services
         //}
         public async Task<IServiceResult> UpdateBrand(Brand brand)
         {
-            var response = await _brandRepository.UpdateAsync(brand);
+            var response = await _unitOfWork.BrandRepository.UpdateAsync(brand);
             return (response > 0) ? (new ServiceResult
             {
                 Status = 200,
@@ -129,8 +130,8 @@ namespace SkincareProductSalesSystem.Services
         //}
         public async Task<IServiceResult> DeleteBrand(string id)
         {
-            var brand = await _brandRepository.GetByIdAsync(id);
-            var reponse = await _brandRepository.RemoveAsync(brand);
+            var brand = await _unitOfWork.BrandRepository.GetByIdAsync(id);
+            var reponse = await _unitOfWork.BrandRepository.RemoveAsync(brand);
             return (reponse) ? (new ServiceResult
             {
                 Status = 200,
