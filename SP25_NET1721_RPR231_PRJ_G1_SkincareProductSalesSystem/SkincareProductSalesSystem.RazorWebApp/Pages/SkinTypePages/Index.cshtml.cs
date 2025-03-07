@@ -7,7 +7,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.SkinTypePages
 {
     public class IndexModel : PageModel
     {
-       private readonly GrpcClient<SkinTypesService.SkinTypesServiceClient> _grpcClient;
+        private readonly GrpcClient<SkinTypesService.SkinTypesServiceClient> _grpcClient;
 
         public IndexModel(GrpcClient<SkinTypesService.SkinTypesServiceClient> grpcClient)
         {
@@ -16,7 +16,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.SkinTypePages
         public List<SkinType> SkinTypes = new();
         public async Task OnGet()
         {
-            var response =  await _grpcClient.Client.GetAllAsync(new EmptyRequestProto());
+            var response = await _grpcClient.Client.GetAllAsync(new EmptyRequestProto());
             foreach (var skinType in response.Data)
             {
                 SkinTypes.Add(new SkinType

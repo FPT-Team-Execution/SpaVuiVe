@@ -30,14 +30,14 @@ namespace SkincareProductSalesSystem.Api.Controllers
             return (response != null) ? Ok(response) : NotFound();
         }
 
-        [HttpPost("/orders")]
-        public async Task<IActionResult> CreateOrder(Order order)
+        [HttpPost("/orders/order")]
+        public async Task<IActionResult> CreateOrder(string id)
         {
-            var response = await _orderServices.CreateOrder(order);
+            var response = await _orderServices.CreateOrder();
             return (response != null) ? Ok(response) : StatusCode(300);
         }
 
-        [HttpPatch("/orders")]
+        [HttpPut("/orders")]
         public async Task<IActionResult> UpdateOrder(Order order)
         {
             var response = await _orderServices.UpdateOrder(order);

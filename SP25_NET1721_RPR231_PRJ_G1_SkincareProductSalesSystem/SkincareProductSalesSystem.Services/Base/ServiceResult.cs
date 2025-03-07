@@ -32,7 +32,7 @@ namespace SkincareProductSalesSystem.Services.Base
             Message = message;
         }
 
-        public ServiceResult(int status, string message, object data)
+        public ServiceResult(int status, string message, object? data)
         {
             Status = status;
             Message = message;

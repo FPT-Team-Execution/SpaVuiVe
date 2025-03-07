@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SkincareProductSalesSystem.Services.Models.PromotionModels;
-using SkincareProductSalesSystem.Services.Services.Interfaces;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
+using SkincareProductSalesSystem.Services;
 
 namespace SkincareProductSalesSystem.Api.Controllers
 {
@@ -17,9 +18,8 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			_promotionService = promotionService;
 		}
 
-		[HttpPost("create")]
-		[Authorize]
-		public async Task<IActionResult> Create(CreatePromotionRequestModel model)
+		[HttpPost]
+		public async Task<IActionResult> Create(CreatePromotionRequest model)
 		{
 			try
 			{
@@ -27,14 +27,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
 				{
 					return BadRequest(ModelState);
 				}
-
-				var result = await _promotionService.Create(model);
-				if (!result.IsSuccess)
-				{
-					return StatusCode(500, result.Message);
-				}
-
-				return Ok(result);
+				var response = await _promotionService.Create(model);
+				return response != null ? 
+					StatusCode(response.Status, (response)) 
+					: 
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
@@ -43,18 +40,17 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}		
 		}
 
-		[HttpGet("get")]
-		[Authorize]
+		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
 			try
 			{
-				var result = await _promotionService.GetCodes();
-				if (!result.IsSuccess)
-				{
-					return StatusCode(500, result.Message);
-				};
-				return Ok(result);
+				var response = await _promotionService.GetAll();
+
+				return response != null ?
+					StatusCode(response.Status, (response))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
@@ -63,9 +59,46 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[Authorize]
-		[HttpDelete("delete")]
-		public async Task<IActionResult> Delete(DeletePromotionRequestModel model)
+		[HttpGet("{page}/{size}")]
+		public async Task<IActionResult> Get(int page = 1, int size = 10)
+		{
+			try
+			{
+				var response = await _promotionService.GetPaginate(page : page ,size : size);
+
+				return response != null ?
+					StatusCode(200, response)
+					:
+					StatusCode(500, "No Response");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> Get(string id)
+		{
+			try
+			{
+				var response = await _promotionService.GetById(id);
+
+				return response != null ?
+					StatusCode(response.Status, (response))
+					:
+					StatusCode(500, "No Response");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpDelete]
+		public async Task<IActionResult> Delete(DeletePromotionRequest model)
 		{
 			try
 			{
@@ -74,10 +107,33 @@ namespace SkincareProductSalesSystem.Api.Controllers
 					return BadRequest(ModelState);
 				}
 
-				var result = await _promotionService.Delete(model);
-				if (!result)
-					return StatusCode(500);
-				return Ok(result);
+				var response = await _promotionService.Delete(model);
+				return response != null ?
+					StatusCode(response.Status, (response))
+					:
+					StatusCode(500, "No Response");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+		[HttpPut]
+		public async Task<IActionResult> Update(UpdatePromotionRequest model)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				var response = await _promotionService.Update(model);
+				return response != null ?
+					StatusCode(response.Status, (response))
+					:
+					StatusCode(500, "No Response");
 			}
 			catch (Exception ex)
 			{
