@@ -1,0 +1,47 @@
+﻿@page
+@model SkincareProductSalesSystem.RazorWebApp.Pages.PromotionUsagePages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PromotionUsage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PromotionUsage.PromotionId" class="control-label"></label>
+                <select asp-for="PromotionUsage.PromotionId" class ="form-control" asp-items="ViewBag.PromotionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PromotionUsage.OrderId" class="control-label"></label>
+                <select asp-for="PromotionUsage.OrderId" class ="form-control" asp-items="ViewBag.OrderId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PromotionUsage.DiscountAmount" class="control-label"></label>
+                <input asp-for="PromotionUsage.DiscountAmount" class="form-control" />
+                <span asp-validation-for="PromotionUsage.DiscountAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PromotionUsage.Notes" class="control-label"></label>
+                <input asp-for="PromotionUsage.Notes" class="form-control" />
+                <span asp-validation-for="PromotionUsage.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

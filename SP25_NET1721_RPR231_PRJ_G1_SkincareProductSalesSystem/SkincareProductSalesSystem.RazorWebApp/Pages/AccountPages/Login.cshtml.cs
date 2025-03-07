@@ -68,6 +68,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				}
 				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
 				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
+				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
 				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
 
 				var claims = new List<Claim>
