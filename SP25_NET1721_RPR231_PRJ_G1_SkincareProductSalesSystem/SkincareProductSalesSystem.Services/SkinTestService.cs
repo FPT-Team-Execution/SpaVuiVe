@@ -2,7 +2,6 @@
 using SkincareProductSalesSystem.Repositories;
 using SkincareProductSalesSystem.Repositories.Models;
 using SkincareProductSalesSystem.Services.Base;
-using SkincareProductSalesSystem.Services.Models.SkinTestModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
