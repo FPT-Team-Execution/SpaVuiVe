@@ -1,0 +1,409 @@
+﻿@page
+@model SkincareProductSalesSystem.RazorWebApp.Pages.AccountInformationPages.AccountInfoModel
+@{
+    ViewData["Title"] = "Account Info";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="page-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-user"></i>
+                My account
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="header-left">
+                <a href="#" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
+            </div>
+            <div class="header-right">
+                <button type="submit" class="save-button">Save changes</button>
+            </div>
+        </header>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="content-section">
+                <h1>My account</h1>
+
+                <!-- Basic Information -->
+                <section class="info-section">
+                    <h2>Basic information</h2>
+
+                    <div class="form-group">
+                        <label>Avatar</label>
+                        <div class="avatar-upload">
+                            <img src="@(Model.UserAccount.Avatar ?? "https://via.placeholder.com/100")" alt="Profile" class="avatar-image" />
+                            <input type="file" id="avatar" name="AvatarUpload" class="avatar-input" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserAccount.FullName">Name & Surname</label>
+                        <input asp-for="UserAccount.FullName" class="form-input" />
+                        <span asp-validation-for="UserAccount.FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserAccount.PhoneNumber">Phone Number</label>
+                        <input asp-for="UserAccount.PhoneNumber" class="form-input" />
+                        <span asp-validation-for="UserAccount.PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserAccount.Email">Email</label>
+                        <input asp-for="UserAccount.Email" class="form-input" />
+                        <span asp-validation-for="UserAccount.Email" class="text-danger"></span>
+                    </div>
+                </section>
+
+                <!-- Security -->
+                <section class="info-section">
+                    <h2>Security</h2>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-input" value="••••••" readonly />
+                        <button type="button" class="text-button" onclick="openModal()">Change password</button>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </main>
+</div>
+
+<!-- Change Password Modal -->
+<div id="passwordModal" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Change Password</h2>
+            <button class="close-button" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form method="post" class="password-form" asp-page-handler="ChangePassword">
+            <div class="form-group">
+                <label>Current Password:</label>
+                <div class="password-input-container">
+                    <input type="password" id="currentPassword" name="currentPassword" required />
+                    <button type="button" class="toggle-password" onclick="togglePassword('currentPassword')">
+                        <i class="far fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>New Password:</label>
+                <div class="password-input-container">
+                    <input type="password" id="newPassword" name="newPassword" required />
+                    <button type="button" class="toggle-password" onclick="togglePassword('newPassword')">
+                        <i class="far fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Repeat Password:</label>
+                <div class="password-input-container">
+                    <input type="password" id="repeatPassword" name="repeatPassword" required />
+                    <button type="button" class="toggle-password" onclick="togglePassword('repeatPassword')">
+                        <i class="far fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="save-button">Save</button>
+                <button type="button" class="cancel-button" onclick="closeModal()">Cancel</button>
+            </div>
+
+            <div class="password-requirements">
+                <p>Password must:</p>
+                <ul>
+                    <li>- include lower and upper characters</li>
+                    <li>- include at least 1 number or symbol</li>
+                    <li>- be at least 8 characters long</li>
+                    <li>- match in both fields</li>
+                    <li>- cannot contain spaces and "|" symbol</li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .page-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+    }
+
+    .sidebar {
+        width: 250px;
+        background-color: #fff;
+        padding: 20px;
+        border-right: 1px solid #eee;
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 6px;
+        color: #666;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+
+        .nav-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .nav-item.active {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+    .main-content {
+        flex: 1;
+        padding: 20px 40px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        color: #666;
+        text-decoration: none;
+    }
+
+    .save-button {
+        padding: 8px 16px;
+        background-color: #ff4400;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .content-section {
+        max-width: 800px;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    .info-section {
+        background-color: #fff;
+        padding: 24px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #666;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .avatar-upload {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .avatar-image {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .avatar-input {
+        display: none;
+    }
+
+    .text-button {
+        background: none;
+        border: none;
+        color: #ff4400;
+        cursor: pointer;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-container {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #666;
+        padding: 4px;
+    }
+
+    .password-input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .cancel-button {
+        padding: 8px 16px;
+        background-color: #fff;
+        color: #666;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .password-requirements {
+        margin-top: 20px;
+        font-size: 13px;
+        color: #666;
+    }
+
+        .password-requirements ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .password-requirements li {
+            margin-bottom: 4px;
+        }
+</style>
+
+@section Scripts {
+    <script>
+        // Add Font Awesome for icons
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        document.head.appendChild(link);
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('passwordModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+        }
+
+        // Password visibility toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+}
+
