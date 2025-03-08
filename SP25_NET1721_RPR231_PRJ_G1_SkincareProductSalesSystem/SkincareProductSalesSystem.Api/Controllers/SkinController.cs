@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkincareProductSalesSystem.Services;
-using SkincareProductSalesSystem.Services.Models.SkinTestModels;
 
 namespace SkincareProductSalesSystem.Api.Controllers
 {
