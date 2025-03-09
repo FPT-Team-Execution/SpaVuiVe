@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using NuGet.Protocol;
 using Protos.PromotionClient;
 using SkincareProductSalesSystem.Common;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using SkincareProductSalesSystem.Repositories.Database;
 using SkincareProductSalesSystem.Repositories.Models;
 
@@ -16,11 +19,11 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
 {
     public class EditModel : PageModel
     {
-        private GrpcClient<PromotionServiceGRPC.PromotionServiceGRPCClient> _grpcClient;
+		private ApiClient _apiClient;
 
-		public EditModel(GrpcClient<PromotionServiceGRPC.PromotionServiceGRPCClient> grpcClient)
+		public EditModel(ApiClient apiClient)
 		{
-			_grpcClient = grpcClient;
+			_apiClient = apiClient;
 		}
 
 		[BindProperty]
@@ -34,29 +37,14 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
 				return RedirectToPage("./Index");
             }
 
-            var response =  await _grpcClient.Client.GetAsync(new GetByIdRequestProto()
-			{
-				Id = id
-			});
+            var response = await _apiClient.GetAsync($"/api/Promotion/{id}");
 
             if (response.Status != 200)
             {
 				return RedirectToPage("./Index");
             }
 
-            Promotion = new Promotion()
-			{
-				PromotionId = response.Data.PromotionId,
-				Code = response.Data.Code,
-				Name = response.Data.Name,
-				CreatedAt = response.Data.CreatedAt.ToDateTime(),
-				DiscountAmount = Convert.ToDecimal(response.Data.DiscountAmount),
-				MinimumPurchase = Convert.ToDecimal(response.Data.MinimumPurchase),
-				StartDate = response.Data.StartDate.ToDateTime(),
-				EndDate = response.Data.EndDate.ToDateTime(),
-				UsageLimit = response.Data.UsageLimit,
-				IsActive = response.Data.IsActive
-			};
+			Promotion = JsonConvert.DeserializeObject<Promotion>(response.Data.ToString());
             return Page();
         }
 
@@ -69,17 +57,19 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
                 return Page();
             }
 
-			var response = await _grpcClient.Client.UpdateAsync(new UpdatePromotionRequestProto()
-			{
-				PromotionId = Promotion.PromotionId,
-				Code = Promotion.Code ,
-				Name = Promotion.Name,
-				DiscountAmount = Convert.ToInt32(Promotion.DiscountAmount),
-				MinimumPurchase= Convert.ToInt32(Promotion.MinimumPurchase),
-				StartDate = Timestamp.FromDateTime(Promotion.StartDate.ToUniversalTime()),
-				EndDate = Timestamp.FromDateTime(Promotion.EndDate.ToUniversalTime()),
-				UsageLimit = Convert.ToInt32(Promotion.UsageLimit),
-			});
+			var response = await _apiClient.PutAsync("/api/Promotion", Promotion);
+
+			//var response = await _grpcClient.Client.UpdateAsync(new UpdatePromotionRequestProto()
+			//{
+			//	PromotionId = Promotion.PromotionId,
+			//	Code = Promotion.Code ,
+			//	Name = Promotion.Name,
+			//	DiscountAmount = Convert.ToInt32(Promotion.DiscountAmount),
+			//	MinimumPurchase= Convert.ToInt32(Promotion.MinimumPurchase),
+			//	StartDate = Timestamp.FromDateTime(Promotion.StartDate.ToUniversalTime()),
+			//	EndDate = Timestamp.FromDateTime(Promotion.EndDate.ToUniversalTime()),
+			//	UsageLimit = Convert.ToInt32(Promotion.UsageLimit),
+			//});
 
 			if (response.Status != 200)
 			{

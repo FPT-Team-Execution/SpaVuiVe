@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.IdentityModel.Tokens;
 using SkincareProductSalesSystem.Repositories;
@@ -12,6 +13,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SkincareProductSalesSystem.Services
@@ -24,6 +26,7 @@ namespace SkincareProductSalesSystem.Services
 		Task<IPaginate<Promotion>?> GetPaginate(int page, int size);
 		Task<IServiceResult> GetById(string promotionId);
 		Task<IServiceResult> Update(UpdatePromotionRequest request);
+		Task<IServiceResult> Delete(string id);
 	}
 
 	public class PromotionService : IPromotionService
@@ -59,7 +62,11 @@ namespace SkincareProductSalesSystem.Services
 				if (request.Code.IsNullOrEmpty()) //nếu không nhập code thì random code
 				{
 					request.Code = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128 / 8)).Substring(0, 16);
-				};
+				}
+				else
+				{
+					request.Code = Regex.Replace(request.Code, @"\s+", ""); //Remove all whitespaces
+				}
 
 				Promotion entity = _mapper.Map<Promotion>(request);
 				entity.Code = entity.Code.ToUpper();
@@ -201,6 +208,37 @@ namespace SkincareProductSalesSystem.Services
 				return new ServiceResult()
 				{
 					Status = 500,
+				};
+			}
+		}
+
+		public async Task<IServiceResult> Delete(string id)
+		{
+			try
+			{
+				var result = await _uOW.PromotionRepository.GetByIdAsync(id);
+				if (result == null)
+					return new ServiceResult()
+					{
+						Status = 404,
+						Message = "Không tìm thấy"
+					};
+
+				await _uOW.PromotionRepository.RemoveAsync(result);
+
+				return new ServiceResult()
+				{
+					Status = 200,
+					Message = "Thành công"
+				};
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				return new ServiceResult()
+				{
+					Status = 500,
+					Message = ex.Message
 				};
 			}
 		}

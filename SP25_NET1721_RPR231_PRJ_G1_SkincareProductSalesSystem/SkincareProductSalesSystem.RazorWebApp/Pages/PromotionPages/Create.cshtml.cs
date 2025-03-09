@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Protos.PromotionClient;
 using SkincareProductSalesSystem.Common;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using SkincareProductSalesSystem.Repositories.Database;
 using SkincareProductSalesSystem.Repositories.Models;
 using static Grpc.Core.Metadata;
@@ -17,11 +18,12 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
 {
     public class CreateModel : PageModel
     {
-        private GrpcClient<PromotionServiceGRPC.PromotionServiceGRPCClient> _grpcClient;
 
-		public CreateModel(GrpcClient<PromotionServiceGRPC.PromotionServiceGRPCClient> grpcClient)
+		private ApiClient _apiClient;
+
+		public CreateModel(ApiClient apiClient)
 		{
-			_grpcClient = grpcClient;
+			_apiClient = apiClient;
 		}
 
 		[BindProperty]
@@ -35,17 +37,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
                 return Page();
             }
 
-            var response = await _grpcClient.Client.CreateAsync(new CreatePromotionRequestProto() 
-			{
-				Name = Promotion.Name,
-				Code = Promotion.Code ?? "",
-				DiscountAmount = Convert.ToInt32(Promotion.DiscountAmount),
-				MinimumPurchase = Convert.ToInt32(Promotion.MinimumPurchase),
-				StartDate = Timestamp.FromDateTime(Promotion.StartDate.ToUniversalTime()),
-				EndDate = Timestamp.FromDateTime(Promotion.EndDate.ToUniversalTime()),
-				UsageLimit = Convert.ToInt32(Promotion.UsageLimit)
-			});
-
+            var response = await _apiClient.PostAsync("/api/Promotion", Promotion);
 			if (response.Status != 200)
 			{
 				Console.WriteLine(response.Message);
