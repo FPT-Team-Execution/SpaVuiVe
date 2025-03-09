@@ -36,6 +36,8 @@ builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
 builder.Services.AddScoped<IChatBotService, ChatBotService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IRoutineProductService, RoutineProductService>();
+builder.Services.AddScoped<ISkinCareRoutineService, SkinCareRoutineService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

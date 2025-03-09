@@ -1,5 +1,5 @@
 ﻿@page
-@model             IndexModel
+@model IndexModel
 @{
     ViewData["Title"] = "Skincare Routine Management";
 }
@@ -49,69 +49,128 @@
         cursor: pointer;
     }
 
-    .routine-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .product-card {
-        transition: transform 0.2s;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .modal-dialog {
-        max-width: 800px;
-    }
-
-    .modal-body {
-        max-height: 80vh;
-        overflow-y: auto;
-    }
-
-    .step-info-card {
-        margin-top: 20px;
-        text-align: left;
-    }
+        .routine-card:hover {
+            transform: translateY(-5px);
+        }
 </style>
-
-<div class="container py-4">
-    <div class="container py-4">
-        <!-- Filter Section -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <label for="filterSkinType" class="form-label">Skin Type</label>
-                <select id="filterSkinType" class="form-select">
-                    <option value="">All</option>
-                    <option value="oily">Oily</option>
-                    <option value="dry">Dry</option>
-                    <option value="combination">Combination</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="filterPrice" class="form-label">Price Range</label>
-                <select id="filterPrice" class="form-select">
-                    <option value="">All</option>
-                    <option value="low">Under $20</option>
-                    <option value="medium">$20 - $30</option>
-                    <option value="high">Above $30</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="filterStepCount" class="form-label">Number of Steps</label>
-                <input id="filterStepCount" type="number" class="form-control" placeholder="e.g., 3">
-            </div>
-            <div class="col-md-3">
-                <label for="filterKeyword" class="form-label">Keyword</label>
-                <input id="filterKeyword" type="text" class="form-control" placeholder="Search by keyword">
+<section style="background-image: url('images/banner-1.jpg');background-repeat: no-repeat;background-size: cover;">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-lg-6 pt-5 mt-5">
+                <h2 class="display-1 ls-1">
+                    <span class="fw-bold text-pink">Natural</span> Skincare at your
+                    <span class="fw-bold">
+                        Doorsteps
+                    </span>
+                </h2>
+                <div class="d-flex gap-3">
+                    <a href="#" class="btn btn-primary bg-pink text-uppercase fs-6 rounded-pill px-4 py-3 mt-3">
+                        Start
+                        Shopping
+                    </a>
+                    <a href="#" class="btn btn-dark text-uppercase fs-6 rounded-pill px-4 py-3 mt-3">Join Now</a>
+                </div>
+                <div class="row my-5">
+                    <div class="col">
+                        <div class="row text-dark">
+                            <div class="col-auto">
+                                <p class="fs-1 fw-bold lh-sm mb-0">14k+</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-uppercase lh-sm mb-0">Product Varieties</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row text-dark">
+                            <div class="col-auto">
+                                <p class="fs-1 fw-bold lh-sm mb-0">50k+</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-uppercase lh-sm mb-0">Happy Customers</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row text-dark">
+                            <div class="col-auto">
+                                <p class="fs-1 fw-bold lh-sm mb-0">10+</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-uppercase lh-sm mb-0">Store Locations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Routine Cards Grid -->
-        <div class="row justify-content-center g-4">
-            <!-- Oily Skin Routine -->
+
+        <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-3 g-0 justify-content-center">
+            <div class="col">
+                <div class="card border-0 bg-pink rounded-0 p-4 text-light">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <svg width="60" height="60">
+                                <use xlink:href="#fresh"></use>
+                            </svg>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body p-0">
+                                <h5 class="text-light">Glow from Within</h5>
+                                <p class="card-text">Nourish your skin for a healthy, radiant, and natural glow.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-0 bg-secondary rounded-0 p-4 text-light">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <svg width="60" height="60">
+                                <use xlink:href="#organic"></use>
+                            </svg>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body p-0">
+                                <h5 class="text-light">100% Natural Ingredients</h5>
+                                <p class="card-text">Made from pure, natural extracts, safe for all skin types.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-0 bg-danger rounded-0 p-4 text-light">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <svg width="60" height="60">
+                                <use xlink:href="#delivery"></use>
+                            </svg>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body p-0">
+                                <h5 class="text-light">Free Shipping Nationwide</h5>
+                                <p class="card-text">
+                                    Enjoy fast, reliable, and free shipping across the country.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="container py-4">
+    <div class="row justify-content-center g-4">
+        @foreach (var routine in Model.SkinCareRoutines)
+        {
             <div class="col-md-4 col-sm-6">
-                <div class="card routine-card h-100" onclick="showRoutineDetails('oily', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
+                <div class="card routine-card h-100" onclick="showRoutineDetails('@routine.RoutineId')" data-bs-toggle="modal" data-bs-target="#routineModal">
                     <div class="card-body d-flex align-items-center">
                         <div class="flex-shrink-0">
                             <div class="bg-primary text-white p-3 rounded-circle">
@@ -119,254 +178,325 @@
                             </div>
                         </div>
                         <div class="ms-4">
-                            <h5 class="card-title mb-1">Oily Skin Routine</h5>
-                            <p class="card-text text-muted mb-0">Perfect for controlling excess oil and preventing breakouts</p>
+                            <h5 class="card-title mb-1">@routine.Name</h5>
+                            <p class="card-text text-muted mb-0">@routine.Description</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Dry Skin Routine -->
-            <div class="col-md-4 col-sm-6">
-                <div class="card routine-card h-100" onclick="showRoutineDetails('dry', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <div class="bg-primary text-white p-3 rounded-circle">
-                                <i class="bi bi-moisture"></i>
-                            </div>
-                        </div>
-                        <div class="ms-4">
-                            <h5 class="card-title mb-1">Dry Skin Routine</h5>
-                            <p class="card-text text-muted mb-0">Focused on hydration and maintaining skin barrier</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Combination Skin Routine -->
-            <div class="col-md-4 col-sm-6">
-                <div class="card routine-card h-100" onclick="showRoutineDetails('combination', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <div class="bg-primary text-white p-3 rounded-circle">
-                                <i class="bi bi-circle-half"></i>
-                            </div>
-                        </div>
-                        <div class="ms-4">
-                            <h5 class="card-title mb-1">Combination Skin Routine</h5>
-                            <p class="card-text text-muted mb-0">Balanced care for different facial zones</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Routine Details Modal -->
-    <div class="modal fade" id="routineModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header bg-light">
-                    <h5 class="modal-title" id="routineTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Steps Section -->
-                    <div class="mb-5">
-                        <h5 class="text-primary mb-4">Daily Steps</h5>
-                        <div id="routineSteps" class="steps-container"></div>
-                    </div>
-
-                    <!-- Recommended Products -->
-                    <div class="recommended-products">
-                        <h5 class="text-primary mb-4">Recommended Products</h5>
-                        <div class="row row-cols-1 row-cols-md-2 g-4" id="recommendedProducts"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
-@section Scripts {
-    <script>
-        const routineData = {
-            oily: {
-                title: "Oily Skin Routine",
-                steps: [
-                    { step: 1, product: "Oil Control Cleanser", duration: "1-2 minutes", notes: "Use lukewarm water and gentle circular motions" },
-                    { step: 2, product: "Alcohol-free Toner", duration: "30 seconds", notes: "Pat gently with clean hands or cotton pad" },
-                    { step: 3, product: "Light Moisturizer", duration: "1 minute", notes: "Focus on T-zone and use light, upward strokes" }
-                ],
-                products: [
-                    {
-                        name: "Oil Control Foam Cleanser",
-                        price: "$22.99",
-                        description: "Deeply cleanses without over-drying, perfect for oily skin types",
-                        image: "/api/placeholder/300/200"
-                    },
-                    {
-                        name: "Mattifying Moisturizer",
-                        price: "$28.99",
-                        description: "Light, oil-free hydration with shine control",
-                        image: "/api/placeholder/300/200"
-                    }
-                ]
-            },
-            dry: {
-                title: "Dry Skin Routine",
-                steps: [
-                    { step: 1, product: "Cream Cleanser", duration: "1-2 minutes", notes: "Gentle massage with warm (not hot) water" },
-                    { step: 2, product: "Hydrating Toner", duration: "30 seconds", notes: "Pat into skin while face is still damp" },
-                    { step: 3, product: "Rich Moisturizer", duration: "1-2 minutes", notes: "Apply generously using pressing motions" }
-                ],
-                products: [
-                    {
-                        name: "Creamy Hydrating Cleanser",
-                        price: "$24.99",
-                        description: "Nourishing cream cleanser that maintains skin barrier",
-                        image: "/api/placeholder/300/200"
-                    },
-                    {
-                        name: "Intensive Moisturizer",
-                        price: "$32.99",
-                        description: "Rich, deep hydration for dry skin types",
-                        image: "/api/placeholder/300/200"
-                    }
-                ]
-            }
-            // Add more routine types as needed
-        };
 
-        function showRoutineDetails(routineType, clickedCard) {
-            // Remove active class from all cards
-            document.querySelectorAll('.routine-card').forEach(card => {
-                card.classList.remove('active-routine');
-            });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Routine Modal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Routine Details Modal -->
+    <div class="modal fade" id="routineModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0 shadow overflow-hidden">
+                <!-- Modal Header -->
+                <div class="modal-header border-0 bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="routineTitle">
+                        <i class="fas fa-calendar-check me-2"></i>Routine Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-            // Add active class to clicked card
-            clickedCard.classList.add('active-routine');
-
-            const routine = routineData[routineType];
-            if (!routine) return;
-
-            // Update modal title
-            document.getElementById('routineTitle').textContent = routine.title;
-
-            // Populate steps
-            const stepsContainer = document.getElementById('routineSteps');
-            stepsContainer.innerHTML = '';
-
-            // Add connecting lines between steps
-            const totalSteps = routine.steps.length;
-            for (let i = 0; i < totalSteps - 1; i++) {
-                const line = document.createElement('div');
-                line.className = 'step-line';
-                stepsContainer.appendChild(line);
-            }
-
-            // Add steps
-            routine.steps.forEach((step, index) => {
-                const stepElement = document.createElement('div');
-                stepElement.className = 'routine-step';
-                stepElement.innerHTML = `
-                    <div class="step-number">${step.step}</div>
-                    <div class="step-info-card card shadow-sm">
-                        <div class="card-body">
-                            <h6 class="card-title text-primary">${step.product}</h6>
-                            <p class="card-text mb-1"><small class="text-muted">Duration: ${step.duration}</small></p>
-                            <p class="card-text mb-0">${step.notes}</p>
-                        </div>
+                <!-- Modal Body -->
+                <div class="modal-body p-4">
+                    <!-- Daily Steps Section -->
+                    <div class="section-header mb-4">
+                        <h5 class="fw-bold">
+                            <i class="fas fa-list-check me-2"></i>Daily Steps
+                        </h5>
                     </div>
-                `;
-                stepsContainer.appendChild(stepElement);
-            });
 
-            // Populate products
-            const productsContainer = document.getElementById('recommendedProducts');
-            productsContainer.innerHTML = routine.products.map(product => `
-                <div class="col">
-                    <div class="card h-100 product-card">
-                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                        <div class="card-body">
-                            <h6 class="card-title">${product.name}</h6>
-                            <p class="card-text">${product.description}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-primary fw-bold">${product.price}</span>
-                                <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
-                            </div>
+                    <!-- Timeline Steps Container -->
+                    <div class="timeline-section mb-5">
+                        <!-- Steps Container -->
+                        <div id="routineSteps" class="steps-container">
+                            <!-- Steps will be dynamically added here from your backend data -->
                         </div>
+
+                        <!-- Navigation Controls -->
+                       @*  <div class="steps-navigation">
+                            <button class="prev-btn nav-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="next-btn nav-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div> *@
+                    </div>
+
+                    <!-- Recommended Products Section -->
+                    <div class="section-header mb-4 mt-5">
+                        <h5 class="fw-bold">
+                            <i class="fas fa-shopping-bag me-2"></i>Recommended Products
+                        </h5>
+                    </div>
+
+                    <div id="recommendedProducts" class="row g-4">
+                        <!-- Products will be dynamically added here from your backend data -->
                     </div>
                 </div>
-            `).join('');
+            </div>
+        </div>
+    </div>
+
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --border-radius: 12px;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            --hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const filterSkinType = document.getElementById('filterSkinType');
-                const filterPrice = document.getElementById('filterPrice');
-                const filterStepCount = document.getElementById('filterStepCount');
-                const filterKeyword = document.getElementById('filterKeyword');
-                const routineCardsContainer = document.getElementById('routineCardsContainer');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-                // Apply filters
-                function applyFilters() {
-                    const skinType = filterSkinType.value.toLowerCase();
-                    const price = filterPrice.value.toLowerCase();
-                    const stepCount = filterStepCount.value;
-                    const keyword = filterKeyword.value.toLowerCase();
+        /* Căn giữa Modal */
+        .modal-dialog {
+            max-width: 100%;
+        }
 
-                    routineCardsContainer.innerHTML = '';
+        /* Timeline Section */
+        .timeline-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
 
-                    Object.keys(routineData).forEach(key => {
-                        const routine = routineData[key];
+        /* Steps Container */
+        .steps-container {
+            display: flex;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) #f1f1f1;
+            position: relative;
+            justify-content: center;
+        }
 
-                        // Filter by skin type
-                        if (skinType && key !== skinType) return;
+            /* Hiển thị thanh cuộn khi hover */
+            .steps-container:hover {
+                scrollbar-width: auto;
+            }
 
-                        // Filter by price range
-                        if (price) {
-                            const priceValues = routine.products.map(p => parseFloat(p.price.replace('$', '')));
-                            const isPriceMatch =
-                                (price === 'low' && priceValues.every(p => p < 20)) ||
-                                (price === 'medium' && priceValues.some(p => p >= 20 && p <= 30)) ||
-                                (price === 'high' && priceValues.some(p => p > 30));
-                            if (!isPriceMatch) return;
-                        }
+            .steps-container::-webkit-scrollbar {
+                height: 6px;
+            }
 
-                        // Filter by step count
-                        if (stepCount && routine.steps.length != stepCount) return;
+            .steps-container::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 10px;
+            }
 
-                        // Filter by keyword
-                        if (keyword && !routine.title.toLowerCase().includes(keyword)) return;
+            .steps-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
 
-                        // Add matching card to container
-                        const cardHtml = `
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="card routine-card h-100" onclick="showRoutineDetails('${key}', this)" data-bs-toggle="modal" data-bs-target="#routineModal">
-                                        <div class="card-body d-flex align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <div class="bg-primary text-white p-3 rounded-circle">
-                                                    <i class="bi bi-droplet-fill"></i>
+            /* Timeline Line */
+            .steps-container::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary), var(--primary-light));
+                opacity: 0.3;
+                z-index: 1;
+            }
+
+        /* Step Card */
+        .routine-step {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            min-width: 250px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            z-index: 2;
+            border-top: 4px solid var(--primary);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+            .routine-step:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--hover-shadow);
+            }
+
+            /* Step Number Circle */
+            .routine-step::before {
+                content: attr(data-step);
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 40px;
+                background: var(--primary);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            }
+
+        /* Step Content */
+        .step-header {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .step-content {
+            color: #212529;
+            font-size: 0.95rem;
+        }
+
+        /* Navigation Controls */
+        .steps-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+            .nav-btn:hover {
+                background-color: var(--primary);
+                color: white;
+            }
+
+
+
+       
+    </style>
+
+    <!-- Required JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('routineSteps');
+
+            document.querySelector('.prev-btn').addEventListener('click', function () {
+                container.scrollBy({ left: -260, behavior: 'smooth' });
+            });
+
+            document.querySelector('.next-btn').addEventListener('click', function () {
+                container.scrollBy({ left: 260, behavior: 'smooth' });
+            });
+        });
+
+    </script>
+</body>
+</html>
+
+
+@section Scripts {
+    <script>
+        function showRoutineDetails(routineId) {
+            fetch(`https://localhost:7000/skin-care-routines/${routineId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status !== 200 || !data.data || data.data.length === 0) {
+                        console.error("Error: Invalid response from API");
+                        return;
+                    }
+                    console.log(data);
+                    // Lấy routine đầu tiên từ danh sách data
+                    const routine = data.data[0];
+
+                    // Cập nhật tiêu đề modal
+                    document.getElementById('routineTitle').textContent = routine.name;
+
+                    // Cập nhật danh sách các bước routine
+                    const stepsContainer = document.getElementById('routineSteps');
+                    stepsContainer.innerHTML = '';
+
+                    routine.routineProducts
+                        .sort((a, b) => a.stepOrder - b.stepOrder) // Sắp xếp theo thứ tự bước
+                        .forEach((step, index) => {
+                            stepsContainer.innerHTML += `
+                                        <div class="routine-step">
+                                            <div class="step-number">${index + 1}</div>
+                                            <div class="card shadow-sm">
+                                                <div class="card-body">
+                                                    <h6 class="card-title text-primary">${step.step}</h6>
+                                                    <p class="card-text mb-1"><small class="text-muted">Usage: ${step.usageInstructions || "N/A"}</small></p>
+                                                    <p class="card-text mb-1"><small class="text-muted">Time of Day: ${step.timeOfDay}</small></p>
+                                                    <p class="card-text mb-1"><small class="text-muted">Frequency: ${step.frequency}</small></p>
                                                 </div>
                                             </div>
-                                            <div class="ms-4">
-                                                <h5 class="card-title mb-1">${routine.title}</h5>
-                                                <p class="card-text text-muted mb-0">${routine.steps.length} steps included</p>
+                                        </div>`;
+                        });
+
+                    // Cập nhật danh sách sản phẩm gợi ý (nếu có)
+                    const productsContainer = document.getElementById('recommendedProducts');
+                    productsContainer.innerHTML = '';
+
+                    if (routine.routineProducts.length > 0) {
+                        routine.routineProducts.forEach(product => {
+                            productsContainer.innerHTML += `
+                                        <div class="col">
+                                            <div class="card h-100 product-card">
+                                                        <img src="https://i.pinimg.com/736x/c0/0d/2e/c00d2e335ecd0089275980c4d0956c8b.jpg" class="card-img-top" alt="${product.step}">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">${product.step}</h6>
+                                                    <p class="card-text">${product.usageInstructions || "No details available"}</p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="text-primary fw-bold">${product.frequency}</span>
+                                                        <button class="btn btn-outline-primary btn-sm">Add to Cart</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                        routineCardsContainer.innerHTML += cardHtml;
-                    });
-                }
-
-                // Attach event listeners
-                [filterSkinType, filterPrice, filterStepCount, filterKeyword].forEach(filter =>
-                    filter.addEventListener('input', applyFilters)
-                );
-
-                // Initial render
-                applyFilters();
-            });
+                                        </div>`;
+                        });
+                    } else {
+                        productsContainer.innerHTML = `<p class="text-muted">No recommended products found.</p>`;
+                    }
+                })
+                .catch(error => console.error('Error fetching routine details:', error));
+        }
     </script>
+}
+
 }
