@@ -56,6 +56,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 	public class ResetPasswordRequest
 	{
+
 		public string? Username { get; set; }
 
 		[Required]
