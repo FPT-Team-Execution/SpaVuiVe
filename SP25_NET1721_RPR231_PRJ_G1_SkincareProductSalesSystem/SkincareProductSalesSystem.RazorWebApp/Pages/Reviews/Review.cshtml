@@ -1,0 +1,332 @@
+﻿@page "{ProductId}"
+@model SkincareProductSalesSystem.RazorWebApp.Pages.Reviews.ReviewModel
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "Đánh giá sản phẩm";
+}
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="/ProductPages/Details/@Model.ProductId">Chi tiết sản phẩm</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Đánh giá</li>
+                    </ol>
+                </nav>
+                <h2 class="mb-4">Đánh giá sản phẩm</h2>
+            </div>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3 class="display-4">@Model.AverageRating</h3>
+                        <div class="d-flex justify-content-center mb-2">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Math.Floor(Model.AverageRating))
+                                {
+                                    <i class="fa fa-star text-warning"></i>
+                                }
+                                else if (i - Model.AverageRating < 1 && i - Model.AverageRating > 0)
+                                {
+                                    <i class="fa fa-star-half-alt text-warning"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star text-muted"></i>
+                                }
+                            }
+                        </div>
+                        <p>Dựa trên @Model.TotalReviews đánh giá</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-3">Phân bố đánh giá</h4>
+                        @for (int i = 5; i >= 1; i--)
+                        {
+                            var percentage = Model.TotalReviews > 0 ? (Model.RatingCounts.ContainsKey(i) ? (Model.RatingCounts[i] * 100 / Model.TotalReviews) : 0) : 0;
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-3">@i <i class="fa fa-star text-warning"></i></div>
+                                <div class="progress flex-grow-1" style="height: 10px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: @percentage%;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="ms-3">@percentage%</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h4 class="mb-0">Tất cả đánh giá (@Model.TotalReviews)</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Reviews != null && Model.Reviews.Any())
+                        {
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <div class="border-bottom pb-4 mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="d-flex align-items-center">
+                                            @if (string.IsNullOrEmpty(review.CustomerAvatar))
+                                            {
+                                                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                                    @(review.CustomerName?.Length > 0 ? review.CustomerName.Substring(0, 1).ToUpper() : "U")
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <img src="@review.CustomerAvatar" alt="@review.CustomerName" class="rounded-circle me-3" width="50" height="50">
+                                            }
+                                            <div>
+                                                <h5 class="mb-0">@review.CustomerName</h5>
+                                                <small class="text-muted">@(review.PurchaseDate.HasValue ? review.PurchaseDate.Value.ToString("dd/MM/yyyy") : "")</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-3">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= review.Rating)
+                                                    {
+                                                        <i class="fa fa-star text-warning"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-star text-muted"></i>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton-@review.ReviewId" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-h"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-@review.ReviewId">
+                                                    <li>
+                                                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editReviewModal"
+                                                                onclick="prepareEditReview('@review.ReviewId', @review.Rating, '@review.Comment.Replace("'", "\\'").Replace("\n", "\\n")')">
+                                                            <i class="fa fa-edit me-2"></i> Chỉnh sửa
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteReviewModal"
+                                                                onclick="prepareDeleteReview('@review.ReviewId')">
+                                                            <i class="fa fa-trash me-2"></i> Xóa
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mb-2">@review.Comment</p>
+@*                                     @if (!string.IsNullOrEmpty(review.ImageUrl))
+                                    {
+                                        <div class="review-image mb-2">
+                                            <img src="@review.ImageUrl" alt="Review Image" class="img-fluid rounded" style="max-height: 200px;">
+                                        </div>
+                                    } *@
+                                    <div class="d-flex align-items-center">
+                                        <small class="text-muted">@review.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                                        @if (review.IsVerified)
+                                        {
+                                            <span class="badge bg-success ms-2">Đã xác minh</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.TotalPages > 1)
+                            {
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        @for (int i = 1; i <= Model.TotalPages; i++)
+                                        {
+                                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                                <a class="page-link" href="/Reviews/Review/@Model.ProductId?page=@i">@i</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fa fa-comment-slash fa-3x text-muted mb-3"></i>
+                                <h5>Chưa có đánh giá nào cho sản phẩm này</h5>
+                                <p class="text-muted">Hãy là người đầu tiên đánh giá sản phẩm này</p>
+                            </div>
+                        }
+
+                        <!-- Form tạo đánh giá mới -->
+                        <div class="mt-5">
+                            <h4 class="mb-3">Viết đánh giá của bạn</h4>
+                            <form method="post" asp-page-handler="">
+                                <div class="mb-3">
+                                    <label class="form-label">Đánh giá của bạn</label>
+                                    <div class="star-rating mb-2">
+                                        <div class="star-input">
+                                            <input type="radio" name="NewReview.Rating" value="5" id="rating-5" checked>
+                                            <label for="rating-5" class="fas fa-star"></label>
+                                            <input type="radio" name="NewReview.Rating" value="4" id="rating-4">
+                                            <label for="rating-4" class="fas fa-star"></label>
+                                            <input type="radio" name="NewReview.Rating" value="3" id="rating-3">
+                                            <label for="rating-3" class="fas fa-star"></label>
+                                            <input type="radio" name="NewReview.Rating" value="2" id="rating-2">
+                                            <label for="rating-2" class="fas fa-star"></label>
+                                            <input type="radio" name="NewReview.Rating" value="1" id="rating-1">
+                                            <label for="rating-1" class="fas fa-star"></label>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="NewReview.Rating" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nội dung đánh giá</label>
+                                    <textarea asp-for="NewReview.Comment" class="form-control" rows="3" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."></textarea>
+                                    <span asp-validation-for="NewReview.Comment" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Chỉnh sửa đánh giá -->
+<div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="Update">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editReviewModalLabel">Chỉnh sửa đánh giá</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="EditReview.ReviewId" id="editReviewId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Đánh giá của bạn</label>
+                        <div class="star-rating mb-2">
+                            <div class="star-input">
+                                <input type="radio" name="EditReview.Rating" value="5" id="edit-rating-5">
+                                <label for="edit-rating-5" class="fas fa-star"></label>
+                                <input type="radio" name="EditReview.Rating" value="4" id="edit-rating-4">
+                                <label for="edit-rating-4" class="fas fa-star"></label>
+                                <input type="radio" name="EditReview.Rating" value="3" id="edit-rating-3">
+                                <label for="edit-rating-3" class="fas fa-star"></label>
+                                <input type="radio" name="EditReview.Rating" value="2" id="edit-rating-2">
+                                <label for="edit-rating-2" class="fas fa-star"></label>
+                                <input type="radio" name="EditReview.Rating" value="1" id="edit-rating-1">
+                                <label for="edit-rating-1" class="fas fa-star"></label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="EditReview.Rating" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nội dung đánh giá</label>
+                        <textarea asp-for="EditReview.Comment" id="editReviewComment" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="EditReview.Comment" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xác nhận xóa đánh giá -->
+<div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="Delete">
+                <input type="hidden" id="deleteReviewId" name="reviewId" asp-page-handler="Delete">
+                <input type="hidden" id="deleteReviewId" name="reviewId" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteReviewModalLabel">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa đánh giá này không?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* CSS cho star rating */
+    .star-rating {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .star-input {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+
+        .star-input input {
+            display: none;
+        }
+
+        .star-input label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ddd;
+            margin: 0 2px;
+        }
+
+            .star-input label:hover,
+            .star-input label:hover ~ label,
+            .star-input input:checked ~ label {
+                color: #ffb700;
+            }
+</style>
+
+<script>
+    function prepareEditReview(reviewId, rating, comment) {
+        document.getElementById('editReviewId').value = reviewId;
+        document.getElementById('editReviewComment').value = comment;
+
+        // Set the rating
+        const ratingInput = document.getElementById(`edit-rating-${rating}`);
+        if (ratingInput) {
+            ratingInput.checked = true;
+        }
+    }
+
+    function prepareDeleteReview(reviewId) {
+        document.getElementById('deleteReviewId').value = reviewId;
+    }
+</script>

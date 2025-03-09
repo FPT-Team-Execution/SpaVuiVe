@@ -31,6 +31,7 @@ builder.Services.AddScoped<IPromotionService, PromotionService>();
 builder.Services.AddScoped<IPromotionUsageService, PromotionUsageService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<JwtHelper>();
 //Google 
