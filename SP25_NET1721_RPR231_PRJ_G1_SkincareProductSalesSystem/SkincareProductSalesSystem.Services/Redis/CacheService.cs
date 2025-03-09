@@ -1,5 +1,6 @@
 ﻿using StackExchange.Redis;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 
 namespace SkincareProductSalesSystem.Services.ExtendServices
@@ -8,13 +9,13 @@ namespace SkincareProductSalesSystem.Services.ExtendServices
     public class CacheService : ICacheService
     {
         private IDatabase _cacheDb;
-        public CacheService() 
+        public CacheService(IConfiguration configuration) 
         {
-            var redis = ConnectionMultiplexer.Connect("localhost:6379");
+            var redis = ConnectionMultiplexer.Connect(configuration["Redis:ConnectionString"]!);
             _cacheDb = redis.GetDatabase();
         }
 
-        public async Task<T> GetDataAsync<T>(string key)
+        public async Task<T?> GetDataAsync<T>(string key)
         {
             var value = await _cacheDb.StringGetAsync(key);
             if (!value.IsNullOrEmpty)

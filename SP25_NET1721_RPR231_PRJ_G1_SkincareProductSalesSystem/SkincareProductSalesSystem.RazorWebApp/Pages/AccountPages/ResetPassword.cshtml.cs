@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Protos.AuthClient;
 using SkincareProductSalesSystem.Common;
-using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
