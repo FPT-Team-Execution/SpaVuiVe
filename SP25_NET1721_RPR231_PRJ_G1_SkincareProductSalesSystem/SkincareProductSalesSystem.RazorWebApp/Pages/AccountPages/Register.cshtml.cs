@@ -15,12 +15,13 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
     public class RegisterModel : PageModel
     {
-		private GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> _grpcClient;
+		private ApiClient _apiClient;
 
-		public RegisterModel(GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> grpcClient)
+		public RegisterModel(ApiClient client)
 		{
-			_grpcClient = grpcClient;
+			_apiClient = client;
 		}
+
 
 		public string? ErrorMessage { get; set; }
 
@@ -29,8 +30,8 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 
 		public void OnGet()
-        {
-        }
+		{
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> OnPost()
@@ -43,14 +44,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 					return Page();
 				}
 
-				var response = await _grpcClient.Client.RegisterAsync(new RegisterRequestProto() {
-					Username = RegisterRequest.Username,
-					FullName = RegisterRequest.FullName,
-					Email = RegisterRequest.Email,	
-					PhoneNumber = RegisterRequest.PhoneNumber,
-					Password = RegisterRequest.Password
-				});
-
+				var response = await _apiClient.PostAsync("/register", RegisterRequest);
 				if (response.Status != 200)
 				{
 					ErrorMessage = response.Message;

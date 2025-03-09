@@ -15,14 +15,11 @@ using Protos.AuthClient;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
-    public class LoginModel : PageModel
-    {
-		private GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> _grpcClient;
+	public class LoginModel : PageModel
+	{
+		private HttpClient _httpClient;
+		private ApiClient _apiClient;
 
-		public LoginModel(GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> grpcClient)
-		{
-			_grpcClient = grpcClient;
-		}
 
 		[BindProperty]
 		public LoginRequestModel LoginRequest { get; set; } = new LoginRequestModel();
@@ -30,11 +27,17 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 		public string? ErrorMessage { get; set; }
 
 
+		public LoginModel(IHttpClientFactory httpClientFactory, ApiClient apiClient)
+		{
+			_httpClient = httpClientFactory.CreateClient();
+			_httpClient.BaseAddress = new Uri("https://localhost:7000/api/");
+			_apiClient = apiClient;
+		}
 
 		public void OnGet()
-        {
+		{
 
-        }
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> OnPost()
@@ -47,29 +50,24 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 					return Page();
 				}
 
-				var response = await _grpcClient.Client.LoginAsync(new LoginRequestProto()
-				{
-					Username = LoginRequest.Username,
-					Password = LoginRequest.Password
-				});
-
+				var response = await _apiClient.PostAsync("/login", LoginRequest);
 
 				if (response.Status != 200)
 				{
 					ErrorMessage = response.Message;
 					return Page();
 				}
-				
+				var responseModel = JsonConvert.DeserializeObject<LoginResponseModel>(response.Data.ToString());
 				var tokenHandler = new JwtSecurityTokenHandler();
-				var accessToken = tokenHandler.ReadToken(response.Data.AccessToken) as JwtSecurityToken;
+				var accessToken = tokenHandler.ReadToken(responseModel.AccessToken) as JwtSecurityToken;
 				if (accessToken == null)
 				{
 					return Page();
 				}
-				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
+
 				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
-				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
 				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
+				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
 
 				var claims = new List<Claim>
 						{
@@ -84,18 +82,19 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				Response.Cookies.Append("userId", userId);
 				Response.Cookies.Append("UniqueName", uniqueName);
 				Response.Cookies.Append("Role", role);
-				Response.Cookies.Append("AccessToken", response.Data.AccessToken);
-				Response.Cookies.Append("RefreshToken", response.Data.RefreshToken);
+				Response.Cookies.Append("AccessToken", responseModel.AccessToken);
+				Response.Cookies.Append("RefreshToken", responseModel.RefreshToken);
 				return RedirectToPage("/Index");
 
-			} catch (Exception ex) 
+			}
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 				ErrorMessage = ex.Message;
 				return Page();
 			};
 		}
-    }
+	}
 
 	public class LoginRequestModel 
 	{
