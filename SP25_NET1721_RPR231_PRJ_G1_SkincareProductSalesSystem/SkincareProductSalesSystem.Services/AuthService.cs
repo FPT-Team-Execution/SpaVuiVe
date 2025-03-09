@@ -210,7 +210,7 @@ namespace SkincareProductSalesSystem.Services
 		}
 	}
 
-	public class RegisterRequest : BaseModel
+	public class RegisterRequest
 	{
 		[Required]
 		public string Username { get; set; }
@@ -226,7 +226,7 @@ namespace SkincareProductSalesSystem.Services
 		public string Password { get; set; }
 	}
 
-	public class LoginRequestModel : BaseModel
+	public class LoginRequestModel
 	{
 		[Required]
 		public string Username { get; set; }
@@ -236,13 +236,13 @@ namespace SkincareProductSalesSystem.Services
 		public string Password { get; set; }
 	}
 
-	public class LoginResponseModel : BaseModel
+	public class LoginResponseModel 
 	{
 		public string AccessToken { get; set; }
 		public string RefreshToken { get; set; }
 	}
 
-	public class ResetPasswordRequest : BaseModel
+	public class ResetPasswordRequest 
 	{
 		[Required]
 		public string Username { get; set; }
