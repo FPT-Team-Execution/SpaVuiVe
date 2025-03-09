@@ -109,7 +109,8 @@ namespace SkincareProductSalesSystem.Services
             {
                 string userId = GetUserId();
                 string key = $"cart:{userId}";
-                var cartData = await _cacheService.GetDataAsync<List<string>>(key) ?? new List<string>();
+                var cartData = await _cacheService.GetDataAsync<Dictionary<string, int>>(key) ??
+                               new Dictionary<string, int>();
                 return new ServiceResult
                 {
                     Status = 200,

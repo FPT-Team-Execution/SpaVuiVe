@@ -14,6 +14,9 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresh Fruits Shop</title>
@@ -314,14 +317,26 @@
             .then(response => response.json()) // Chuyển đổi sang JSON
             .then(data => {
                 if (data.status >= 200 && data.status < 300) {
-                    alert(`✅ ${data.message || "Added to cart successfully!"}`);
+                    showToast("Add to cart successfully!", "success");
                 } else {
-                    alert(`❌ Failed: ${data.message || "Something went wrong!"}`);
+                    showToast("Add to cart fail!", "error");
                 }
             })
             .catch(error => {
-                alert("❌ Error: " + error.message);
+                showToast(error.message, "error");
             });
+    }
+
+    function showToast(message, type) {
+        let bgColor = type === "success" ? "green" : type === "error" ? "red" : "orange";
+        Toastify({
+            text: message,
+            duration: 3000,
+            close: true,
+            gravity: "top", // top hoặc bottom
+            position: "right", // left, center hoặc right
+            backgroundColor: bgColor,
+        }).showToast();
     }
 
     function changeSize(select) {

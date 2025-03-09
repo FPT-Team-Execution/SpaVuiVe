@@ -28,6 +28,10 @@
     <link rel="stylesheet" type="text/css" href="~/css/checkout_page.css" />
     <link rel="stylesheet" type="text/css" href="~/css/pop_up.css" />
     <link rel="stylesheet" type="text/css" href="~/css/skin-result.css" />
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -705,7 +709,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/owl.carousel.min.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
