@@ -12,7 +12,6 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
 	public class LoginModel : PageModel
 	{
-		private HttpClient _httpClient;
 		private ApiClient _apiClient;
 
 
@@ -21,10 +20,8 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
         public string? ErrorMessage { get; set; }
 
 
-		public LoginModel(IHttpClientFactory httpClientFactory, ApiClient apiClient)
+		public LoginModel(ApiClient apiClient)
 		{
-			_httpClient = httpClientFactory.CreateClient();
-			_httpClient.BaseAddress = new Uri("https://localhost:7000/api/");
 			_apiClient = apiClient;
 		}
 
@@ -62,18 +59,13 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
 				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
 				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
-				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
-				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
-				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
-				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
-				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
-				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
-				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
 
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, userId),
-                    new Claim(ClaimTypes.Role, role),
+
+				var claims = new List<Claim>
+				{
+					new Claim(ClaimTypes.NameIdentifier, userId),
+					new Claim(ClaimTypes.Role, role),
+				};
 				Response.Cookies.Append("userId", userId);
 				Response.Cookies.Append("UniqueName", uniqueName);
 				Response.Cookies.Append("Role", role);
@@ -90,12 +82,6 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 			};
 		}
 	}
-			};
-		}
-    }
-			};
-		}
-    }
 
     public class LoginRequestModel
     {

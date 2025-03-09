@@ -14,11 +14,9 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 			_apiClient = client;
 		}
 
-
 		public string? ErrorMessage { get; set; }
 
         [BindProperty] public RegisterRequest RegisterRequest { get; set; }
-
 
 		public void OnGet()
 		{
@@ -51,7 +49,6 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 			};
 		}
 	}
-
     public class RegisterRequest
     {
         [Required] public string Username { get; set; }

@@ -2,15 +2,14 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Protos.AuthClient;
 using SkincareProductSalesSystem.Common;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
 	public class ResetPasswordModel : PageModel
 	{
-
 		private ApiClient _apiClient;
-
 		public ResetPasswordModel(ApiClient apiClient)
 		{
 			_apiClient = apiClient;
