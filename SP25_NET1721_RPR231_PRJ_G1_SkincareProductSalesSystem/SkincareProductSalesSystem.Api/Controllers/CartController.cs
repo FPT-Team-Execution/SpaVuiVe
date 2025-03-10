@@ -21,8 +21,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
             var responses = await _cartService.GetUserCartAsync();
             return StatusCode(responses.Status, responses);
         }
-
-
+        
         [HttpPost("cart")]
         [Authorize]
         public async Task<IActionResult> AddToCart(AddToCartRequest request)

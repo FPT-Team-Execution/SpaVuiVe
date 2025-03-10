@@ -8,18 +8,19 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using SkincareProductSalesSystem.Repositories;
+using SkincareProductSalesSystem.Repositories.Models;
 
 namespace SkincareProductSalesSystem.Services
 {
     public class AddToCartRequest
     {
-        [Required]
-        public string ProductId { get; set; }
+        [Required] public string ProductId { get; set; }
         public int Quantity { get; set; }
     }
+
     public class UpdateToCartRequest : AddToCartRequest
     {
-
     }
 
     public interface ICartService
@@ -33,12 +34,15 @@ namespace SkincareProductSalesSystem.Services
     public class CartService : ICartService
     {
         private readonly ICacheService _cacheService;
+        private readonly UnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private int LIMIT_CART_COUNT = 100;
-        public CartService(ICacheService cacheService, IHttpContextAccessor httpContextAccessor)
+
+        public CartService(ICacheService cacheService, IHttpContextAccessor httpContextAccessor, UnitOfWork unitOfWork)
         {
             _cacheService = cacheService;
             _httpContextAccessor = httpContextAccessor;
+            _unitOfWork = new UnitOfWork();
         }
 
         private string GetUserId()
@@ -48,6 +52,7 @@ namespace SkincareProductSalesSystem.Services
             {
                 throw new UnauthorizedAccessException("Người dùng chưa được cấp quyền");
             }
+
             return userId;
         }
 
@@ -58,7 +63,8 @@ namespace SkincareProductSalesSystem.Services
                 string userId = GetUserId();
                 string key = $"cart:{userId}";
 
-                var cart = await _cacheService.GetDataAsync<Dictionary<string, int>>(key) ?? new Dictionary<string, int>();
+                var cart = await _cacheService.GetDataAsync<Dictionary<string, int>>(key) ??
+                           new Dictionary<string, int>();
                 if (cart.Count >= LIMIT_CART_COUNT)
                     return new ServiceResult(403, "Giỏ hàng đã đạt giới hạn 100");
 
@@ -70,6 +76,7 @@ namespace SkincareProductSalesSystem.Services
                 {
                     cart.Add(request.ProductId, request.Quantity);
                 }
+
                 await _cacheService.SetDataAsync(key, cart);
 
                 return new ServiceResult(200, "Thành công", cart);
@@ -78,7 +85,6 @@ namespace SkincareProductSalesSystem.Services
             {
                 return new ServiceResult(401, e.Message);
             }
-
         }
 
 
@@ -90,7 +96,8 @@ namespace SkincareProductSalesSystem.Services
                 string key = $"cart:{userId}";
 
                 var cart = await _cacheService.GetDataAsync<List<string>>(key);
-                if (cart == null || !cart.Contains(productId)) return new ServiceResult(400, "Không tìm thấy sản phẩm trong giỏ hàng");
+                if (cart == null || !cart.Contains(productId))
+                    return new ServiceResult(400, "Không tìm thấy sản phẩm trong giỏ hàng");
 
                 cart.Remove(productId);
                 await _cacheService.SetDataAsync(key, cart);
@@ -111,11 +118,25 @@ namespace SkincareProductSalesSystem.Services
                 string key = $"cart:{userId}";
                 var cartData = await _cacheService.GetDataAsync<Dictionary<string, int>>(key) ??
                                new Dictionary<string, int>();
+
+                var products = new List<Product>();
+
+                foreach (var productId in cartData.Keys.Select(id => id).ToList())
+                {
+                    products.Add(await _unitOfWork.ProductRepository.GetByIdAsync(productId));
+                }
+
+                var result = products.Select(p => new
+                {
+                    Product = p,
+                    Quantity = cartData[p.ProductId.ToString()]
+                }).ToList();
+
                 return new ServiceResult
                 {
                     Status = 200,
                     Message = "Thành công",
-                    Data = cartData
+                    Data = result
                 };
             }
             catch (UnauthorizedAccessException e)

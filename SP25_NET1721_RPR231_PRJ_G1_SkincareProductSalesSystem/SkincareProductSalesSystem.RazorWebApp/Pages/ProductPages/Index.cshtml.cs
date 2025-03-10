@@ -20,6 +20,7 @@ public class Index : PageModel
     public int Page { get; set; }
     public int Size { get; set; }
     public string? Category { get; set; }
+    public string? Brand { get; set; }
     public string? FilterBy { get; set; }
     public string? FilterQuery { get; set; }
     public string? SortBy { get; set; }
@@ -42,6 +43,7 @@ public class Index : PageModel
         FilterQuery = Request.Query["filterQuery"];
 
         Category = Request.Query["category"];
+        Brand = Request.Query["brand"];
 
         SortBy = "Price";
 
@@ -49,7 +51,7 @@ public class Index : PageModel
 
         var categoryTask = _apiClient.GetAsync("/categories?page=1&size=100");
         var productTask = _apiClient.GetAsync(
-            $"/products?FilterBy={FilterBy}&FilterQuery={FilterQuery}&Page={Page}&Size={Size}&Category={Category}&SortBy={SortBy}&IsAsc={IsAsc}"
+            $"/products?FilterBy={FilterBy}&FilterQuery={FilterQuery}&Page={Page}&Size={Size}&Category={Category}&Brand={Brand}&SortBy={SortBy}&IsAsc={IsAsc}"
         );
         var brandTask = _apiClient.GetAsync("/brands?page=1&size=100");
 
