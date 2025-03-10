@@ -11,6 +11,7 @@
         <nav class="nav-menu">
             <a href="#" class="nav-item active">
                 <i class="fas fa-user"></i>
+                Tài khoản của tôi
             </a>
         </nav>
     </aside>
@@ -20,11 +21,10 @@
         <!-- Header -->
         <header class="page-header">
             <div class="header-left">
+                <a href="/" class="back-button">
                     <i class="fas fa-arrow-left"></i>
+                    Quay lại
                 </a>
-            </div>
-            <div class="header-right">
-                <button type="submit" class="save-button">Save changes</button>
             </div>
         </header>
 
@@ -46,26 +46,37 @@
 
         <form method="post" enctype="multipart/form-data">
             <div class="content-section">
+                <h1>Thông tin tài khoản</h1>
 
                 <!-- Basic Information -->
                 <section class="info-section">
+                    <h2>Thông tin cơ bản</h2>
 
                     <div class="form-group">
+                        <label>Ảnh đại diện</label>
                         <div class="avatar-upload">
                             <img src="@(Model.UserAccount.Avatar ?? "https://via.placeholder.com/100")" alt="Profile" class="avatar-image" />
                             <div>
                                 <label for="avatar" class="btn btn-outline-secondary btn-sm">Chọn ảnh</label>
-                            <input type="file" id="avatar" name="AvatarUpload" class="avatar-input" accept="image/*" />
+                                <input type="file" id="avatar" name="AvatarUpload" class="avatar-input" accept="image/*" />
+                            </div>
                         </div>
-                    </div>
                     </div>
 
                     <div class="form-group">
+                        <label asp-for="UserAccount.Username">Tên đăng nhập</label>
+                        <input asp-for="UserAccount.Username" class="form-input" readonly />
+                        <span asp-validation-for="UserAccount.Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="UserAccount.FullName">Họ và tên</label>
                         <input asp-for="UserAccount.FullName" class="form-input" />
                         <span asp-validation-for="UserAccount.FullName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
+                        <label asp-for="UserAccount.PhoneNumber">Số điện thoại</label>
                         <input asp-for="UserAccount.PhoneNumber" class="form-input" />
                         <span asp-validation-for="UserAccount.PhoneNumber" class="text-danger"></span>
                     </div>
@@ -83,9 +94,12 @@
 
                 <!-- Security -->
                 <section class="info-section">
+                    <h2>Bảo mật</h2>
 
                     <div class="form-group">
+                        <label for="password">Mật khẩu</label>
                         <input type="password" id="password" name="password" class="form-input" value="••••••" readonly />
+                        <button type="button" class="text-button" onclick="openModal()">Đổi mật khẩu</button>
                     </div>
                 </section>
             </div>
@@ -97,6 +111,7 @@
 <div id="passwordModal" class="modal-overlay" style="display: none;">
     <div class="modal-container">
         <div class="modal-header">
+            <h2>Đổi mật khẩu</h2>
             <button class="close-button" onclick="closeModal()">
                 <i class="fas fa-times"></i>
             </button>
@@ -104,6 +119,7 @@
 
         <form method="post" class="password-form" asp-page-handler="ChangePassword">
             <div class="form-group">
+                <label>Mật khẩu hiện tại:</label>
                 <div class="password-input-container">
                     <input type="password" id="currentPassword" name="currentPassword" required />
                     <button type="button" class="toggle-password" onclick="togglePassword('currentPassword')">
@@ -113,6 +129,7 @@
             </div>
 
             <div class="form-group">
+                <label>Mật khẩu mới:</label>
                 <div class="password-input-container">
                     <input type="password" id="newPassword" name="newPassword" required />
                     <button type="button" class="toggle-password" onclick="togglePassword('newPassword')">
@@ -122,6 +139,7 @@
             </div>
 
             <div class="form-group">
+                <label>Nhập lại mật khẩu:</label>
                 <div class="password-input-container">
                     <input type="password" id="repeatPassword" name="repeatPassword" required />
                     <button type="button" class="toggle-password" onclick="togglePassword('repeatPassword')">
@@ -131,10 +149,18 @@
             </div>
 
             <div class="button-group">
+                <button type="submit" class="save-button">Lưu</button>
+                <button type="button" class="cancel-button" onclick="closeModal()">Hủy</button>
             </div>
 
             <div class="password-requirements">
+                <p>Mật khẩu phải:</p>
                 <ul>
+                    <li>- Bao gồm chữ hoa và chữ thường</li>
+                    <li>- Bao gồm ít nhất 1 số hoặc ký tự đặc biệt</li>
+                    <li>- Có độ dài ít nhất 8 ký tự</li>
+                    <li>- Khớp ở cả hai trường</li>
+                    <li>- Không chứa khoảng trắng và ký tự "|"</li>
                 </ul>
             </div>
         </form>
@@ -413,7 +439,7 @@
                     document.querySelector('.avatar-image').src = e.target.result;
                 }
                 reader.readAsDataURL(e.target.files[0]);
-        }
+            }
         });
     </script>
 }
