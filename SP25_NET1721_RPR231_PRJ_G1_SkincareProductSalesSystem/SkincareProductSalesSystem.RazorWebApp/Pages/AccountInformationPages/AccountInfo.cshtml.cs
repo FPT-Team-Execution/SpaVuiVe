@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
+using SkincareProductSalesSystem.Repositories.Models;
 using Newtonsoft.Json;
 using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
@@ -27,48 +29,29 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountInformationPages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            // Lấy userId từ cookie
-            if (!Request.Cookies.TryGetValue("userId", out string userId) || string.IsNullOrEmpty(userId))
-            {
-                ErrorMessage = "Bạn cần đăng nhập để xem thông tin tài khoản.";
-                return RedirectToPage("/Account/Login");
-            }
 
             try
             {
                 // Gọi API User để lấy thông tin người dùng
                 var response = await _apiClient.GetAsync($"/api/User/{userId}");
 
-                if (response.Status == 200 && response.Data != null)
-                {
-                    // Deserialize dữ liệu từ API
-                    var userData = JsonConvert.DeserializeObject<UserDto>(response.Data.ToString());
-
-                    if (userData != null)
-                    {
-                        // Ánh xạ dữ liệu vào ViewModel
-                        UserAccount = new UserAccountViewModel
-                        {
-                            Username = userData.Username,
-                            Email = userData.Email,
-                            FullName = userData.FullName,
-                            PhoneNumber = userData.PhoneNumber,
-                            Avatar = userData.Avatar
-                        };
-
-                        return Page();
-                    }
-                }
-
-                // Xử lý khi không tìm thấy dữ liệu người dùng
-                ErrorMessage = "Không thể tải thông tin người dùng. Vui lòng thử lại sau.";
-                return RedirectToPage("/Index");
-            }
-            catch (Exception ex)
+            if (response.Status == 200 && response.Data != null)
             {
-                ErrorMessage = $"Đã xảy ra lỗi: {ex.Message}";
-                return RedirectToPage("/Index");
+                if (userData != null)
+                {
+                        // Ánh xạ dữ liệu vào ViewModel
+                    UserAccount = new UserAccountViewModel
+                    {
+                        Email = userData.Email,
+                        FullName = userData.FullName,
+                    };
+
+                    return Page();
+                }
             }
+
+            return RedirectToPage("/Index");
+        }
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -79,51 +62,26 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountInformationPages
                 return Page();
             }
 
-            // Lấy userId từ cookie
-            if (!Request.Cookies.TryGetValue("userId", out string userId) || string.IsNullOrEmpty(userId))
             {
-                ErrorMessage = "Bạn cần đăng nhập để cập nhật thông tin tài khoản.";
-                return RedirectToPage("/Account/Login");
-            }
+                Email = UserAccount.Email,
+                FullName = UserAccount.FullName,
+            };
 
-            try
+
+            if (response.Status == 200)
             {
-                // Tạo đối tượng request để cập nhật thông tin người dùng
-                var updateRequest = new
-                {
-                    Username = UserAccount.Username,
-                    Email = UserAccount.Email,
-                    FullName = UserAccount.FullName,
-                    PhoneNumber = UserAccount.PhoneNumber,
-                    Avatar = UserAccount.Avatar
-                };
-
-                // Gọi API User để cập nhật thông tin
-                var response = await _apiClient.PutAsync($"/api/User/{userId}", updateRequest);
-
-                if (response.Status == 200)
-                {
-                    // Xử lý upload avatar nếu có
-                    if (UserAccount.AvatarUpload != null && UserAccount.AvatarUpload.Length > 0)
-                    {
-                        // Xử lý upload avatar (có thể triển khai sau)
-                        // Ví dụ: gọi API riêng để upload avatar
-                    }
-
-                    SuccessMessage = "Cập nhật thông tin thành công.";
-                    return RedirectToPage();
-                }
-                else
-                {
-                    ModelState.AddModelError("", $"Không thể cập nhật thông tin: {response.Message}");
-                    return Page();
-                }
+                return RedirectToPage();
             }
+            else
+            {
+                return Page();
+            }
+        }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"Đã xảy ra lỗi: {ex.Message}");
                 return Page();
-            }
+    }
         }
     }
 
