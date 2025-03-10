@@ -45,21 +45,21 @@
                         </div>
                         <div style="display: flex;">
                             <div class="cell" style="max-width: 25%; justify-content: center; align-items: center; display: flex; padding-right: 10px;">
-                                <img src="@productCart.ProductInCart.ImageUrl" alt="Sản phẩm" style="width: 100%; object-fit: cover;">
+                                <img src="@productCart.Product.ImageUrl" alt="Sản phẩm" style="width: 100%; object-fit: cover;">
                             </div>
                             <div class="cell cart-item-details">
-                                <p>@productCart.ProductInCart.Name</p>
+                                <p>@productCart.Product.Name</p>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; justify-content: center;">
-                            <div class="cart-item-price">₫@productCart.ProductInCart.Price</div>
+                            <div class="cart-item-price">₫@productCart.Product.Price</div>
                         </div>
 
                         <div style="display: flex; align-items: center; justify-content: center;">
                             <div class="cart-item-actions">
                                 <button onclick="changeValue(-1)">-</button>
                                 <form method="post" asp-page-handler="AddToCart">
-                                    <input type="hidden" name="productCartId" value="@productCart.ProductInCart.ProductId" />
+                                    <input type="hidden" name="productCartId" value="@productCart.Product.ProductId" />
                                     <input type="number" id="number" name="quantity" value="@productCart.Quantity">
                                 </form>
                                 <button onclick="changeValue(1)">+</button>
@@ -69,7 +69,7 @@
                         <input type="hidden" name="productQuantity" value="@productCart.Quantity" />
 
                         <div class="cart-item-total" style="display: flex; align-items: center; justify-content: center;">
-                            ₫@(productCart.Quantity * productCart.ProductInCart.Price)
+                            ₫@(productCart.Quantity * productCart.Product.Price)
                         </div>
                         <div style="display: flex; align-items: center; justify-content: center;">
                             <i class="material-icons">close</i>

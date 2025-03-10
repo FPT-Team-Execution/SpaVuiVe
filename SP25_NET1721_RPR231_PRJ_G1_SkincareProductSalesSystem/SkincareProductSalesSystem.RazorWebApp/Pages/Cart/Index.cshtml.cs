@@ -71,7 +71,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.Cart
                         {
                             var responseData = (ProductCart)productCart.Data;
                             if (responseData == null) throw new Exception();
-                            var productCartResult = await _apiClient.PutAsync($"/cart/product?quantity={quantity}", responseData.ProductInCart);
+                            var productCartResult = await _apiClient.PutAsync($"/cart/product?quantity={quantity}", responseData.Product);
                         }
 
                     }
