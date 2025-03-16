@@ -72,7 +72,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Models.Base
                 }
 
                 var response = await WebUtil.GetAsync(url, headers, accessToken);
-                Console.WriteLine($"Response received: {response != null}"); // Debug line
+                Console.WriteLine($"ResponseMessage received: {response != null}"); // Debug line
 
                 // Add this before handling the response
                 var rawContent = await response.Content.ReadAsStringAsync();
@@ -117,7 +117,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Models.Base
                 }
 
                 var response = await WebUtil.GetAsync(url, headers, accessToken);
-                Console.WriteLine($"Response received: {response != null}"); // Debug line
+                Console.WriteLine($"ResponseMessage received: {response != null}"); // Debug line
 
                 // Add this before handling the response
                 var rawContent = await response.Content.ReadAsStringAsync();
@@ -163,7 +163,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Models.Base
 
                 var response = await WebUtil.PostAsync(url, body, headers, accessToken);
                 string responseContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Response JSON: " + responseContent);
+                Console.WriteLine("ResponseMessage JSON: " + responseContent);
                 var result = WebUtil.HandleResponse<ServiceResult>(response);
                 return result;
             }

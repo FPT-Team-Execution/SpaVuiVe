@@ -97,8 +97,8 @@ namespace SkincareProductSalesSystem.Api.Controllers
 			}
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> Delete(DeletePromotionRequest model)
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(string id)
 		{
 			try
 			{
@@ -107,7 +107,7 @@ namespace SkincareProductSalesSystem.Api.Controllers
 					return BadRequest(ModelState);
 				}
 
-				var response = await _promotionService.Delete(model);
+				var response = await _promotionService.Delete(id);
 				return response != null ?
 					StatusCode(response.Status, (response))
 					:

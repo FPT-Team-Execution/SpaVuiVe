@@ -10,23 +10,25 @@ using Newtonsoft.Json;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
-    public class LoginModel : PageModel
-    {
-        private ApiClient _apiClient;
+	public class LoginModel : PageModel
+	{
+		private ApiClient _apiClient;
 
-        public LoginModel(ApiClient apiClient)
-        {
-            _apiClient = apiClient;
-        }
 
         [BindProperty] public LoginRequestModel LoginRequest { get; set; } = new LoginRequestModel();
 
         public string? ErrorMessage { get; set; }
 
 
-        public void OnGet()
-        {
-        }
+		public LoginModel(ApiClient apiClient)
+		{
+			_apiClient = apiClient;
+		}
+
+		public void OnGet()
+		{
+
+		}
 
         [HttpPost]
         public async Task<IActionResult> OnPost()
@@ -39,49 +41,47 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
                     return Page();
                 }
 
-                var response = await _apiClient.PostAsync("/login", LoginRequest);
+				var response = await _apiClient.PostAsync("/login", LoginRequest);
 
-                if (response.Status != 200)
-                {
-                    ErrorMessage = response.Message;
-                    return Page();
-                }
+				if (response.Status != 200)
+				{
+					ErrorMessage = response.Message;
+					return Page();
+				}
+				var responseModel = JsonConvert.DeserializeObject<LoginResponseModel>(response.Data.ToString());
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var accessToken = tokenHandler.ReadToken(responseModel.AccessToken) as JwtSecurityToken;
+				if (accessToken == null)
+				{
+					return Page();
+				}
 
-                var responseModel = JsonConvert.DeserializeObject<LoginResponseModel>(response.Data.ToString());
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var accessToken = tokenHandler.ReadToken(responseModel.AccessToken) as JwtSecurityToken;
-                if (accessToken == null)
-                {
-                    return Page();
-                }
+				var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
+				var uniqueName = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("unique_name"))?.Value;
+				var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
 
-                var userId = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
-                var role = accessToken.Claims.FirstOrDefault(c => c.Type.Equals("role"))?.Value;
 
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, userId),
-                    new Claim(ClaimTypes.Role, role),
-                };
+				var claims = new List<Claim>
+				{
+					new Claim(ClaimTypes.NameIdentifier, userId),
+					new Claim(ClaimTypes.Role, role),
+				};
+				Response.Cookies.Append("userId", userId);
+				Response.Cookies.Append("UniqueName", uniqueName);
+				Response.Cookies.Append("Role", role);
+				Response.Cookies.Append("AccessToken", responseModel.AccessToken);
+				Response.Cookies.Append("RefreshToken", responseModel.RefreshToken);
+				return RedirectToPage("/Index");
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity));
-
-                Response.Cookies.Append("userId", userId);
-                Response.Cookies.Append("Role", role);
-                Response.Cookies.Append("AccessToken", responseModel.AccessToken);
-                Response.Cookies.Append("RefreshToken", responseModel.RefreshToken);
-                return RedirectToPage("/Index");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                ErrorMessage = ex.Message;
-                return Page();
-            }
-        }
-    }
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				ErrorMessage = ex.Message;
+				return Page();
+			};
+		}
+	}
 
     public class LoginRequestModel
     {

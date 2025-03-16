@@ -7,21 +7,20 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
     public class RegisterModel : PageModel
     {
-        private ApiClient _apiClient;
+		private ApiClient _apiClient;
 
-        public RegisterModel(ApiClient apiClient)
-        {
-            _apiClient = apiClient;
-        }
+		public RegisterModel(ApiClient client)
+		{
+			_apiClient = client;
+		}
 
-        public string? ErrorMessage { get; set; }
+		public string? ErrorMessage { get; set; }
 
         [BindProperty] public RegisterRequest RegisterRequest { get; set; }
 
-
-        public void OnGet()
-        {
-        }
+		public void OnGet()
+		{
+		}
 
         [HttpPost]
         public async Task<IActionResult> OnPost()
@@ -34,26 +33,22 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
                     return Page();
                 }
 
-                var response = await _apiClient.PostAsync("/register", RegisterRequest);
-                if (response.Status != 200)
-                {
-                    ErrorMessage = response.Message;
-                    return Page();
-                }
-
-                return RedirectToPage("/AccountPages/Login");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                ErrorMessage = ex.Message;
-                return Page();
-            }
-
-            ;
-        }
-    }
-
+				var response = await _apiClient.PostAsync("/register", RegisterRequest);
+				if (response.Status != 200)
+				{
+					ErrorMessage = response.Message;
+					return Page();
+				}
+				return RedirectToPage("/AccountPages/Login");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				ErrorMessage = ex.Message;
+				return Page();
+			};
+		}
+	}
     public class RegisterRequest
     {
         [Required] public string Username { get; set; }

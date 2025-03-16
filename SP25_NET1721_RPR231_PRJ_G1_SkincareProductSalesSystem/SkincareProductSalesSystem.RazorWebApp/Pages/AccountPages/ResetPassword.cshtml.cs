@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Protos.AuthClient;
 using SkincareProductSalesSystem.Common;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 {
 	public class ResetPasswordModel : PageModel
 	{
-
-		private GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> _grpcClient;
-
-		public ResetPasswordModel(GrpcClient<AuthServiceGRPC.AuthServiceGRPCClient> grpcClient)
+		private ApiClient _apiClient;
+		public ResetPasswordModel(ApiClient apiClient)
 		{
-			_grpcClient = grpcClient;
+			_apiClient = apiClient;
 		}
 
 		[BindProperty]
@@ -29,7 +28,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 		public async Task<IActionResult> OnPost()
 		{
-			
+
 			if (HttpContext.Session.GetString("ForgotPasswordUsername") == null)
 			{
 				ErrorMessage = "Không tìm thấy tên tài khoản";
@@ -42,12 +41,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 				ErrorMessage = ModelState.ToString();
 				return Page();
 			}
-			var response = await _grpcClient.Client.ResetPasswordAsync(new ResetPasswordRequestProto()
-			{
-				Username = ResetPasswordRequest.Username,
-				Password = ResetPasswordRequest.NewPassword,
-				Key = ResetPasswordRequest.Key
-			});
+			var response = await _apiClient.PostAsync("/reset-password", ResetPasswordRequest);
 
 			if (response.Status != 200)
 			{
@@ -60,6 +54,7 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.AccountPages
 
 	public class ResetPasswordRequest
 	{
+
 		public string? Username { get; set; }
 
 		[Required]

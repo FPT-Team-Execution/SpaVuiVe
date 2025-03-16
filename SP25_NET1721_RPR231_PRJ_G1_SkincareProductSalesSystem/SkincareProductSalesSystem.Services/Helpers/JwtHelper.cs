@@ -30,7 +30,6 @@ namespace SkincareProductSalesSystem.Services.Helpers
 				Subject = new ClaimsIdentity(new[]
 				{
 					new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 					new Claim(ClaimTypes.Name, user.FullName),
 					new Claim("Phone", user.PhoneNumber),
 					new Claim(ClaimTypes.Role, user.RoleName)   ,

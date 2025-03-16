@@ -8,41 +8,56 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Protos.PromotionClient;
 using SkincareProductSalesSystem.Common;
-using SkincareProductSalesSystem.Repositories.Database;
-using SkincareProductSalesSystem.Repositories.Models;
+using SkincareProductSalesSystem.RazorWebApp.Models;
+using SkincareProductSalesSystem.RazorWebApp.Models.Base;
+using SkincareProductSalesSystem.Repositories.Paginate;
 
 namespace SkincareProductSalesSystem.RazorWebApp.Pages.PromotionPages
 {
-    public class IndexModel : PageModel
-    {
-		private GrpcClient<PromotionServiceGRPC.PromotionServiceGRPCClient> _grpcClient;
+	public class IndexModel : PageModel
+	{
 
-		public IndexModel(GrpcClient<PromotionServiceGRPC.PromotionServiceGRPCClient> grpcClient)
+		private ApiClient _apiClient;
+
+		public IndexModel(ApiClient apiClient)
 		{
-			this._grpcClient = grpcClient;
+			_apiClient = apiClient;
 		}
 
+		public int PageNumber { get; set; } = 1;
+		public int TotalPages { get; set; } = 1;
+		public string Errors { get; set; }
 		public IList<Promotion> Promotion { get; set; } = new List<Promotion>();
 
-        public async Task OnGetAsync()
-        {
-			var response = await _grpcClient.Client.GetAllAsync(new EmptyPromotionRequestProto());
-			foreach (var item in response.Data) 
+		public async Task<IActionResult> OnGetAsync()
+		{
+			var response = await _apiClient.GetMinhAsync<Paginate<Promotion>>($"/api/Promotion/{PageNumber}/10");
+
+			if (response.Data == null)
+			{
+				return Page();
+			}
+
+			var responseData = (Paginate<Promotion>)response.Data;
+			PageNumber = responseData.Page;
+			TotalPages = responseData.TotalPages;
+			foreach (var item in responseData.Items)
 			{
 				Promotion.Add(new Promotion()
 				{
 					PromotionId = item.PromotionId,
 					Code = item.Code,
 					Name = item.Name,
-					CreatedAt = item.CreatedAt.ToDateTime(),
+					CreatedAt = item.CreatedAt,
 					DiscountAmount = Convert.ToDecimal(item.DiscountAmount),
 					MinimumPurchase = Convert.ToDecimal(item.MinimumPurchase),
-					StartDate = item.StartDate.ToDateTime(),
-					EndDate = item.EndDate.ToDateTime(),
+					StartDate = item.StartDate,
+					EndDate = item.EndDate,
 					UsageLimit = item.UsageLimit,
 					IsActive = item.IsActive
 				});
 			}
-        }
-    }
+			return Page();
+		}
+	}
 }
