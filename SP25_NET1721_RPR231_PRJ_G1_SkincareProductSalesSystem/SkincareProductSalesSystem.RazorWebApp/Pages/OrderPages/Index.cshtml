@@ -85,7 +85,7 @@
             position: absolute;
             left: 0;
             background-color: #fff;
-            min-width: 160px;
+            min-width: 200px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 4px;
@@ -100,6 +100,7 @@
                 padding: 12px 16px;
                 text-align: left;
                 border: none;
+                min-width: 400px;
                 background: none;
                 cursor: pointer;
                 font-size: 14px;
@@ -162,11 +163,11 @@
                                 <div class="dropdown-content">
                                     <form method="post" style="margin: 0;" asp-page-handler="ViewDetail">
                                         <input type="hidden" name="orderId" value="@order.OrderId" />
-                                        <input style="font-size: 1em;" type="submit" name="action" value="View Detail" />
+                                        <input style="font-size: 1em; min-width: 200px" type="submit" name="action" value="View Detail" />
                                     </form>
-                                    <form method="post" asp-page-handler="Cancel">
+                                    <form method="post" style="margin: 0;" asp-page-handler="Cancel">
                                         <input type="hidden" name="orderId" value="@order.OrderId" />
-                                        <input style="font-size: 1em;" type="submit" name="action" value="Cancel Order" />
+                                        <input style="font-size: 1em;  min-width: 200px" type="submit" name="action" value="Cancel Order" />
                                     </form>
                                 </div>
 

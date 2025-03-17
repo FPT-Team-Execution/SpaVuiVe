@@ -26,6 +26,7 @@ namespace SkincareProductSalesSystem.Services
     public interface ICartService
     {
         Task<IServiceResult> AddOrUpdateToCartAsync(AddToCartRequest request);
+        Task<IServiceResult> UpdateToCartAsync(AddToCartRequest request);
         Task<IServiceResult> RemoveFromCartAsync(string productId);
         Task<IServiceResult> GetUserCartAsync();
     }
@@ -70,6 +71,37 @@ namespace SkincareProductSalesSystem.Services
 
                 if (cart.TryGetValue(request.ProductId, out int quantity))
                 {
+                    cart[request.ProductId] = request.Quantity + quantity;
+                }
+                else
+                {
+                    cart.Add(request.ProductId, request.Quantity);
+                }
+
+                await _cacheService.SetDataAsync(key, cart);
+
+                return new ServiceResult(200, "Thành công", cart);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return new ServiceResult(401, e.Message);
+            }
+        }
+
+        public async Task<IServiceResult> UpdateToCartAsync(AddToCartRequest request)
+        {
+            try
+            {
+                string userId = GetUserId();
+                string key = $"cart:{userId}";
+
+                var cart = await _cacheService.GetDataAsync<Dictionary<string, int>>(key) ??
+                           new Dictionary<string, int>();
+                if (cart.Count >= LIMIT_CART_COUNT)
+                    return new ServiceResult(403, "Giỏ hàng đã đạt giới hạn 100");
+
+                if (cart.TryGetValue(request.ProductId, out int quantity))
+                {
                     cart[request.ProductId] = request.Quantity;
                 }
                 else
@@ -87,7 +119,6 @@ namespace SkincareProductSalesSystem.Services
             }
         }
 
-
         public async Task<IServiceResult> RemoveFromCartAsync(string productId)
         {
             try
@@ -95,8 +126,8 @@ namespace SkincareProductSalesSystem.Services
                 string userId = GetUserId();
                 string key = $"cart:{userId}";
 
-                var cart = await _cacheService.GetDataAsync<List<string>>(key);
-                if (cart == null || !cart.Contains(productId))
+                var cart = await _cacheService.GetDataAsync<Dictionary<string, int>>(key);
+                if (cart == null || !cart.Keys.Contains(productId))
                     return new ServiceResult(400, "Không tìm thấy sản phẩm trong giỏ hàng");
 
                 cart.Remove(productId);

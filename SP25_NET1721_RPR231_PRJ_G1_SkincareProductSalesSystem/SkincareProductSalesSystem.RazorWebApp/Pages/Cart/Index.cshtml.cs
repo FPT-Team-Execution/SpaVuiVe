@@ -63,17 +63,20 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.Cart
             {
                 if (quantity > 0)
                 {
-                    var productCart = await _apiClient.GetMinhAsync<ProductCart>($"/cart/product/{productCartId}");
-                    if (productCart != null && productCart.Status == 200 && productCart.Data != null)
+                    var response = await _apiClient.GetAsync($"/cart");
+                    var productCartResponse = response.Data;
+
+                    var responseData = JsonConvert.DeserializeObject<List<ProductCart>>(productCartResponse.ToString());
+
+                    if (responseData == null) throw new Exception();
+                    foreach (var item in responseData)
                     {
-
-                        if (productCart.Data is ProductCart)
+                        if (item.Product.ProductId.Equals(productCartId))
                         {
-                            var responseData = (ProductCart)productCart.Data;
-                            if (responseData == null) throw new Exception();
-                            var productCartResult = await _apiClient.PutAsync($"/cart/product?quantity={quantity}", responseData.Product);
+                            item.Quantity = quantity;
+                            var productCartResult = await _apiClient.PatchAsync($"/cart", new { item.Product.ProductId , quantity });
+                            return RedirectToPage("Index");
                         }
-
                     }
                 }
                 else
@@ -100,33 +103,33 @@ namespace SkincareProductSalesSystem.RazorWebApp.Pages.Cart
                 // Deserialize the JSON string to List of CartItems
                 var cartItems = JsonConvert.DeserializeObject<List<CartItem>>(SelectedProducts);
                 // Redirect to success page or order confirmation
-                
+
                 if (cartItems == null || !cartItems.Any())
                 {
                     return RedirectToPage("./Index");
                 }
                 var total = 0.0;
                 var newOrder = await _apiClient.PostAsync("/orders/order?id=1", null);
-                if(newOrder.ToString() == null) return RedirectToPage("./Index");
+                if (newOrder.ToString() == null) return RedirectToPage("./Index");
                 var newOrderDe = JsonConvert.DeserializeObject<Order>(newOrder.Data.ToString());
-                if(newOrder != null)
-                foreach (var cartItem in cartItems)
-                {
-                    Console.WriteLine(cartItem.ProductId); ;
-                    var product = await _apiClient.GetMinhAsync<ServiceResult>($"/products/{cartItem.ProductId}");
-                    if (product != null && product.Status == 200 && product.Data != null)
+                if (newOrder != null)
+                    foreach (var cartItem in cartItems)
                     {
-
-                        if (product.Data!=null)
+                        Console.WriteLine(cartItem.ProductId); ;
+                        var product = await _apiClient.GetMinhAsync<ServiceResult>($"/products/{cartItem.ProductId}");
+                        if (product != null && product.Status == 200 && product.Data != null)
                         {
-                            var responseData = (ServiceResult)product.Data;
-                            var productDe = JsonConvert.DeserializeObject<Product>(responseData.Data.ToString());
-                            var productCartResult = await _apiClient.PostMinhAsync($"/order-details?orderId={newOrderDe.OrderId}&quanity={cartItem.Quantity}", productDe);
-                                if (productCartResult != null) await _apiClient.DeleteAsync($"/cart/product/{cartItem.ProductId}");
-                        }
 
+                            if (product.Data != null)
+                            {
+                                var responseData = (ServiceResult)product.Data;
+                                var productDe = JsonConvert.DeserializeObject<Product>(responseData.Data.ToString());
+                                var productCartResult = await _apiClient.PostMinhAsync($"/order-details?orderId={newOrderDe.OrderId}&quanity={cartItem.Quantity}", productDe);
+                                if (productCartResult != null) await _apiClient.DeleteAsync($"/cart/product/{cartItem.ProductId}");
+                            }
+
+                        }
                     }
-                }
                 return RedirectToPage("");
             }
             catch (Exception ex)
