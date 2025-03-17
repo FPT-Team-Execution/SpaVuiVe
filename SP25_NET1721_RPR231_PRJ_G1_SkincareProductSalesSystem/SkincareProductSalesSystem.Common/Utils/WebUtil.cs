@@ -98,6 +98,38 @@ public class WebUtil
         return await httpClient.PutAsync(url, content);
     }
 
+    // PATCH Request
+    public static async Task<HttpResponseMessage> PatchAsync(string url, object? data = null, Dictionary<string, string>? headers = null, string? token = null, Dictionary<string, string>? queryParams = null)
+    {
+        if (queryParams != null && queryParams.Any())
+        {
+            var query = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
+            url = $"{url}?{query}";
+        }
+
+        var json = data != null ? System.Text.Json.JsonSerializer.Serialize(data) : string.Empty;
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        using var httpClient = new HttpClient();
+
+        // Add headers if provided
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        // Add authorization token if provided
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
+        return await httpClient.PatchAsync(url, content);
+    }
+
     // DELETE Request
     public static async Task<HttpResponseMessage> DeleteAsync(string url,  Dictionary<string, string>? headers = null, string? token = null, Dictionary<string, string>? queryParams = null)
     {

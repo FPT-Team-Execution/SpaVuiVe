@@ -34,9 +34,11 @@ namespace SkincareProductSalesSystem.Api.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateToCart(UpdateToCartRequest request)
         {
-            var responses = await _cartService.AddOrUpdateToCartAsync(request);
+            var responses = await _cartService.UpdateToCartAsync(request);
             return StatusCode(responses.Status, responses);
         }
+
+
 
         [HttpDelete("cart/product/{id}")]
         [Authorize]

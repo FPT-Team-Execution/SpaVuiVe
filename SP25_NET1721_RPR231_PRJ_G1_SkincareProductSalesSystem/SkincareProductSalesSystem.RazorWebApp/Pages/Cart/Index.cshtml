@@ -93,19 +93,18 @@
             <input type="submit" value="Order">
         </div>
         <div id="checkoutPopup" class="popup" style="display: none; position: fixed; top: 100; left: 100; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;">
-            <div style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 5px; max-width: 400px;">
-                <h3>Order confirmation</h3>
-                <p>Is it your last decision?</p>
-                <div style="margin-top: 20px; text-align: right;">
-                    <button onclick="cancelCheckout()" style="margin-right: 10px; padding: 8px 16px;">Cancel</button>
-                    <form id="checkoutForm" method="post" asp-page-handler="Checkout">
-                        <input type="hidden" id="selectedProductsInput" name="selectedProducts" />
-                        <input type="submit" value="Confirm" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none;" />
-                    </form>
-
-                </div>
-            </div>
+    <div style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 5px; max-width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        <h3>Order confirmation</h3>
+        <p>Is it your last decision?</p>
+        <div style="margin-top: 20px; text-align: center;">
+            <button onclick="cancelCheckout()" style="margin-right: 10px; padding: 8px 32px; background-color: #FFFFFF; border: 2px solid #ff4f9d;color:#ff4f9d; border-radius: 4px; cursor: pointer; font-weight: 500;">Cancel</button>
+            <form id="checkoutForm" method="post" asp-page-handler="Checkout" style="display: inline;">
+                <input type="hidden" id="selectedProductsInput" name="selectedProducts" />
+                <input type="submit" value="Confirm" style="margin-right: 10px;padding: 8px 32px; background-color: #ff4f9d; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;" />
+            </form>
         </div>
+    </div>
+</div>
     </div>
 
 }
@@ -149,7 +148,6 @@ else
             const selectAllCheckbox = document.querySelector('.cart-container-row:first-child input[type="checkbox"]');
             const productCheckboxes = document.querySelectorAll('.cart-product input[type="checkbox"]');
             const checkoutButton = document.querySelector('.checkout-button input[type="submit"]');
-            const popup = document.getElementById('checkoutPopup');
             const checkoutForm = document.getElementById('checkoutForm');
 
             // Select all functionality
@@ -192,24 +190,8 @@ else
 
                 // Store selected products data for form submission
                 document.getElementById('selectedProductsInput').value = JSON.stringify(selectedProducts);
-
-                // Show popup
-                popup.style.display = 'block';
             });
 
-            // Add form submit handler
-            checkoutForm.addEventListener('submit', function (e) {
-                // The form will submit automatically with the data in selectedProductsInput
-                popup.style.display = 'none';
-            });
-        }
-
-        function cancelCheckout() {
-            document.getElementById('checkoutPopup').style.display = 'none';
-        }
-
-        function confirmCheckout() {
-            document.getElementById('checkoutForm').submit();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -257,7 +239,61 @@ else
 
             updateTotalPrice();
         });
+        // Add these functions to your existing JavaScript
 
+function showCheckoutPopup() {
+    document.getElementById('checkoutPopup').style.display = 'block';
+    
+    // Store selected products data for form submission
+    const selectedProducts = [];
+    const productCheckboxes = document.querySelectorAll('.cart-product input[type="checkbox"]');
+    
+    productCheckboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+            const productContainer = checkbox.closest('.cart-container-row');
+            const productId = productContainer.querySelector('input[name="productCartId"]').value;
+            const quantity = productContainer.querySelector('input[name="quantity"]').value;
+
+            selectedProducts.push({
+                productId: productId,
+                quantity: parseInt(quantity)
+            });
+        }
+    });
+    
+    // Set the selected products data to the hidden input
+    document.getElementById('selectedProductsInput').value = JSON.stringify(selectedProducts);
+}
+
+function cancelCheckout() {
+    document.getElementById('checkoutPopup').style.display = 'none';
+}
+
+// Modify your DOMContentLoaded event to include the checkout button event listener
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.querySelector('.cart-container-row:first-child input[type="checkbox"]');
+    const productCheckboxes = document.querySelectorAll('.cart-product input[type="checkbox"]');
+    const orderTotalElement = document.getElementById('orderTotalValue');
+    const checkoutButton = document.querySelector('.checkout-button input[type="submit"]');
+
+    // Add the event listener to the checkout button
+    checkoutButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Check if at least one product is selected
+        const hasSelectedProducts = Array.from(productCheckboxes).some(cb => cb.checked);
+        
+        if (!hasSelectedProducts) {
+            alert('Please select at least one product');
+            return;
+        }
+        
+        showCheckoutPopup();
+    });
+    
+    // Rest of your existing code...
+    // Existing updateTotalPrice function and other listeners...
+});
 
     </script>
 }

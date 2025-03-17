@@ -244,7 +244,64 @@ namespace SkincareProductSalesSystem.RazorWebApp.Models.Base
             }
         }
 
+        public async Task<ServiceResult> PatchAsync(string endpoint, object? body, string? accessToken = null)
+        {
+            try
+            {
+                string url = baseDomain + endpoint;
+                // Use provided token or get from cookie
+                accessToken ??= GetAccessTokenFromCookie();
+
+                Dictionary<string, string>? headers = null;
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    headers = new Dictionary<string, string>
+                {
+                    { "Accept-Charset", "utf-8" },
+                    { "Authorization", $"Bearer {accessToken}" }
+                };
+                }
+
+                var response = await WebUtil.PatchAsync(url, body, headers, accessToken);
+                var result = WebUtil.HandleResponse<ServiceResult>(response);
+                return result;
+            }
+            catch (Exception)
+            {
+                return new ServiceResult(500, "Lỗi");
+
+            }
+        }
+
         public async Task<ServiceResult> DeleteAsync(string endpoint, string? accessToken = null)
+        {
+            try
+            {
+                string url = baseDomain + endpoint;
+                // Use provided token or get from cookie
+                accessToken ??= GetAccessTokenFromCookie();
+
+                Dictionary<string, string>? headers = null;
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    headers = new Dictionary<string, string>
+                {
+                    { "Accept-Charset", "utf-8" },
+                    { "Authorization", $"Bearer {accessToken}" }
+                };
+                }
+
+                var response = await WebUtil.DeleteAsync(url, headers, accessToken);
+                var result = WebUtil.HandleResponse<ServiceResult>(response);
+                return result;
+            }
+            catch (Exception)
+            {
+                return new ServiceResult(500, "Lỗi");
+
+            }
+        }
+        public async Task<ServiceResult> DeleteMinhAsync(string endpoint, string? accessToken = null)
         {
             try
             {
